@@ -40,7 +40,7 @@ if(vlist.length){const rv=d.querySelector('.vrow--v'),rh=d.querySelector('.vrow-
 const vm=d.getElementById('vm');if(vm){const cards=[...d.querySelectorAll('.vc')],box=vm.querySelector('.vm__player'),t=vm.querySelector('.vm__t'),fb=vm.querySelector('.vm__fb a');let release=null;
  const url=c=>{const oid='-227237589',id=c.dataset.id;/* clips too: video_ext is the reliable player for both (clip_ext errors without autoplay) */const h=c.dataset.hash;return`https://${h?'vkvideo.ru':'vk.com'}/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1${h?'&hash='+h:''}`};
  const close=()=>{box.innerHTML='';release&&release();release=null};
- cards.forEach(c=>c.addEventListener('click',()=>{vm.classList.toggle('vm--v',c.dataset.o==='v');t.textContent=c.dataset.title;
+ [...cards,...d.querySelectorAll('[data-vplay]')].forEach(c=>c.addEventListener('click',()=>{vm.classList.toggle('vm--v',c.dataset.o==='v');t.textContent=c.dataset.title;
    fb.href=`https://vk.com/${c.dataset.type==='clip'?'clip':'video'}-227237589_${c.dataset.id}`;
    box.innerHTML=`<iframe src="${url(c)}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowfullscreen title="${c.dataset.title}"></iframe>`;release=trap(vm,close)}));
  vm.querySelector('[data-close]').onclick=close;vm.addEventListener('click',e=>{if(e.target===vm)close()});
@@ -57,3 +57,7 @@ const vm=d.getElementById('vm');if(vm){const cards=[...d.querySelectorAll('.vc')
  tabs.forEach(t=>t.onclick=()=>show(t.dataset.map));
  if('IntersectionObserver'in window){const io=new IntersectionObserver(e=>{if(e[0].isIntersecting){show('2gis');io.disconnect()}},{rootMargin:'400px'});io.observe(m)}else show('2gis');
 })();
+
+/* mobile: hide the sticky callbar while the hero CTA is on screen (no duplicate buttons) */
+(()=>{const c=document.querySelector('.hero .cta');if(!c||!('IntersectionObserver' in window))return;
+ new IntersectionObserver(([e])=>document.documentElement.classList.toggle('hero-cta-vis',e.isIntersecting),{threshold:.25}).observe(c)})();
