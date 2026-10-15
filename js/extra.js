@@ -33,8 +33,12 @@ const pl=d.querySelector('.pl');if(pl){const au=pl.querySelector('audio'),btns=[
  seek.oninput=()=>{if(au.duration)au.currentTime=seek.value/1000*au.duration};
 }
 /* videos */
+const vlist=window.VR_VIDEOS||[],esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+if(vlist.length){const rv=d.querySelector('.vrow--v'),rh=d.querySelector('.vrow--h'),cnt={all:vlist.length};
+ vlist.forEach(v=>{cnt[v.cat]=(cnt[v.cat]||0)+1;(v.o==='v'?rv:rh).insertAdjacentHTML('beforeend',`<button type="button" class="vc vc--${v.o}" data-cat="${v.cat}" data-type="${v.type}" data-id="${v.id}" data-hash="${v.hash||''}" data-o="${v.o}" data-title="${esc(v.title)}"><img src="img/video-posters/${v.id}.webp" alt="" loading="lazy" decoding="async"><span class="vc__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="vc__t">${esc(v.title)}</span></button>`)});
+ d.querySelectorAll('.vt').forEach(b=>{const s=b.querySelector('span'),n=cnt[b.dataset.f]||0;if(s)s.textContent=n;b.hidden=!n})}
 const vm=d.getElementById('vm');if(vm){const cards=[...d.querySelectorAll('.vc')],box=vm.querySelector('.vm__player'),t=vm.querySelector('.vm__t'),fb=vm.querySelector('.vm__fb a');let release=null;
- const url=c=>{const oid='-227237589',id=c.dataset.id;if(c.dataset.type==='clip')return`https://vk.com/clip_ext.php?oid=${oid}&id=${id}&autoplay=1`;const h=c.dataset.hash;return`https://${h?'vkvideo.ru':'vk.com'}/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1${h?'&hash='+h:''}`};
+ const url=c=>{const oid='-227237589',id=c.dataset.id;/* clips too: video_ext is the reliable player for both (clip_ext errors without autoplay) */const h=c.dataset.hash;return`https://${h?'vkvideo.ru':'vk.com'}/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1${h?'&hash='+h:''}`};
  const close=()=>{box.innerHTML='';release&&release();release=null};
  cards.forEach(c=>c.addEventListener('click',()=>{vm.classList.toggle('vm--v',c.dataset.o==='v');t.textContent=c.dataset.title;
    fb.href=`https://vk.com/${c.dataset.type==='clip'?'clip':'video'}-227237589_${c.dataset.id}`;

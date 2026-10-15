@@ -530,3 +530,5 @@ h2{letter-spacing:-.032em}
 .bs__opt:hover{background:linear-gradient(135deg,color-mix(in srgb,var(--b) 30%,transparent),#ffffff08 70%) padding-box,linear-gradient(#170d27,#170d27) padding-box,linear-gradient(135deg,var(--b),#ffffff1a 70%) border-box}
 .tabs{background:linear-gradient(#140c22,#140c22) padding-box,var(--gborder) border-box}
 @media(max-width:480px){.final .addr .msg{grid-template-columns:1fr}}
+
+.vmore{margin:0;text-align:center}.vmore .btn{min-height:48px}
