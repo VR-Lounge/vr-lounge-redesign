@@ -1,7 +1,7 @@
 (()=>{const d=document,h=d.documentElement;h.classList.add('js');
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 // ticker duplicate for seamless loop
-const t=d.querySelector('.ticker');if(t&&!rm){t.innerHTML+=t.innerHTML;[...t.children].slice(t.children.length/2).forEach(li=>li.setAttribute('aria-hidden','true'))}
+const t=d.querySelector('.ticker__track');if(t&&!rm){t.innerHTML+=t.innerHTML;[...t.children].slice(t.children.length/2).forEach(li=>li.setAttribute('aria-hidden','true'))}
 // tabs
 const tabs=[...d.querySelectorAll('[role=tab]')];const sel=b=>{tabs.forEach(x=>{const on=x===b;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;d.getElementById(x.getAttribute('aria-controls')).hidden=!on&&innerWidth<=700})};
 tabs.forEach(b=>b.addEventListener('click',()=>sel(b)));const we=[0,6].includes(new Date().getDay());sel(tabs[we?1:0]);addEventListener('resize',()=>sel(tabs.find(x=>x.getAttribute('aria-selected')==='true')));

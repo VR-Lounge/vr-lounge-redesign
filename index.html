@@ -24,20 +24,20 @@
       <a href="#zones">Зоны</a><a href="#prices">Цены</a><a href="#party">День рождения</a><a href="#gallery">Фото</a><a href="#video">Видео</a><a href="#reviews">Отзывы</a><a href="#contacts">Контакты</a>
     </nav>
     <a class="top__phone" href="tel:+79302244551">8 930 224-45-51</a>
-    <a class="btn btn--sm" href="tel:+79302244551">Забронировать</a>
+    <a class="btn btn--sm" href="tel:+79302244551" data-book>Забронировать</a>
   </div>
 </header>
 
 <main id="main">
 <section class="hero" aria-labelledby="h1">
-  <div class="hero__bg" aria-hidden="true"><span class="orb orb--a"></span><span class="orb orb--b"></span><span class="grid-floor"></span></div>
+  <div class="hero__bg" aria-hidden="true"><span class="hero__photo"></span><span class="orb orb--a"></span><span class="orb orb--b"></span><span class="grid-floor"></span></div>
   <div class="wrap hero__in">
     <div class="hero__copy">
       <p class="eyebrow"><span class="dot"></span> Кольчугино · ул. Зернова 11</p>
       <h1 id="h1">VR, PS5, караоке<br>и&nbsp;дни рождения<br><span class="grad">в&nbsp;одном клубе</span></h1>
       <p class="lead">Игротека для всей семьи: 6&nbsp;зон, 50+ VR-игр, до&nbsp;20&nbsp;гостей в&nbsp;зале. VR-очки от&nbsp;500&nbsp;₽/час, дни рождения под ключ от&nbsp;8&nbsp;500&nbsp;₽.</p>
       <div class="cta">
-        <a class="btn btn--xl" href="tel:+79302244551"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Позвонить и забронировать</a>
+        <a class="btn btn--xl" href="tel:+79302244551" data-book><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Позвонить и забронировать</a>
         <div class="msg">
           <a class="chip" href="https://wa.me/79302244551">WhatsApp</a><a class="chip" href="https://t.me/YulaAlex">Telegram</a>
           <a class="chip" href="https://vk.me/vr_lounge">ВКонтакте</a>
@@ -56,9 +56,9 @@
       <div class="badge" aria-hidden="true"><b>от 500 ₽</b><span>час в VR</span></div>
     </div>
   </div>
-  <ul class="ticker" aria-label="Что есть в клубе">
+  <div class="ticker" aria-label="Что есть в клубе" role="region"><ul class="ticker__track">
     <li>VR-шлемы Pico</li><li>PlayStation 5 · TV 75″</li><li>Xbox Kinect до 8 человек</li><li>Караоке · 2 микрофона JBL</li><li>VIP-кинотеатр</li><li>Настольные игры и мафия</li><li>Проектор 4K</li>
-  </ul>
+  </ul></div>
 </section>
 
 <section class="sec" id="zones" aria-labelledby="zones-h">
@@ -79,17 +79,17 @@
   <div class="wrap">
     <header class="sec__head"><p class="kicker">02 · Цены</p><h2 id="prices-h">Цены за час, без скрытых платежей</h2><p class="sec__note">Минимальное время — 1 час. В выходные дороже только VR.</p></header>
     <div class="tabs" role="tablist" aria-label="Тариф">
-      <button role="tab" aria-selected="true" aria-controls="t-wd" id="b-wd">Будни · 12–20</button>
-      <button role="tab" aria-selected="false" aria-controls="t-we" id="b-we">Выходные · 10–21</button>
+      <button role="tab" aria-selected="true" aria-controls="t-wd" id="b-wd"><b>Будни</b><span>пн–пт · 12–20</span></button>
+      <button role="tab" aria-selected="false" aria-controls="t-we" id="b-we"><b>Выходные</b><span>сб–вс · 10–21</span></button>
     </div>
     <div class="prices">
       <div class="ptable" id="t-wd" role="tabpanel" aria-labelledby="b-wd">
         <h3 class="ptable__h">Будни, Пн–Пт</h3>
         <dl>
-          <div><dt>VR-очки, 1 / 2 / 3 / 4 шлема</dt><dd>500 / 1 000 / 1 500 / 2 000 ₽</dd></div>
-          <div><dt>PS5, 1 / 2 джойстика</dt><dd>150 / 300 ₽</dd></div>
-          <div><dt>Xbox, 1–4 джойстика</dt><dd>250 – 1 000 ₽</dd></div>
-          <div><dt>Xbox Kinect, до 8 человек</dt><dd>500 ₽</dd></div>
+          <div class="prow--vr"><dt>VR-очки <small>с 7 лет</small></dt><dd><ul class="seats"><li><span>1 шлем</span><b>500 ₽</b></li><li><span>2 шлема</span><b>1 000 ₽</b></li><li><span>3 шлема</span><b>1 500 ₽</b></li><li><span>4 шлема</span><b>2 000 ₽</b></li></ul></dd></div>
+          <div><dt>PlayStation 5 <small>1 / 2 джойстика</small></dt><dd>150 / 300 ₽</dd></div>
+          <div><dt>Xbox <small>1–4 джойстика</small></dt><dd>250–1 000 ₽</dd></div>
+          <div><dt>Xbox Kinect <small>до 8 человек</small></dt><dd>500 ₽</dd></div>
           <div><dt>Караоке</dt><dd>1 000 ₽</dd></div>
           <div><dt>Настольные игры</dt><dd>500 ₽</dd></div>
         </dl>
@@ -97,10 +97,10 @@
       <div class="ptable" id="t-we" role="tabpanel" aria-labelledby="b-we">
         <h3 class="ptable__h">Выходные, Сб–Вс</h3>
         <dl>
-          <div><dt>VR-очки, 1 / 2 / 3 / 4 шлема</dt><dd>750 / 1 500 / 2 250 / 3 000 ₽</dd></div>
-          <div><dt>PS5, 1 / 2 джойстика</dt><dd>150 / 300 ₽</dd></div>
-          <div><dt>Xbox, 1–4 джойстика</dt><dd>250 – 1 000 ₽</dd></div>
-          <div><dt>Xbox Kinect, до 8 человек</dt><dd>500 ₽</dd></div>
+          <div class="prow--vr"><dt>VR-очки <small>с 7 лет</small></dt><dd><ul class="seats"><li><span>1 шлем</span><b>750 ₽</b></li><li><span>2 шлема</span><b>1 500 ₽</b></li><li><span>3 шлема</span><b>2 250 ₽</b></li><li><span>4 шлема</span><b>3 000 ₽</b></li></ul></dd></div>
+          <div><dt>PlayStation 5 <small>1 / 2 джойстика</small></dt><dd>150 / 300 ₽</dd></div>
+          <div><dt>Xbox <small>1–4 джойстика</small></dt><dd>250–1 000 ₽</dd></div>
+          <div><dt>Xbox Kinect <small>до 8 человек</small></dt><dd>500 ₽</dd></div>
           <div><dt>Караоке</dt><dd>1 000 ₽</dd></div>
           <div><dt>Настольные игры</dt><dd>500 ₽</dd></div>
         </dl>
@@ -110,7 +110,7 @@
         <h3>Аренда всего зала</h3>
         <p class="hall__price">4 000 ₽ <span>· 1 час</span></p>
         <p class="small">Для своей компании: все зоны только для вас, до 20 гостей. Для дня рождения выгоднее пакеты — от 8 500 ₽ за 2 часа с администратором и подарком.</p>
-        <a class="btn btn--ghost" href="tel:+79302244551">Забронировать зал</a>
+        <a class="btn btn--ghost" href="tel:+79302244551" data-book="Аренда всего зала">Забронировать зал</a>
         <a class="link hall__link" href="#party">Пакеты на день рождения →</a>
       </aside>
     </div>
@@ -124,15 +124,15 @@
       <article class="pack"><p class="pack__name">Старт</p><p class="pack__price">8 500 ₽ <span>· 2 часа</span></p><p class="pack__we">в выходные — 9 900 ₽</p>
         <ul><li><b>Весь зал только ваш</b> на 2 часа</li><li>VR-очки (с 7 лет), PlayStation 5, Xbox Kinect</li><li>Караоке: 2 микрофона JBL, проектор 4K, PartyBox 800 Вт</li><li>Администратор помогает с играми и очередью</li><li>Имениннику — сертификат на 1 час VR</li></ul>
         <p class="pack__fine">Предоплата 2 000 ₽</p>
-        <a class="btn btn--ghost" href="tel:+79302244551">Выбрать «Старт»</a></article>
+        <a class="btn btn--ghost" href="tel:+79302244551" data-book="Пакет «Старт»">Выбрать «Старт»</a></article>
       <article class="pack pack--hot"><p class="pack__tag">Выбирают чаще всего</p><p class="pack__name">Хит</p><p class="pack__price">13 900 ₽ <span>· 3 часа</span></p><p class="pack__we">в выходные — 15 900 ₽</p>
         <ul><li>Всё из «Старта» + ещё час</li><li><b>Ведущая на все 3 часа</b>: игры, танцы, квиз «Угадай песню»</li><li><b>Именная песня</b> про именинника — поём и дарим трек</li><li>Слайд-шоу из фото ребёнка на большом экране</li><li>Парики и реквизит, VIP-кинотеатр для паузы</li><li>Электронные приглашения для гостей</li><li>Каждому гостю — купон −10% на свой праздник</li></ul>
         <p class="pack__fine">Предоплата 3 000 ₽</p>
-        <a class="btn" href="https://wa.me/79302244551">Забронировать «Хит» в WhatsApp</a></article>
+        <a class="btn" href="https://wa.me/79302244551" data-book="Пакет «Хит»">Забронировать «Хит»</a></article>
       <article class="pack"><p class="pack__name">Макси</p><p class="pack__price">18 900 ₽ <span>· 4 часа</span></p><p class="pack__we">в выходные — 21 900 ₽</p>
         <ul><li>Всё из «Хита» + ещё час</li><li><b>Фотограф</b>, обработанные фото — в течение недели</li><li>Время на торт и чаепитие без спешки</li><li>Удобно, если зовёте и класс, и семью</li><li>Подарки как в «Хите»</li></ul>
         <p class="pack__fine">Предоплата 3 000 ₽</p>
-        <a class="btn btn--ghost" href="tel:+79302244551">Выбрать «Макси»</a></article>
+        <a class="btn btn--ghost" href="tel:+79302244551" data-book="Пакет «Макси»">Выбрать «Макси»</a></article>
     </div>
     <div class="terms">
       <div><h3>Честные условия</h3><ul>
@@ -166,7 +166,7 @@
           <ol class="tl"><li><button type="button" data-src="audio/artyom-tokijskij-drift.mp3" data-i="0"><span class="tl__n">01</span><span class="tl__t"><b>Токийский дрифт в 4 «Б»</b><span>Артём (11 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/varya-businka.mp3" data-i="1"><span class="tl__n">02</span><span class="tl__t"><b>Бусинка (Бисер-Дэнс)</b><span>Варя (8 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/vasilisa-burlesk.mp3" data-i="2"><span class="tl__n">03</span><span class="tl__t"><b>Бурлеск</b><span>Василиса (10 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/david-titan-sport.mp3" data-i="3"><span class="tl__n">04</span><span class="tl__t"><b>Титан в спорт режиме</b><span>Давид (14 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/mikaely-real-champ.mp3" data-i="4"><span class="tl__n">05</span><span class="tl__t"><b>Real Champ</b><span>Микаэль (10 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/milana-chistyj-vajb.mp3" data-i="5"><span class="tl__n">06</span><span class="tl__t"><b>Чистый вайб</b><span>Милана (14 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/miroslava-sladkaya-konfetka.mp3" data-i="6"><span class="tl__n">07</span><span class="tl__t"><b>Сладкая конфетка</b><span>Мирослава (9 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/nikita-udar-drakona-kotleta.mp3" data-i="7"><span class="tl__n">08</span><span class="tl__t"><b>Удар Дракона &amp; Котлета</b><span>Никита (14 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/sasha-budushchaya-legenda.mp3" data-i="8"><span class="tl__n">09</span><span class="tl__t"><b>Будущая легенда (Spartak edition)</b><span>Саша (10 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li><li><button type="button" data-src="audio/sofiya-vremya-siyat.mp3" data-i="9"><span class="tl__n">10</span><span class="tl__t"><b>Время сиять</b><span>София (12 лет)</span></span><span class="tl__eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li></ol>
           <audio preload="none"></audio>
         </div>
-        <a class="btn btn--ghost" href="https://wa.me/79302244551">Заказать песню</a>
+        <a class="btn btn--ghost" href="https://wa.me/79302244551" data-book="Именная песня">Заказать песню</a>
       </div>
     </div>
   </div>
@@ -257,6 +257,7 @@
       <p class="kicker">08 · Контакты</p>
       <h2 id="c-h">Бронируйте время<br>на выходные заранее</h2>
       <a class="bigphone" href="tel:+79302244551">8 930 224-45-51</a>
+      <p class="final__cta"><a class="btn btn--xl" href="tel:+79302244551" data-book><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Позвонить или написать</a></p>
       <div class="msg"><a class="chip" href="https://wa.me/79302244551">WhatsApp</a><a class="chip" href="https://t.me/YulaAlex">Telegram</a><a class="chip" href="https://vk.me/vr_lounge">ВКонтакте</a><a class="chip" href="https://max.ru/u/f9LHodD0cOKSx9uuDZ-6hXAbDeN5QP3qLkAMXoGyU8OJMya8zv9ih77FB_w">MAX</a></div>
     </div>
     <address class="addr">
@@ -292,8 +293,28 @@
 <div class="vm" id="vm" role="dialog" aria-modal="true" aria-label="Видео" hidden>
   <div class="vm__box"><div class="vm__bar"><b class="vm__t"></b><button type="button" class="lb__x" data-close aria-label="Закрыть видео">×</button></div><div class="vm__player"></div><p class="vm__fb small"><a target="_blank" rel="noopener">Открыть во ВКонтакте</a></p></div>
 </div>
-<div class="callbar"><a class="btn" href="tel:+79302244551">Позвонить</a><a class="btn btn--ghost" href="https://wa.me/79302244551">WhatsApp</a></div>
+<div class="bs" id="bs" role="dialog" aria-modal="true" aria-labelledby="bs-h" hidden>
+  <div class="bs__back" data-bs-close></div>
+  <div class="bs__box">
+    <div class="bs__grab" aria-hidden="true"></div>
+    <button type="button" class="bs__x" data-close data-bs-close aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <p class="kicker bs__k">Бронирование · Юлия</p>
+    <h2 class="bs__h" id="bs-h">Как удобнее связаться?</h2>
+    <p class="bs__ctx" hidden></p>
+    <p class="bs__lead">Подскажем свободное время и поможем выбрать праздник. Отвечаем быстро.</p>
+    <a class="bs__call" href="tel:+79302244551"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></span><span><b>Позвонить</b><small>8 930 224-45-51</small></span></a>
+    <div class="bs__grid">
+      <a class="bs__opt" href="https://wa.me/79302244551" target="_blank" rel="noopener"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#25D366"/><path fill="#fff" transform="translate(5.6 5.6) scale(.53)" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></span><b>WhatsApp</b></a>
+      <a class="bs__opt" href="https://t.me/YulaAlex" target="_blank" rel="noopener"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#26A5E4" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></span><b>Telegram</b></a>
+      <a class="bs__opt" href="https://vk.me/vr_lounge" target="_blank" rel="noopener"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#0077FF" d="m9.489.004.729-.003h3.564l.73.003.914.01.433.007.418.011.403.014.388.016.374.021.36.025.345.03.333.033c1.74.196 2.933.616 3.833 1.516.9.9 1.32 2.092 1.516 3.833l.034.333.029.346.025.36.02.373.025.588.012.41.013.644.009.915.004.98-.001 3.313-.003.73-.01.914-.007.433-.011.418-.014.403-.016.388-.021.374-.025.36-.03.345-.033.333c-.196 1.74-.616 2.933-1.516 3.833-.9.9-2.092 1.32-3.833 1.516l-.333.034-.346.029-.36.025-.373.02-.588.025-.41.012-.644.013-.915.009-.98.004-3.313-.001-.73-.003-.914-.01-.433-.007-.418-.011-.403-.014-.388-.016-.374-.021-.36-.025-.345-.03-.333-.033c-1.74-.196-2.933-.616-3.833-1.516-.9-.9-1.32-2.092-1.516-3.833l-.034-.333-.029-.346-.025-.36-.02-.373-.025-.588-.012-.41-.013-.644-.009-.915-.004-.98.001-3.313.003-.73.01-.914.007-.433.011-.418.014-.403.016-.388.021-.374.025-.36.03-.345.033-.333c.196-1.74.616-2.933 1.516-3.833.9-.9 2.092-1.32 3.833-1.516l.333-.034.346-.029.36-.025.373-.02.588-.025.41-.012.644-.013.915-.009ZM6.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/></svg></span><b>ВКонтакте</b></a>
+      <a class="bs__opt" href="https://max.ru/u/f9LHodD0cOKSx9uuDZ-6hXAbDeN5QP3qLkAMXoGyU8OJMya8zv9ih77FB_w" target="_blank" rel="noopener"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="mxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3fb6ff"/><stop offset=".55" stop-color="#5b5bff"/><stop offset="1" stop-color="#b44bff"/></linearGradient></defs><path fill="url(#mxg)" d="M12 1C5.9 1 1 5.7 1 11.9c0 4.3.9 6.4 1 9.5 0 1.8 3.2.9 4.5-.4.1-.1.3-.1.4 0 1.6 1.1 2.6 1.4 4.7 1.4C17.5 22.4 23 17.6 23 11.6 23 5.6 18.1 1 12 1z"/><path fill="#fff" d="M7.3 15.6V8.4h1.6l3.1 4 3.1-4h1.6v7.2h-1.8v-4.4L12 14.6l-2.9-3.4v4.4z"/></svg></span><b>Max</b></a>
+    </div>
+    <p class="bs__hint">Кольчугино, ул. Зернова 11, ТЦ «ТРИО» · Пн–Пт 12–20, Сб–Вс 10–21</p>
+  </div>
+</div>
+<div class="callbar"><a class="btn" href="tel:+79302244551" data-book><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Позвонить или написать</a></div>
 <script src="js/main.js" defer></script>
 <script src="js/extra.js" defer></script>
+<script src="js/book.js" defer></script>
 </body>
 </html>
