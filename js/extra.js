@@ -48,12 +48,17 @@ const vlist=window.VR_VIDEOS||[],esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&a
 if(vlist.length){const rv=d.querySelector('.vrow--v'),rh=d.querySelector('.vrow--h'),cnt={all:vlist.length};
  vlist.forEach(v=>{cnt[v.cat]=(cnt[v.cat]||0)+1;(v.o==='v'?rv:rh).insertAdjacentHTML('beforeend',`<button type="button" class="vc vc--${v.o}" data-cat="${v.cat}" data-type="${v.type}" data-id="${v.id}" data-hash="${v.hash||''}" data-o="${v.o}" data-title="${esc(v.title)}"><img src="img/video-posters/${v.id}.webp" alt="" loading="lazy" decoding="async"><span class="vc__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="vc__t">${esc(v.title)}</span></button>`)});
  d.querySelectorAll('.vtabs .vt').forEach(b=>{const s=b.querySelector('span'),n=cnt[b.dataset.f]||0;if(s)s.textContent=n;b.hidden=!n})}
-const vm=d.getElementById('vm');if(vm){const cards=[...d.querySelectorAll('.vc')],box=vm.querySelector('.vm__player'),t=vm.querySelector('.vm__t'),fb=vm.querySelector('.vm__fb a');let release=null;
- const url=c=>{const oid='-227237589',id=c.dataset.id;/* clips too: video_ext is the reliable player for both (clip_ext errors without autoplay) */const h=c.dataset.hash;return`https://${h?'vkvideo.ru':'vk.com'}/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1${h?'&hash='+h:''}`};
- const close=()=>{box.innerHTML='';release&&release();release=null};
- [...cards,...d.querySelectorAll('[data-vplay]')].forEach(c=>c.addEventListener('click',()=>{vm.classList.toggle('vm--v',c.dataset.o==='v');t.textContent=c.dataset.title;
+const vm=d.getElementById('vm');if(vm){const cards=[...d.querySelectorAll('.vc')],frame=vm.querySelector('.vm__frame'),box=vm.querySelector('.vm__player'),t=vm.querySelector('.vm__t'),fb=vm.querySelector('.vm__fb a');let release=null;
+ /* всегда vkvideo.ru: vk.com/video_ext с cloud IP часто отдаёт 418 */
+ const url=c=>{const oid='-227237589',id=c.dataset.id,h=c.dataset.hash;return`https://vkvideo.ru/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1${h?'&hash='+h:''}`};
+ const close=()=>{box.innerHTML='';box.classList.remove('vm__player--on');frame&&frame.classList.remove('vm__frame--on');release&&release();release=null};
+ [...cards,...d.querySelectorAll('[data-vplay]')].forEach(c=>c.addEventListener('click',()=>{
+   if(release)close();
+   vm.classList.toggle('vm--v',c.dataset.o==='v');t.textContent=c.dataset.title;
    fb.href=`https://vk.com/${c.dataset.type==='clip'?'clip':'video'}-227237589_${c.dataset.id}`;
-   box.innerHTML=`<iframe src="${url(c)}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowfullscreen title="${c.dataset.title}"></iframe>`;release=trap(vm,close)}));
+   box.innerHTML=`<iframe src="${url(c)}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowfullscreen title="${c.dataset.title}"></iframe>`;
+   box.classList.add('vm__player--on');frame&&frame.classList.add('vm__frame--on');
+   release=trap(vm,close)}));
  vm.querySelector('[data-close]').onclick=close;vm.addEventListener('click',e=>{if(e.target===vm)close()});
  const tabs=[...d.querySelectorAll('.vtabs .vt')],rows=[...d.querySelectorAll('.vrow')],heads=[...d.querySelectorAll('.vrow__h')];
  tabs.forEach(b=>b.onclick=()=>{tabs.forEach(x=>x.setAttribute('aria-pressed',x===b));const f=b.dataset.f;
