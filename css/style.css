@@ -227,7 +227,7 @@ html{overflow-x:clip}
 .vt{flex:none;min-height:44px;padding:0 18px;border-radius:99px;border:1px solid var(--line);background:#ffffff0a;color:var(--tx);font:700 15px var(--f);cursor:pointer}
 .vt span{color:var(--mut);font-weight:600;margin-left:4px}.vt[aria-pressed=true]{background:var(--tx);color:var(--bg);border-color:var(--tx)}.vt[aria-pressed=true] span{color:#0a061299}
 .vrow__h{font-size:18px;margin:0 0 16px;color:var(--mut);font-family:var(--f);font-weight:800}
-.vrow{display:grid;grid-auto-flow:column;gap:16px;overflow-x:auto;padding:6px 4px 20px;margin-bottom:28px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.vrow{display:grid;grid-auto-flow:column;gap:16px;overflow-x:auto;padding:10px 10px 24px;margin-bottom:28px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
 .vrow--v{grid-auto-columns:clamp(150px,16vw,210px)}.vrow--h{grid-auto-columns:clamp(260px,30vw,400px)}
 .vrow[hidden],.vrow__h[hidden]{display:none}
 .vc{position:relative;padding:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card);cursor:pointer;scroll-snap-align:start;color:var(--tx);text-align:left}
@@ -604,6 +604,12 @@ h2{letter-spacing:-.032em}
 
 /* ===== reviews carousel + VK ===== */
 .rev__cta{margin-top:8px}
+/* 2ГИС рейтинг — официальный виджет из ЛК */
+.rev-2gis{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:16px}
+.rev-2gis iframe{display:block;border:0;border-radius:8px;background:transparent;max-width:100%;vertical-align:middle}
+.rev-2gis__link{color:var(--cy);font-weight:700;font-size:14px;text-decoration:none;text-underline-offset:3px}
+.rev-2gis__link:hover{text-decoration:underline}
+
 .rev__cta .chip--accent{
   background:linear-gradient(#1a1030,#1a1030) padding-box,var(--grad) border-box;
   border:1.5px solid transparent;font-weight:700
