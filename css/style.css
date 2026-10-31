@@ -80,6 +80,14 @@ h3{font-size:22px;letter-spacing:-.01em;line-height:1.15}
 .zone--big .price{background:var(--acc);color:var(--acc-ink);border-color:var(--acc);font-size:16px}
 @media(max-width:1000px){.zones{grid-template-columns:repeat(2,1fr)}.zone--big{min-height:420px}}
 @media(max-width:560px){.zones{grid-template-columns:1fr}.zone--big{grid-column:auto;grid-row:auto;min-height:380px}.zone{min-height:240px}}
+/* zone galleries */
+.zone[data-zone]{cursor:pointer}
+.zone[data-zone]:focus-visible{outline:2px solid #e879f9;outline-offset:3px}
+.zone__gal{position:absolute;top:14px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:99px;font:700 11px/1 var(--f);letter-spacing:.03em;color:#fff;background:linear-gradient(135deg,#c026d3cc,#db2777cc);border:1px solid #ffffff2a;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 6px 18px -10px #c026d388;opacity:.88;transition:opacity .2s,transform .2s}
+.zone__gal svg{width:14px;height:14px;fill:currentColor}
+.zone[data-zone]:hover .zone__gal,.zone[data-zone]:focus-visible .zone__gal{opacity:1;transform:translateY(-1px)}
+@media(max-width:560px){.zone__gal{top:10px;right:10px;padding:6px 10px;font-size:11px}}
+
 /* prices */
 .tabs{display:none;gap:4px;padding:4px;border-radius:99px;background:var(--card);border:1px solid var(--line);width:max-content;max-width:100%;margin-bottom:24px}
 .tabs button{min-height:44px;padding:0 20px;border:0;border-radius:99px;background:none;color:var(--mut);font:700 15px var(--f);cursor:pointer}
