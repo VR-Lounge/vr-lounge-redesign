@@ -233,7 +233,8 @@ html{overflow-x:clip}
 .vc{position:relative;padding:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card);cursor:pointer;scroll-snap-align:start;color:var(--tx);text-align:left}
 .vc--v{aspect-ratio:9/16}.vc--h{aspect-ratio:16/9}
 .vc[hidden]{display:none}
-.vc:focus-visible{outline:none;box-shadow:inset 0 0 0 3px var(--cy),inset 0 0 12px #4de8ff33}
+.vc:focus-visible{outline:none}
+.vc:focus-visible::after{box-shadow:inset 0 0 0 3px var(--cy),inset 0 0 12px #4de8ff33}
 .vc img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.vc:hover img{transform:scale(1.05)}
 .vc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,#0a0612e6)}
 .vc__play{position:absolute;z-index:1;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:#ff3ea5e6;display:grid;place-items:center;box-shadow:0 10px 30px -6px #ff3ea5aa}
