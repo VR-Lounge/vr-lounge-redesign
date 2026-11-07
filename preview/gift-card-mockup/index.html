@@ -42,7 +42,6 @@
             <h1 id="h1">VR, PS5, караоке<br>и&nbsp;дни рождения<br><span class="grad">в&nbsp;одном клубе</span></h1>
             <p class="lead">Игротека для всей семьи:<span class="lead__more"> 6&nbsp;зон, 50+ VR-игр, до&nbsp;20&nbsp;гостей в&nbsp;зале.</span> VR-очки от&nbsp;500&nbsp;₽/&#8288;час, дни рождения под&nbsp;ключ от&nbsp;8&nbsp;500&nbsp;₽.</p>
             <div class="cta">
-              <a class="btn btn--xl" href="tel:+79302244551" data-book><svg class="i-phone" aria-hidden="true" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Позвонить и забронировать</a>
               <div class="preview-actions" aria-label="Демо: новые входы">
                 <p class="preview-note">Новое в превью — остальной экран как на сайте</p>
                 <button type="button" class="btn btn--xl" data-book data-book-label="Поиграть">Поиграть</button>
@@ -78,7 +77,24 @@
         <li>VR-шлемы Pico</li><li>PlayStation 5 · TV 75″</li><li>Xbox Kinect до 8 человек</li><li>Караоке · 2 микрофона JBL</li><li>VIP-кинотеатр</li><li>Настольные игры и мафия</li><li>Проектор 4K</li>
       </ul></div>
     </section>
+    <section class="preview-scroll-spacer" aria-hidden="true" id="preview-scroll-spacer">
+      <div class="wrap preview-scroll-spacer__in">
+        <p>Демо-зона прокрутки: ниже hero на телефоне появляется закреплённая кнопка связи.</p>
+      </div>
+    </section>
   </main>
+  <nav class="preview-demo-bar" aria-label="Инструменты демо">
+    <button type="button" class="preview-demo-bar__btn" id="btn-view-full-card">Посмотреть карту целиком</button>
+    <a class="preview-demo-bar__link" href="admin-preview.html">Админ (демо)</a>
+  </nav>
+  <div class="card-lightbox" id="card-lightbox" role="dialog" aria-modal="true" aria-labelledby="card-lightbox-h" hidden>
+    <div class="card-lightbox__back" data-card-lb-close></div>
+    <div class="card-lightbox__panel">
+      <button type="button" class="card-lightbox__x" data-card-lb-close aria-label="Закрыть">×</button>
+      <h2 class="visually-hidden" id="card-lightbox-h">Подарочная карта — образец</h2>
+      <div class="card-lightbox__stage" id="card-lightbox-mount"></div>
+    </div>
+  </div>
 
   <div class="bs" id="bs" role="dialog" aria-modal="true" aria-labelledby="bs-h" hidden>
     <div class="bs__back" data-bs-close></div>
@@ -103,35 +119,40 @@
   <div class="bs bs--gift" id="gift-bs" role="dialog" aria-modal="true" aria-labelledby="gift-bs-h" hidden>
     <div class="bs__back" data-gift-close></div>
     <div class="bs__box">
-      <div class="bs__grab" aria-hidden="true"></div>
-      <button type="button" class="bs__x" data-gift-close aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-      <p class="kicker bs__k">Подарок · VR Lounge</p>
-      <h2 class="bs__h" id="gift-bs-h">Подарочная карта</h2>
-      <p class="bs__lead">Оставьте телефон — администратор свяжется и поможет оформить подарок.</p>
-      <div class="gift-form">
-        <div class="gift-sheet-card">
-          <div class="gift-card-shell" aria-hidden="true">
-            <div class="gift-card">
-              <div class="gift-card__stars"></div>
-              <div class="gift-card__wash"></div>
-              <div class="gift-card__inner">
-                <div class="gift-card__david-wrap">
-                  <img class="gift-card__david" src="../../img/hero-david.webp" alt="" width="512" height="512" decoding="async">
-                </div>
-                <div class="gift-card__copy">
-                  <span class="gift-card__demo">ДЕМО</span>
-                  <div class="gift-card__label">ПОДАРОЧНАЯ КАРТА</div>
-                  <div class="gift-card__brand">VR LOUNGE</div>
-                  <div class="gift-card__city">Кольчугино</div>
-                  <div class="gift-card__amount" id="card-amount">3 000 ₽</div>
-                  <div class="gift-card__recipient" id="card-recipient">Кому дарите — по желанию</div>
-                  <div class="gift-card__serial" id="card-serial">VR-DEMO-0123 · образец</div>
+      <div class="bs__gift-scroll">
+        <div class="bs__grab" aria-hidden="true"></div>
+        <button type="button" class="bs__x" data-gift-close aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+        <p class="kicker bs__k">Подарок · VR Lounge</p>
+        <h2 class="bs__h" id="gift-bs-h">Подарочная карта</h2>
+        <p class="bs__lead">Укажите номинал и телефон — администратор перезвонит, уточнит детали и поможет оформить сертификат. В демо заявка никуда не уходит.</p>
+        <div class="gift-form">
+          <div class="gift-sheet-card">
+            <div class="gift-card-shell" aria-hidden="true">
+              <div class="gift-card">
+                <div class="gift-card__stars"></div>
+                <div class="gift-card__wash"></div>
+                <div class="gift-card__body">
+                  <div class="gift-card__main">
+                    <div class="gift-card__david-wrap">
+                      <img class="gift-card__david" src="../../img/hero-david.webp" alt="" width="512" height="512" decoding="async">
+                    </div>
+                    <div class="gift-card__copy">
+                      <span class="gift-card__demo">ДЕМО</span>
+                      <div class="gift-card__label">ПОДАРОЧНАЯ КАРТА</div>
+                      <div class="gift-card__brand"><span class="gift-card__brand-vr">VR</span> LOUNGE</div>
+                      <div class="gift-card__city">Кольчугино</div>
+                      <div class="gift-card__amount" id="card-amount">3 000 ₽</div>
+                      <div class="gift-card__recipient" id="card-recipient">Кому дарите — по желанию</div>
+                    </div>
+                  </div>
+                  <footer class="gift-card__footer">
+                    <div class="gift-card__serial" id="card-serial">VR-DEMO-0123 · образец</div>
+                  </footer>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <form id="gift-form" novalidate>
+          <form id="gift-form" novalidate>
           <div class="field">
             <label for="gift-amount">Номинал</label>
             <div class="amount-row">
@@ -150,8 +171,9 @@
             <p class="field__err" id="amount-error" role="alert"></p>
           </div>
           <div class="field">
-            <label for="gift-phone">Телефон покупателя</label>
-            <input id="gift-phone" type="tel" inputmode="tel" placeholder="Телефон покупателя" autocomplete="off" aria-describedby="phone-error">
+            <label for="gift-phone">Телефон для связи</label>
+            <input id="gift-phone" type="tel" inputmode="tel" placeholder="+7 …" autocomplete="tel" aria-describedby="phone-hint phone-error">
+            <small id="phone-hint">Перезвоним, чтобы подтвердить заявку на сертификат — не для оплаты в демо.</small>
             <p class="field__err" id="phone-error" role="alert"></p>
           </div>
           <div class="field">
@@ -159,14 +181,15 @@
             <input id="gift-recipient-input" type="text" maxlength="48" placeholder="Например, Маша" autocomplete="off">
           </div>
         </form>
-        <div class="gift-success" id="gift-success" tabindex="-1">
-          <h3>Так будет выглядеть подтверждение</h3>
-          <p>Администратор свяжется с вами. В демо ничего никуда не уходит.</p>
+          <div class="gift-success" id="gift-success" tabindex="-1">
+            <h3>Заявка принята (демо)</h3>
+            <p>Администратор свяжется с вами по телефону. Карта в демо не выпускается и не отправляется.</p>
+          </div>
         </div>
-        <div class="bs__footsticky">
-          <button type="submit" class="btn btn--xl" id="gift-submit" form="gift-form" style="width:100%">Оставить заявку</button>
-          <p class="bs__demo">Демонстрация — заявка не отправляется</p>
-        </div>
+      </div>
+      <div class="bs__gift-foot" id="gift-sheet-foot">
+        <button type="submit" class="btn btn--xl" id="gift-submit" form="gift-form">Оставить заявку на сертификат</button>
+        <p class="bs__demo">Демонстрация — заявка не отправляется</p>
       </div>
     </div>
   </div>

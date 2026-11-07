@@ -9,6 +9,7 @@ mkdir -p "$DIST/css" "$DIST/js" "$DIST/img" "$DIST/fonts" "$DIST/artifacts"
 
 cp "$ROOT/index.html" "$ROOT/admin-preview.html" "$ROOT/gift-card-artwork.html" "$ROOT/README.md" "$ROOT/THIRD-PARTY-NOTICES.md" "$DIST/"
 cp -r "$ROOT/css/." "$DIST/css/"
+cp "$ROOT/css/export-card.css" "$DIST/css/" 2>/dev/null || true
 cp -r "$ROOT/js/." "$DIST/js/"
 cp "$REPO/css/style.css" "$DIST/css/site.css"
 cp "$REPO/img/hero-david.webp" "$REPO/img/favicon.svg" "$REPO/img/zone-vr.webp" "$REPO/img/zone-ps5.webp" "$REPO/img/zone-karaoke.webp" "$DIST/img/"

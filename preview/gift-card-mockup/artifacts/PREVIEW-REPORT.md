@@ -1,30 +1,19 @@
-# VR Lounge — gift card preview (v2 correction)
+# Gift preview v3 (same PR, preview-only)
 
-Изолированный mockup: `preview/gift-card-mockup/`. Production не затрагивается.
+## v3 changes
 
-## Что исправлено относительно v1
+- Hero: only **Поиграть / День рождения / Подарить** (header **Забронировать** kept).
+- Callbar: after hero leaves viewport (`intersectionRatio ≤ 6%`); hidden with sheet/lightbox open.
+- Gift sheet: **scroll body + fixed foot**; reserved `padding-bottom` so phone/recipient sit above CTA; CTA **«Оставить заявку на сертификат»**.
+- Card grid UX: 40% / 5% / 55%, footer band ≥6%, export **1.6:1** (800×500 + 5% pad) PNG/PDF.
+- Offline file: `artifacts/gift-preview.html` (~1.5 MiB, embedded assets).
 
-| Дефект | Причина | Исправление |
-|--------|---------|-------------|
-| Чужой hero / «Звёзды, VR…» | Отдельный `preview.css` | Hero и тексты из prod `index.html` + `css/style.css` |
-| `03-mobile-sheet-open.png` без sheet | `autogift=1` ждал `DOMContentLoaded` + `is-open` не успевал в headless | `openGiftSheet(true)` синхронно; съёмка только по HTTP |
-| Битая картинка в скринах | `file://` и неверные `../../img` | `python3 -m http.server` + пути как на сайте |
-| David справа, QR, overlap footer | Старый макет карты | David слева, без QR на лицевой; serial внизу колонки текста |
-| Прямоугольник вокруг bust | Плоский фон webp | `mix-blend-mode: screen`, mask-gradient, фон `#06030c` |
+## Artifacts (box paths)
 
-## Ограничения (честно)
+`/opt/cursor/artifacts/vr-lounge-gift-preview-v3/`
 
-- На **export PNG** у `hero-david.webp` по краям всё ещё может читаться лёгкий контур файла (источник — квадратный webp с чёрным полем); в **sheet-превью** на телефоне blend мягче.
-- Headless Chrome в CI/VM: порт 9222 иногда занят; для полного прогона нужен один HTTP-сервер и последовательные кадры (~6–8 мин).
-- Автотестов a11y/Playwright нет — проверка amount/phone вручную через UI + логика в `preview.js`.
-
-## Приёмка (самопроверка)
-
-- Hero mobile 390×844: оригинальный h1, collage David, CTA: Поиграть full width + ДР/Подарить.
-- Gift sheet: handle, close, градиент, форма 1000–20000 шаг 1000, демо-маркер.
-- Карта stress: 20 000 ₽ + длинное имя без overlap serial.
-- Заявка не уходит в сеть (preventDefault + демо success).
-
-## Файлы артефактов (repo)
-
-См. каталог `preview/gift-card-mockup/artifacts/` и `screenshots/`.
+- `gift-preview.html` — open locally via `file://`
+- `gift-card-demo.png`, `gift-card-demo.pdf`
+- `v3-mobile-hero-3cta.png`, `v3-mobile-scrolled-callbar.png`
+- `v3-mobile-gift-sheet.png`, `v3-mobile-gift-sheet-phone.png` (scroll to phone)
+- `vr-lounge-gift-preview-standalone.zip`

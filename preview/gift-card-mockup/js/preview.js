@@ -305,19 +305,97 @@
   }
 
   function initCallbarObserver() {
-    var cta = document.querySelector(".hero .cta");
-    if (!cta || !("IntersectionObserver" in window)) return;
+    var hero = document.querySelector(".preview-hero .hero");
+    if (!hero || !("IntersectionObserver" in window)) return;
     new IntersectionObserver(function (entries) {
-      document.documentElement.classList.toggle("hero-cta-vis", entries[0].isIntersecting);
-    }, { threshold: 0.25 }).observe(cta);
+      var ratio = entries[0].intersectionRatio;
+      document.documentElement.classList.toggle("hero-cta-vis", ratio > 0.06);
+    }, { threshold: [0, 0.06, 0.12, 0.25, 0.5, 1] }).observe(hero);
+  }
+
+  function initGiftFieldScroll() {
+    var scroll = document.querySelector(".bs--gift .bs__gift-scroll");
+    if (!scroll) return;
+    scroll.querySelectorAll("input, textarea, select").forEach(function (el) {
+      el.addEventListener("focus", function () {
+        window.setTimeout(function () {
+          try {
+            el.scrollIntoView({ block: "center", behavior: "smooth" });
+          } catch (e) {
+            el.scrollIntoView(true);
+          }
+        }, 280);
+      });
+    });
+  }
+
+  function initCardLightbox() {
+    var openBtn = document.getElementById("btn-view-full-card");
+    var lb = document.getElementById("card-lightbox");
+    var mount = document.getElementById("card-lightbox-mount");
+    if (!openBtn || !lb || !mount) return;
+    var template = document.querySelector(".gift-sheet-card .gift-card-shell");
+    var open = false;
+    function close() {
+      if (!open) return;
+      open = false;
+      lb.hidden = true;
+      lb.classList.remove("is-open");
+      document.body.classList.remove("lock", "gift-lb-open");
+      mount.innerHTML = "";
+      openBtn.focus();
+    }
+    function show() {
+      if (!template) return;
+      var clone = template.cloneNode(true);
+      clone.classList.add("gift-card-shell--full");
+      clone.setAttribute("aria-hidden", "false");
+      mount.appendChild(clone);
+      lb.hidden = false;
+      requestAnimationFrame(function () {
+        lb.classList.add("is-open");
+      });
+      document.body.classList.add("lock", "gift-lb-open");
+      open = true;
+      lb.querySelector(".card-lightbox__x").focus();
+    }
+    openBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      show();
+    });
+    lb.querySelectorAll("[data-card-lb-close]").forEach(function (n) {
+      n.addEventListener("click", close);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && open) close();
+    });
   }
 
   document.documentElement.classList.add("js");
   initBookingSheet();
   var openGiftSheet = initGiftSheet();
   initCallbarObserver();
+  initCardLightbox();
+  initGiftFieldScroll();
 
   if (location.search.indexOf("autogift=1") !== -1 && openGiftSheet) {
     openGiftSheet(true);
+    if (location.search.indexOf("focusphone=1") !== -1) {
+      window.addEventListener("load", function () {
+        var sc = document.querySelector(".bs--gift .bs__gift-scroll");
+        var phone = document.getElementById("gift-phone");
+        if (sc && phone) {
+          phone.focus();
+          phone.scrollIntoView({ block: "center" });
+          sc.scrollTop = sc.scrollHeight;
+        }
+      });
+    }
+  }
+  if (location.search.indexOf("scrolled=1") !== -1) {
+    window.addEventListener("load", function () {
+      var el = document.getElementById("preview-scroll-spacer");
+      if (el) window.scrollTo(0, el.offsetTop - 40);
+    });
   }
 })();
