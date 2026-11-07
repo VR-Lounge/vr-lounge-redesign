@@ -3,47 +3,44 @@
 <head>
   <meta charset="utf-8">
   <title>Gift card artwork export</title>
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/preview-gift.css">
   <style>
-    @font-face{font-family:"Mont Cyr";src:url(fonts/mont-cyr.woff2) format("woff2");font-weight:700 900}
-    @font-face{font-family:"Inter Cyr";src:url(fonts/inter-cyr.woff2)}
-    html,body{margin:0;background:#0a0612}
-    .shell{width:856px;height:540px;margin:0;border-radius:28px;padding:4px;position:relative;box-sizing:border-box}
-    .shell::before,.shell::after{content:"";position:absolute;inset:0;border-radius:inherit}
-    .shell::before{background:linear-gradient(135deg,#8b5cff,#c026d3 45%,#ff3ea5 80%,#4de8ff);opacity:.75}
-    .shell::after{background:linear-gradient(135deg,#8b5cff,#ff3ea5);filter:blur(16px);opacity:.25}
-    .export{width:100%;height:100%;position:relative;border-radius:24px;overflow:hidden;font-family:"Inter Cyr",system-ui,sans-serif;color:#fff;
-      background-color:#120818;
-      background-image:radial-gradient(circle at 14% 22%,#8b5cff25 0 1.2px,transparent 1.6px),radial-gradient(circle,#ffffff30 0 .7px,transparent .9px);
-      background-size:100% 100%,18px 20px;
-      box-shadow:rgba(0,0,0,.45) 0 3px 3px,rgba(139,92,255,.22) 0 24px 48px -16px,inset 0 1px 0 #ffffff35}
-    .export::before{content:"";position:absolute;inset:8px;border-radius:20px;background:linear-gradient(145deg,#2a1248e8,#5b1690cc 40%,#9d174dd8 74%,#be185de6);z-index:0}
-    .export::after{content:"";position:absolute;inset:0;background:radial-gradient(100% 70% at 0 0,#ffffff12,transparent 58%);mix-blend-mode:screen;opacity:.5;z-index:1}
-    .inner{position:relative;z-index:2;padding:42px 48px;height:100%;display:flex;flex-direction:column;box-sizing:border-box;text-shadow:0 1px 10px #00000070}
-    .demo{position:absolute;top:28px;right:32px;font-size:13px;font-weight:800;letter-spacing:.16em;padding:6px 12px;border-radius:8px;background:#00000055;border:1px solid #ffffff35}
-    .label{font-size:15px;font-weight:800;letter-spacing:.24em}
-    .brand{font:900 38px/1.05 "Mont Cyr",system-ui,sans-serif;margin-top:10px}
-    .city{font-size:18px;opacity:.92;margin-top:4px}
-    .amount{font:900 72px/1 "Mont Cyr",system-ui,sans-serif;margin-top:28px}
-    .recipient{font-size:22px;margin-top:14px;max-width:55%}
-    .serial{font-family:ui-monospace,monospace;font-size:14px;letter-spacing:.06em;margin-top:auto;max-width:420px;opacity:.9}
-    .qr{position:absolute;left:48px;bottom:42px;width:88px;height:88px;border-radius:12px;border:2px dashed #ffffff55;background:#0a061244;display:grid;place-items:center;text-align:center;padding:8px;box-sizing:border-box;z-index:2}
-    .qr span{font-size:11px;font-weight:700;line-height:1.25;opacity:.92}
-    .david{position:absolute;right:-10px;bottom:-20px;width:340px;filter:drop-shadow(0 16px 40px #00000077);z-index:2}
+    html,body{margin:0;background:#06030c;min-height:100%;display:grid;place-items:center;padding:24px}
+    .export-stage{width:856px;max-width:100%}
+    .gift-card-shell{max-height:none;aspect-ratio:85.6/54;border-radius:22px;padding:3px}
+    .gift-card{border-radius:19px}
+    .gift-card__david{height:min(100%,340px);max-height:340px;transform:translate(-4%,0);object-fit:contain}
+    .gift-card__copy{padding:28px 24px 28px 8px}
+    .gift-card__brand{font-size:34px}
+    .gift-card__city{font-size:16px}
+    .gift-card__amount{font-size:64px}
+    .gift-card__recipient{font-size:20px;-webkit-line-clamp:3}
+    .gift-card__serial{font-size:11px}
+    .gift-card__demo{font-size:11px;padding:5px 8px}
+    .gift-card__label{font-size:12px}
   </style>
 </head>
 <body>
-  <div class="shell">
-    <div class="export" id="card">
-      <div class="inner">
-        <span class="demo">ДЕМО / ОБРАЗЕЦ</span>
-        <div class="label">ПОДАРОЧНАЯ КАРТА</div>
-        <div class="brand">VR LOUNGE</div>
-        <div class="city">Кольчугино</div>
-        <div class="amount">5 000 ₽</div>
-        <div class="recipient">Для: Артём</div>
-        <div class="serial">Визуальный № образца · VR-DEMO-0123 · не для погашения</div>
-        <div class="qr" aria-hidden="true"><span>QR появится после выпуска</span></div>
-        <img class="david" src="img/hero-david.webp" width="680" height="750" alt="">
+  <div class="export-stage">
+    <div class="gift-card-shell">
+      <div class="gift-card">
+        <div class="gift-card__stars"></div>
+        <div class="gift-card__wash"></div>
+        <div class="gift-card__inner">
+          <div class="gift-card__david-wrap">
+            <img class="gift-card__david" src="img/hero-david.webp" width="1024" height="1024" alt="">
+          </div>
+          <div class="gift-card__copy">
+            <span class="gift-card__demo">ДЕМО / ОБРАЗЕЦ</span>
+            <div class="gift-card__label">ПОДАРОЧНАЯ КАРТА</div>
+            <div class="gift-card__brand">VR LOUNGE</div>
+            <div class="gift-card__city">Кольчугино</div>
+            <div class="gift-card__amount">5 000 ₽</div>
+            <div class="gift-card__recipient">Для: Артём</div>
+            <div class="gift-card__serial">VR-DEMO-0123 · визуальный образец · не для погашения</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -5,8 +5,8 @@
   --fd:system-ui,-apple-system,"Segoe UI Black","Arial Black",sans-serif;
   --sheet-h:min(92svh,780px);
 }
-@font-face{font-family:"Inter Cyr";src:url(fonts/inter-cyr.woff2) format("woff2");font-weight:400 800;font-style:normal;font-display:swap}
-@font-face{font-family:"Mont Cyr";src:url(fonts/mont-cyr.woff2) format("woff2");font-weight:700 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter Cyr";src:url(../../fonts/inter-cyr.woff2) format("woff2");font-weight:400 800;font-style:normal;font-display:swap}
+@font-face{font-family:"Mont Cyr";src:url(../../fonts/mont-cyr.woff2) format("woff2");font-weight:700 900;font-style:normal;font-display:swap}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
 body{margin:0;background:var(--bg);color:var(--tx);font:400 17px/1.55 "Inter Cyr",var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Gift card stress export</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="css/preview-gift.css">
+  <style>
+    html,body{margin:0;background:#06030c;min-height:100%;display:grid;place-items:center;padding:24px}
+    .export-stage{width:856px;max-width:100%}
+    .gift-card-shell{max-height:none;aspect-ratio:85.6/54;border-radius:22px;padding:3px}
+    .gift-card{border-radius:19px}
+    .gift-card__david{height:min(100%,340px);transform:translateX(-4%)}
+    .gift-card__copy{padding:28px 20px 24px 6px}
+    .gift-card__brand{font-size:30px}
+    .gift-card__amount{font-size:54px}
+    .gift-card__recipient{font-size:17px;-webkit-line-clamp:2}
+    .gift-card__serial{font-size:10px;padding-top:6px}
+  </style>
+</head>
+<body>
+  <div class="export-stage">
+    <div class="gift-card-shell">
+      <div class="gift-card">
+        <div class="gift-card__stars"></div>
+        <div class="gift-card__wash"></div>
+        <div class="gift-card__inner">
+          <div class="gift-card__david-wrap">
+            <img class="gift-card__david" src="../../img/hero-david.webp" width="1024" height="1024" alt="">
+          </div>
+          <div class="gift-card__copy">
+            <span class="gift-card__demo">ДЕМО / ОБРАЗЕЦ</span>
+            <div class="gift-card__label">ПОДАРОЧНАЯ КАРТА</div>
+            <div class="gift-card__brand">VR LOUNGE</div>
+            <div class="gift-card__city">Кольчугино</div>
+            <div class="gift-card__amount">20&nbsp;000 ₽</div>
+            <div class="gift-card__recipient">Для: Александра Константиновна</div>
+            <div class="gift-card__serial">VR-DEMO-0123 · визуальный образец · не для погашения</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

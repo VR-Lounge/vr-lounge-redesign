@@ -4,270 +4,320 @@
   var AMOUNT_MIN = 1000;
   var AMOUNT_MAX = 20000;
   var AMOUNT_STEP = 1000;
-  var DEMO_SERIAL = "№ образца · VR-DEMO-0123";
+  var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  var sheetRoot = document.getElementById("gift-sheet-root");
-  var sheet = document.getElementById("gift-sheet");
-  var openBtn = document.getElementById("btn-gift-open");
-  var closeBtn = document.getElementById("gift-sheet-close");
-  var form = document.getElementById("gift-form");
-  var successPanel = document.getElementById("gift-success");
-  var amountInput = document.getElementById("gift-amount");
-  var phoneInput = document.getElementById("gift-phone");
-  var nameInput = document.getElementById("gift-recipient");
-  var amountMinus = document.getElementById("amount-minus");
-  var amountPlus = document.getElementById("amount-plus");
-  var chipButtons = document.querySelectorAll("[data-amount-chip]");
-  var previewAmount = document.getElementById("card-amount");
-  var previewName = document.getElementById("card-recipient");
-  var lastFocus = null;
+  function initBookingSheet() {
+    var bs = document.getElementById("bs");
+    if (!bs) return;
+    var box = bs.querySelector(".bs__box");
+    var ctx = bs.querySelector(".bs__ctx");
+    var prev = null;
+    var open = false;
+    var t = null;
 
-  var focusableSelector =
-    'a[href], button:not([disabled]), input:not([disabled]), textarea, select, [tabindex]:not([tabindex="-1"])';
+    var focusables = function () {
+      return Array.prototype.slice
+        .call(bs.querySelectorAll('a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'))
+        .filter(function (x) {
+          return x.offsetParent !== null;
+        });
+    };
 
-  function prefersReducedMotion() {
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }
-
-  function formatRub(n) {
-    return new Intl.NumberFormat("ru-RU").format(n) + " ₽";
-  }
-
-  function parseAmount(raw) {
-    var digits = String(raw).replace(/\s/g, "").replace(/[^\d]/g, "");
-    if (!digits) return null;
-    return parseInt(digits, 10);
-  }
-
-  function isValidAmount(n) {
-    if (n === null || Number.isNaN(n)) return false;
-    if (n < AMOUNT_MIN || n > AMOUNT_MAX) return false;
-    return n % AMOUNT_STEP === 0;
-  }
-
-  function setAmount(n, options) {
-    var opts = options || {};
-    if (!isValidAmount(n)) {
-      amountInput.classList.add("is-invalid");
-      amountInput.setAttribute("aria-invalid", "true");
-      if (opts.showMessage && amountErr) {
-        amountErr.textContent =
-          "Номинал от " +
-          formatRub(AMOUNT_MIN) +
-          " до " +
-          formatRub(AMOUNT_MAX) +
-          ", только кратно " +
-          AMOUNT_STEP +
-          " ₽";
+    function onKey(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      } else if (e.key === "Tab") {
+        var f = focusables();
+        if (!f.length) return;
+        var first = f[0];
+        var last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
-      return false;
     }
-    amountInput.classList.remove("is-invalid");
-    amountInput.removeAttribute("aria-invalid");
-    if (amountErr) amountErr.textContent = "";
-    amountInput.value = String(n);
-    previewAmount.textContent = formatRub(n);
-    chipButtons.forEach(function (btn) {
-      var v = parseInt(btn.getAttribute("data-amount-chip"), 10);
-      btn.setAttribute("aria-pressed", v === n ? "true" : "false");
+
+    function show(label) {
+      clearTimeout(t);
+      prev = document.activeElement;
+      ctx.hidden = !label;
+      if (label) ctx.textContent = "Вы выбрали: " + label;
+      bs.hidden = false;
+      box.style.transform = "";
+      document.body.classList.add("lock");
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          bs.classList.add("is-open");
+        });
+      });
+      open = true;
+      document.addEventListener("keydown", onKey);
+      var call = bs.querySelector(".bs__call");
+      if (call) setTimeout(function () { call.focus({ preventScroll: true }); }, rm.matches ? 0 : 60);
+    }
+
+    function close() {
+      if (!open) return;
+      open = false;
+      bs.classList.remove("is-open");
+      document.removeEventListener("keydown", onKey);
+      box.style.transform = "";
+      var fin = function () {
+        bs.hidden = true;
+        document.body.classList.remove("lock");
+        if (prev && prev.focus) prev.focus({ preventScroll: true });
+      };
+      rm.matches ? fin() : (t = setTimeout(fin, 320));
+    }
+
+    document.addEventListener("click", function (e) {
+      var el = e.target.closest("[data-book]");
+      if (!el || e.metaKey || e.ctrlKey) return;
+      if (el.id === "btn-gift-open") return;
+      e.preventDefault();
+      show(el.getAttribute("data-book-label") || el.getAttribute("data-book") || "");
     });
-    return true;
-  }
 
-  var amountErr = document.getElementById("amount-error");
+    bs.querySelectorAll("[data-bs-close]").forEach(function (x) {
+      x.addEventListener("click", close);
+    });
 
-  function normalizePhone(value) {
-    var d = value.replace(/\D/g, "");
-    if (d.length === 11 && (d[0] === "7" || d[0] === "8")) d = d.slice(1);
-    if (d.length === 10) return d;
-    return "";
-  }
+    bs.querySelectorAll(".bs__call, .bs__opt").forEach(function (a) {
+      a.addEventListener("click", function () {
+        setTimeout(close, 400);
+      });
+    });
 
-  function formatPhoneDisplay(digits) {
-    if (digits.length !== 10) return valueOrEmpty(phoneInput.value);
-    return (
-      "+7 (" +
-      digits.slice(0, 3) +
-      ") " +
-      digits.slice(3, 6) +
-      "-" +
-      digits.slice(6, 8) +
-      "-" +
-      digits.slice(8, 10)
+    var y0 = null;
+    var dy = 0;
+    box.addEventListener(
+      "touchstart",
+      function (e) {
+        if (box.scrollTop > 0) return;
+        y0 = e.touches[0].clientY;
+        dy = 0;
+        box.style.transition = "none";
+      },
+      { passive: true }
     );
+    box.addEventListener(
+      "touchmove",
+      function (e) {
+        if (y0 === null) return;
+        dy = Math.max(0, e.touches[0].clientY - y0);
+        box.style.transform = dy ? "translateY(" + dy + "px)" : "";
+      },
+      { passive: true }
+    );
+    box.addEventListener("touchend", function () {
+      if (y0 === null) return;
+      box.style.transition = "";
+      var h = box.offsetHeight;
+      y0 = null;
+      if (dy > Math.min(120, h * 0.25)) close();
+      else box.style.transform = "";
+      dy = 0;
+    });
   }
 
-  function valueOrEmpty(v) {
-    return v || "";
-  }
+  function initGiftSheet() {
+    var bs = document.getElementById("gift-bs");
+    var openBtn = document.getElementById("btn-gift-open");
+    if (!bs || !openBtn) return;
+    var box = bs.querySelector(".bs__box");
+    var prev = null;
+    var open = false;
+    var t = null;
 
-  function validatePhone() {
-    var digits = normalizePhone(phoneInput.value);
+    var amountInput = document.getElementById("gift-amount");
+    var phoneInput = document.getElementById("gift-phone");
+    var nameInput = document.getElementById("gift-recipient-input");
+    var previewAmount = document.getElementById("card-amount");
+    var previewName = document.getElementById("card-recipient");
+    var form = document.getElementById("gift-form");
+    var success = document.getElementById("gift-success");
+    var amountErr = document.getElementById("amount-error");
     var phoneErr = document.getElementById("phone-error");
-    if (!digits) {
-      phoneInput.classList.add("is-invalid");
-      phoneInput.setAttribute("aria-invalid", "true");
-      if (phoneErr) phoneErr.textContent = "Введите мобильный номер РФ: 10 цифр после +7";
-      return false;
+
+    function focusables() {
+      return Array.prototype.slice
+        .call(bs.querySelectorAll('a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'))
+        .filter(function (x) {
+          return x.offsetParent !== null;
+        });
     }
-    phoneInput.classList.remove("is-invalid");
-    phoneInput.removeAttribute("aria-invalid");
-    if (phoneErr) phoneErr.textContent = "";
-    return true;
-  }
 
-  function updateRecipientPreview() {
-    var name = nameInput.value.trim();
-    previewName.textContent = name ? "Для: " + name : "Имя получателя — по желанию";
-  }
-
-  function getFocusable(container) {
-    return Array.prototype.slice.call(container.querySelectorAll(focusableSelector)).filter(
-      function (el) {
-        return el.offsetParent !== null || el === document.activeElement;
+    function onKey(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      } else if (e.key === "Tab") {
+        var f = focusables();
+        if (!f.length) return;
+        var first = f[0];
+        var last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
-    );
-  }
-
-  function trapFocus(e) {
-    if (!sheetRoot || !sheetRoot.classList.contains("is-open")) return;
-    if (e.key !== "Tab") return;
-    var nodes = getFocusable(sheet);
-    if (!nodes.length) return;
-    var first = nodes[0];
-    var last = nodes[nodes.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
     }
-  }
 
-  function openSheet() {
-    if (!sheetRoot) return;
-    lastFocus = document.activeElement;
-    sheetRoot.classList.add("is-open");
-    sheetRoot.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-    successPanel.classList.remove("is-visible");
-    form.hidden = false;
-    var first = closeBtn || getFocusable(sheet)[0];
-    if (first) first.focus();
-    document.addEventListener("keydown", onKeydown);
-    document.addEventListener("keydown", trapFocus);
-  }
+    function openSheet(instant) {
+      clearTimeout(t);
+      prev = document.activeElement;
+      bs.hidden = false;
+      document.body.classList.add("lock");
+      if (instant) {
+        bs.classList.add("is-open");
+      } else {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            bs.classList.add("is-open");
+          });
+        });
+      }
+      open = true;
+      success.classList.remove("is-visible");
+      form.hidden = false;
+      document.addEventListener("keydown", onKey);
+      var closeBtn = bs.querySelector(".bs__x");
+      if (closeBtn) closeBtn.focus();
+    }
 
-  function closeSheet() {
-    if (!sheetRoot) return;
-    sheetRoot.classList.remove("is-open");
-    sheetRoot.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-    document.removeEventListener("keydown", onKeydown);
-    document.removeEventListener("keydown", trapFocus);
-    if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
-  }
+    function close() {
+      if (!open) return;
+      open = false;
+      bs.classList.remove("is-open");
+      document.removeEventListener("keydown", onKey);
+      var fin = function () {
+        bs.hidden = true;
+        document.body.classList.remove("lock");
+        if (prev && prev.focus) prev.focus({ preventScroll: true });
+      };
+      rm.matches ? fin() : (t = setTimeout(fin, 320));
+    }
 
-  function onKeydown(e) {
-    if (e.key === "Escape") {
+    openBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      closeSheet();
-    }
-  }
+      openSheet();
+    });
+    bs.querySelectorAll("[data-gift-close]").forEach(function (n) {
+      n.addEventListener("click", close);
+    });
 
-  function placeStars() {
-    var host = document.querySelector(".stars");
-    if (!host || prefersReducedMotion()) return;
-    var count = window.innerWidth < 700 ? 18 : 28;
-    for (var i = 0; i < count; i++) {
-      var s = document.createElement("span");
-      s.style.left = Math.random() * 100 + "%";
-      s.style.top = Math.random() * 55 + "%";
-      s.style.animationDelay = Math.random() * 3 + "s";
-      host.appendChild(s);
+    function parseAmount(raw) {
+      var digits = String(raw).replace(/\s/g, "").replace(/[^\d]/g, "");
+      if (!digits) return null;
+      return parseInt(digits, 10);
     }
-  }
 
-  if (amountMinus) {
-    amountMinus.addEventListener("click", function () {
+    function isValidAmount(n) {
+      return n !== null && !Number.isNaN(n) && n >= AMOUNT_MIN && n <= AMOUNT_MAX && n % AMOUNT_STEP === 0;
+    }
+
+    function formatRub(n) {
+      return new Intl.NumberFormat("ru-RU").format(n) + " ₽";
+    }
+
+    function setAmount(n, showMsg) {
+      if (!isValidAmount(n)) {
+        amountInput.classList.add("is-invalid");
+        if (showMsg && amountErr) {
+          amountErr.textContent =
+            "От " + formatRub(AMOUNT_MIN) + " до " + formatRub(AMOUNT_MAX) + ", шаг " + AMOUNT_STEP + " ₽";
+        }
+        return false;
+      }
+      amountInput.classList.remove("is-invalid");
+      if (amountErr) amountErr.textContent = "";
+      amountInput.value = String(n);
+      previewAmount.textContent = formatRub(n);
+      document.querySelectorAll("[data-amount-chip]").forEach(function (btn) {
+        var v = parseInt(btn.getAttribute("data-amount-chip"), 10);
+        btn.setAttribute("aria-pressed", v === n ? "true" : "false");
+      });
+      return true;
+    }
+
+    function normalizePhone(value) {
+      var d = value.replace(/\D/g, "");
+      if (d.length === 11 && (d[0] === "7" || d[0] === "8")) d = d.slice(1);
+      return d.length === 10 ? d : "";
+    }
+
+    function validatePhone() {
+      var ok = !!normalizePhone(phoneInput.value);
+      phoneInput.classList.toggle("is-invalid", !ok);
+      if (phoneErr) phoneErr.textContent = ok ? "" : "Введите мобильный номер РФ";
+      return ok;
+    }
+
+    function updateName() {
+      var name = nameInput.value.trim();
+      previewName.textContent = name ? "Для: " + name : "Кому дарите — по желанию";
+    }
+
+    document.getElementById("amount-minus").addEventListener("click", function () {
       var n = parseAmount(amountInput.value) || AMOUNT_MIN;
-      setAmount(Math.max(AMOUNT_MIN, n - AMOUNT_STEP), { showMessage: true });
+      setAmount(Math.max(AMOUNT_MIN, n - AMOUNT_STEP), true);
     });
-  }
-  if (amountPlus) {
-    amountPlus.addEventListener("click", function () {
+    document.getElementById("amount-plus").addEventListener("click", function () {
       var n = parseAmount(amountInput.value) || AMOUNT_MIN;
-      setAmount(Math.min(AMOUNT_MAX, n + AMOUNT_STEP), { showMessage: true });
+      setAmount(Math.min(AMOUNT_MAX, n + AMOUNT_STEP), true);
     });
-  }
-
-  amountInput.addEventListener("input", function () {
-    var n = parseAmount(amountInput.value);
-    if (n === null) {
-      amountInput.classList.add("is-invalid");
-      if (amountErr) amountErr.textContent = "Укажите сумму цифрами";
-      return;
-    }
-    setAmount(n, { showMessage: true });
-  });
-
-  amountInput.addEventListener("blur", function () {
-    var n = parseAmount(amountInput.value);
-    if (isValidAmount(n)) amountInput.value = String(n);
-  });
-
-  chipButtons.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var n = parseInt(btn.getAttribute("data-amount-chip"), 10);
-      setAmount(n, { showMessage: true });
+    amountInput.addEventListener("input", function () {
+      setAmount(parseAmount(amountInput.value), true);
     });
-  });
-
-  phoneInput.addEventListener("blur", function () {
-    var digits = normalizePhone(phoneInput.value);
-    if (digits) phoneInput.value = formatPhoneDisplay(digits);
-    validatePhone();
-  });
-
-  nameInput.addEventListener("input", updateRecipientPreview);
-
-  if (openBtn) openBtn.addEventListener("click", openSheet);
-  if (closeBtn) closeBtn.addEventListener("click", closeSheet);
-  if (sheetRoot) {
-    sheetRoot.addEventListener("click", function (e) {
-      if (e.target === sheetRoot) closeSheet();
+    document.querySelectorAll("[data-amount-chip]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setAmount(parseInt(btn.getAttribute("data-amount-chip"), 10), true);
+      });
     });
-  }
+    phoneInput.addEventListener("blur", validatePhone);
+    nameInput.addEventListener("input", updateName);
 
-  if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var submitBtn = document.getElementById("gift-submit");
-      if (submitBtn && submitBtn.disabled) return;
-
-      var amountOk = setAmount(parseAmount(amountInput.value), { showMessage: true });
-      var phoneOk = validatePhone();
-      if (!amountOk || !phoneOk) return;
-
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        window.setTimeout(function () {
-          submitBtn.disabled = false;
-        }, 1200);
-      }
-
+      var btn = document.getElementById("gift-submit");
+      if (btn.disabled) return;
+      if (!setAmount(parseAmount(amountInput.value), true) || !validatePhone()) return;
+      btn.disabled = true;
+      setTimeout(function () {
+        btn.disabled = false;
+      }, 1000);
       form.hidden = true;
-      successPanel.classList.add("is-visible");
-      var h = successPanel.querySelector("h3");
-      if (h) h.focus();
+      success.classList.add("is-visible");
+      success.focus();
     });
+
+    setAmount(3000, false);
+    updateName();
+    return openSheet;
   }
 
-  setAmount(3000, { showMessage: false });
-  updateRecipientPreview();
-  placeStars();
+  function initCallbarObserver() {
+    var cta = document.querySelector(".hero .cta");
+    if (!cta || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (entries) {
+      document.documentElement.classList.toggle("hero-cta-vis", entries[0].isIntersecting);
+    }, { threshold: 0.25 }).observe(cta);
+  }
 
-  var serialEl = document.getElementById("card-serial");
-  if (serialEl) serialEl.textContent = DEMO_SERIAL;
+  document.documentElement.classList.add("js");
+  initBookingSheet();
+  var openGiftSheet = initGiftSheet();
+  initCallbarObserver();
+
+  if (location.search.indexOf("autogift=1") !== -1 && openGiftSheet) {
+    openGiftSheet(true);
+  }
 })();

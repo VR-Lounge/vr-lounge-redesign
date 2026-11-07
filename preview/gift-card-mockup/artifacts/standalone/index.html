@@ -1,182 +1,177 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" class="js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0a0612">
   <title>PREVIEW · VR Lounge — подарочная карта</title>
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/preview.css">
+  <link rel="preload" as="image" href="img/hero-collage.webp">
+  <link rel="preload" as="font" type="font/woff2" href="fonts/mont-cyr.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="fonts/inter-cyr.woff2" crossorigin>
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/preview-gift.css">
 </head>
-<body>
-  <p class="demo-ribbon" role="status">Демонстрация — заявка не отправляется · только превью UX</p>
+<body class="has-preview-tag">
+  <p class="preview-tag" role="status">Демо-превью · заявки не отправляются</p>
   <a class="skip" href="#main">К содержимому</a>
-
-  <header class="top">
+  <header class="top" id="top">
     <div class="wrap top__in">
-      <a class="logo" href="#main"><span class="logo__mark">VR</span> LOUNGE</a>
-      <nav class="nav" aria-label="Превью-разделы">
-        <a href="#play">Поиграть</a>
-        <a href="#birthday">День рождения</a>
+      <a class="logo" href="#top" aria-label="VR Lounge — наверх"><span class="logo__mark">VR</span> LOUNGE</a>
+      <nav class="nav" aria-label="Разделы">
         <a href="admin-preview.html">Админ (демо)</a>
       </nav>
+      <a class="top__phone" href="tel:+79302244551">8 930 224-45-51</a>
+      <a class="btn btn--sm" href="tel:+79302244551" data-book>Забронировать</a>
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__bg" aria-hidden="true">
-        <span class="orb orb--a"></span>
-        <span class="orb orb--b"></span>
-        <span class="grid-floor"></span>
-        <div class="stars"></div>
-      </div>
+  <main id="main" class="preview-hero">
+    <section class="hero" aria-labelledby="h1">
+      <div class="hero__bg" aria-hidden="true"><span class="hero__photo"></span><span class="orb orb--a"></span><span class="orb orb--b"></span><span class="grid-floor"></span></div>
       <div class="wrap hero__in">
         <div class="hero__copy">
-          <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Кольчугино · семейный VR-клуб</p>
-          <h1 id="hero-title">Звёзды, VR и&nbsp;<span class="grad">ваш праздник</span></h1>
-          <p class="lead">Узнаваемый клуб на ул. Зернова: шлемы, PS5, караоке и дни рождения под ключ. В этом превью — три понятных входа без звонка в шапке.</p>
-          <div class="hero-cta">
-            <a class="btn btn--xl" href="#play">Поиграть</a>
-            <div class="hero-cta__row">
-              <a class="btn btn--ghost btn--xl" href="#birthday">День рождения</a>
-              <button type="button" class="btn btn--gift btn--xl" id="btn-gift-open">Подарить</button>
+          <div class="hero__first">
+            <picture class="hero__art" aria-hidden="true">
+              <source media="(max-width:700px)" srcset="img/hero-collage-600.webp 600w, img/hero-collage.webp 900w" sizes="(max-width:700px) 120vw">
+              <img src="img/hero-collage.webp" alt="" width="900" height="1000" fetchpriority="high" decoding="async">
+            </picture>
+            <p class="eyebrow"><span class="dot"></span> Кольчугино · ул. Зернова 11</p>
+            <h1 id="h1">VR, PS5, караоке<br>и&nbsp;дни рождения<br><span class="grad">в&nbsp;одном клубе</span></h1>
+            <p class="lead">Игротека для всей семьи:<span class="lead__more"> 6&nbsp;зон, 50+ VR-игр, до&nbsp;20&nbsp;гостей в&nbsp;зале.</span> VR-очки от&nbsp;500&nbsp;₽/&#8288;час, дни рождения под&nbsp;ключ от&nbsp;8&nbsp;500&nbsp;₽.</p>
+            <div class="cta">
+              <a class="btn btn--xl" href="tel:+79302244551" data-book><svg class="i-phone" aria-hidden="true" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Позвонить и забронировать</a>
+              <div class="preview-actions" aria-label="Демо: новые входы">
+                <p class="preview-note">Новое в превью — остальной экран как на сайте</p>
+                <button type="button" class="btn btn--xl" data-book data-book-label="Поиграть">Поиграть</button>
+                <div class="preview-actions__row">
+                  <button type="button" class="btn btn--ghost btn--xl" data-book data-book-label="День рождения">День рождения</button>
+                  <button type="button" class="btn btn--gift btn--xl" id="btn-gift-open">Подарить</button>
+                </div>
+              </div>
+              <div class="msg">
+                <a class="chip" href="https://wa.me/79302244551">WhatsApp</a><a class="chip" href="https://t.me/YulaAlex">Telegram</a>
+                <a class="chip" href="https://vk.me/vr_lounge">ВКонтакте</a>
+                <a class="chip" href="https://max.ru/u/f9LHodD0cOKSx9uuDZ-6hXAbDeN5QP3qLkAMXoGyU8OJMya8zv9ih77FB_w">MAX</a>
+              </div>
+              <a class="btn btn--ghost hero__alt" href="#party" hidden>Пакеты на день рождения</a>
             </div>
           </div>
-        </div>
-        <figure class="hero__figure" aria-hidden="true">
-          <span class="planet planet--1"></span>
-          <span class="planet planet--2"></span>
-          <img src="img/hero-david.webp" width="900" height="1000" alt="" fetchpriority="high" decoding="async">
-        </figure>
-      </div>
-    </section>
-
-    <section class="sec" id="play" aria-labelledby="play-h">
-      <div class="wrap">
-        <header class="sec__head">
-          <p class="kicker">Демо · Поиграть</p>
-          <h2 id="play-h">Шесть зон — каждому своё</h2>
-          <p class="sec__note">Кнопка «Поиграть» ведёт сюда: обзор форматов без изменения прод-навигации и тарифов.</p>
-        </header>
-        <div class="zone-grid">
-          <article class="zone-card">
-            <img src="img/zone-vr.webp" alt="" loading="lazy" width="800" height="500">
-            <div class="zone-card__t"><h3>VR-очки</h3><p>50+ игр, помощь администратора</p></div>
-          </article>
-          <article class="zone-card">
-            <img src="img/zone-ps5.webp" alt="" loading="lazy" width="800" height="500">
-            <div class="zone-card__t"><h3>PlayStation 5</h3><p>VIP-зона на одного-двух</p></div>
-          </article>
-          <article class="zone-card">
-            <img src="img/zone-karaoke.webp" alt="" loading="lazy" width="800" height="500">
-            <div class="zone-card__t"><h3>Караоке</h3><p>Поют и дети, и родители</p></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec sec--alt" id="birthday" aria-labelledby="birthday-h">
-      <div class="wrap">
-        <header class="sec__head">
-          <p class="kicker">Демо · День рождения</p>
-          <h2 id="birthday-h">Праздник под ключ</h2>
-          <p class="sec__note">Второй CTA раскрывает логику пакетов — без правок блока цен на основном сайте.</p>
-        </header>
-        <div class="party-cards">
-          <div class="pack">
-            <h3>Старт</h3>
-            <p class="pack__price">от 8 500 ₽</p>
-            <p>2 часа, администратор, VR и приставки — ориентир из текущего канона клуба.</p>
-          </div>
-          <div class="pack">
-            <h3>Хит</h3>
-            <p class="pack__price">расширенный</p>
-            <p>Больше зон и времени — детали уточняет администратор при брони.</p>
-          </div>
-          <div class="pack">
-            <h3>Именная песня</h3>
-            <p class="pack__price">вау-момент</p>
-            <p>Отдельная опция: трек про именинника на празднике.</p>
+          <div class="hero__meta">
+            <a class="gp" href="https://yandex.ru/maps/org/vr_lounge/5361992713/reviews/" aria-label="Награда Яндекс Карт"><img src="img/yandex-good-place-2025.svg" alt="Хорошее место 2025" width="54" height="110"><img src="img/yandex-good-place-2026.svg" alt="Хорошее место 2026" width="54" height="110"><span class="gp__t"><b>«Хорошее место»</b>Яндекс Карты · 2025 и 2026</span></a>
+            <dl class="hours">
+              <div><dt>Пн–Пт</dt><dd>12:00–20:00</dd></div>
+              <div><dt>Сб–Вс</dt><dd>10:00–21:00</dd></div>
+            </dl>
           </div>
         </div>
+        <div class="hero__media" data-tilt>
+          <figure class="ph ph--main"><img src="img/gallery-guest-20.webp" alt="Ребёнок в VR-шлеме в клубе VR Lounge" width="1200" height="1600" loading="lazy"></figure>
+          <figure class="ph ph--b"><img src="img/zone-karaoke.webp" alt="" width="800" height="500"></figure>
+          <figure class="ph ph--c"><img src="img/gallery-guest-03.webp" alt="" width="1600" height="900"></figure>
+          <div class="badge" aria-hidden="true"><b>от 500 ₽</b><span>час в VR</span></div>
+        </div>
       </div>
+      <div class="ticker" aria-label="Что есть в клубе" role="region"><ul class="ticker__track">
+        <li>VR-шлемы Pico</li><li>PlayStation 5 · TV 75″</li><li>Xbox Kinect до 8 человек</li><li>Караоке · 2 микрофона JBL</li><li>VIP-кинотеатр</li><li>Настольные игры и мафия</li><li>Проектор 4K</li>
+      </ul></div>
     </section>
   </main>
 
-  <div class="sheet-root" id="gift-sheet-root" aria-hidden="true">
-    <div class="sheet" id="gift-sheet" role="dialog" aria-modal="true" aria-labelledby="gift-sheet-title" aria-describedby="gift-sheet-desc">
-      <div class="sheet__handle" aria-hidden="true"></div>
-      <header class="sheet__head">
-        <div>
-          <h2 class="sheet__title" id="gift-sheet-title">Подарочная карта VR Lounge</h2>
-          <p class="sheet__sub" id="gift-sheet-desc">Оставьте телефон — администратор свяжется, уточнит подарок и поможет с оформлением. Время звонка не обещаем: всё по-человечески.</p>
-        </div>
-        <button type="button" class="sheet__close" id="gift-sheet-close" aria-label="Закрыть">×</button>
-      </header>
-      <div class="sheet__body">
-        <div class="gift-layout">
-          <div class="gift-card-preview">
-            <div class="gift-card-shell" aria-hidden="true">
-              <div class="gift-card">
-                <div class="gift-card__face">
-                  <span class="gift-card__demo">ДЕМО / ОБРАЗЕЦ</span>
+  <div class="bs" id="bs" role="dialog" aria-modal="true" aria-labelledby="bs-h" hidden>
+    <div class="bs__back" data-bs-close></div>
+    <div class="bs__box">
+      <div class="bs__grab" aria-hidden="true"></div>
+      <button type="button" class="bs__x" data-bs-close aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <p class="kicker bs__k">Бронирование · Юлия</p>
+      <h2 class="bs__h" id="bs-h">Как удобнее связаться?</h2>
+      <p class="bs__ctx" hidden></p>
+      <p class="bs__lead">Подскажем свободное время и поможем выбрать праздник. Отвечаем быстро.</p>
+      <a class="bs__call" href="tel:+79302244551"><span class="bs__callic" aria-hidden="true"><svg class="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><span class="bs__calltx"><b>Позвонить</b><span class="bs__num">8 930 224-45-51</span></span><span class="bs__arr" aria-hidden="true">→</span></a>
+      <div class="bs__grid">
+        <a class="bs__opt bs__opt--wa" href="https://wa.me/79302244551" target="_blank" rel="noopener"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#25D366"/></svg></span><b>WhatsApp</b></a>
+        <a class="bs__opt bs__opt--tg" href="https://t.me/YulaAlex" target="_blank" rel="noopener"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#26A5E4" d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24z"/></svg></span><b>Telegram</b></a>
+        <a class="bs__opt bs__opt--vk" href="https://vk.me/vr_lounge" target="_blank" rel="noopener"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#0077FF" d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24z"/></svg></span><b>ВКонтакте</b></a>
+        <a class="bs__opt bs__opt--mx" href="https://max.ru/u/f9LHodD0cOKSx9uuDZ-6hXAbDeN5QP3qLkAMXoGyU8OJMya8zv9ih77FB_w" target="_blank" rel="noopener"><span class="bs__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect fill="#8b5cff" width="24" height="24" rx="12"/></svg></span><b>Max</b></a>
+      </div>
+      <p class="bs__hint">Кольчугино, ул. Зернова 11, ТЦ «ТРИО» · Пн–Пт 12–20, Сб–Вс 10–21</p>
+    </div>
+  </div>
+
+  <div class="bs bs--gift" id="gift-bs" role="dialog" aria-modal="true" aria-labelledby="gift-bs-h" hidden>
+    <div class="bs__back" data-gift-close></div>
+    <div class="bs__box">
+      <div class="bs__grab" aria-hidden="true"></div>
+      <button type="button" class="bs__x" data-gift-close aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <p class="kicker bs__k">Подарок · VR Lounge</p>
+      <h2 class="bs__h" id="gift-bs-h">Подарочная карта</h2>
+      <p class="bs__lead">Оставьте телефон — администратор свяжется и поможет оформить подарок.</p>
+      <div class="gift-form">
+        <div class="gift-sheet-card">
+          <div class="gift-card-shell" aria-hidden="true">
+            <div class="gift-card">
+              <div class="gift-card__stars"></div>
+              <div class="gift-card__wash"></div>
+              <div class="gift-card__inner">
+                <div class="gift-card__david-wrap">
+                  <img class="gift-card__david" src="img/hero-david.webp" alt="" width="512" height="512" decoding="async">
+                </div>
+                <div class="gift-card__copy">
+                  <span class="gift-card__demo">ДЕМО</span>
                   <div class="gift-card__label">ПОДАРОЧНАЯ КАРТА</div>
                   <div class="gift-card__brand">VR LOUNGE</div>
                   <div class="gift-card__city">Кольчугино</div>
                   <div class="gift-card__amount" id="card-amount">3 000 ₽</div>
-                  <div class="gift-card__recipient" id="card-recipient">Имя получателя — по желанию</div>
-                  <div class="gift-card__serial" id="card-serial">№ образца · VR-DEMO-0123</div>
-                  <div class="gift-card__qr" aria-hidden="true"><span>QR появится после выпуска</span></div>
+                  <div class="gift-card__recipient" id="card-recipient">Кому дарите — по желанию</div>
+                  <div class="gift-card__serial" id="card-serial">VR-DEMO-0123 · образец</div>
                 </div>
-                <img class="gift-card__david" src="img/hero-david.webp" alt="" width="400" height="440" loading="lazy" decoding="async">
               </div>
-            </div>
-          </div>
-          <div>
-            <form id="gift-form" novalidate>
-              <div class="field">
-                <label for="gift-amount">Номинал карты</label>
-                <div class="amount-row">
-                  <button type="button" class="amount-btn" id="amount-minus" aria-label="Уменьшить на 1000">−</button>
-                  <input class="amount-input" id="gift-amount" name="amount" inputmode="numeric" autocomplete="off" value="3000" aria-describedby="amount-error" required>
-                  <button type="button" class="amount-btn" id="amount-plus" aria-label="Увеличить на 1000">+</button>
-                </div>
-                <div class="chips" role="group" aria-label="Быстрый выбор номинала">
-                  <button type="button" class="chip" data-amount-chip="1000" aria-pressed="false">1 000</button>
-                  <button type="button" class="chip" data-amount-chip="2000" aria-pressed="false">2 000</button>
-                  <button type="button" class="chip" data-amount-chip="3000" aria-pressed="true">3 000</button>
-                  <button type="button" class="chip" data-amount-chip="5000" aria-pressed="false">5 000</button>
-                  <button type="button" class="chip" data-amount-chip="10000" aria-pressed="false">10 000</button>
-                  <button type="button" class="chip" data-amount-chip="20000" aria-pressed="false">20 000</button>
-                </div>
-                <p class="field__err" id="amount-error" role="alert"></p>
-              </div>
-              <div class="field">
-                <label for="gift-phone">Телефон покупателя</label>
-                <input id="gift-phone" name="phone" type="tel" inputmode="tel" placeholder="Телефон покупателя" autocomplete="off" aria-describedby="phone-error" required>
-                <p class="field__err" id="phone-error" role="alert"></p>
-              </div>
-              <div class="field">
-                <label for="gift-recipient">Имя получателя <span class="small">(необязательно)</span></label>
-                <input id="gift-recipient" name="recipient" type="text" autocomplete="off" maxlength="60" placeholder="Например, Маша">
-                <small>Это тот, кому дарите впечатления — не обязательно совпадает с покупателем.</small>
-              </div>
-            </form>
-            <div class="success-panel" id="gift-success" tabindex="-1">
-              <h3>Так будет выглядеть подтверждение заявки</h3>
-              <p>Администратор получит заявку и свяжется с вами. В этом превью ничего никуда не уходит — только показываем финальный экран.</p>
             </div>
           </div>
         </div>
+        <form id="gift-form" novalidate>
+          <div class="field">
+            <label for="gift-amount">Номинал</label>
+            <div class="amount-row">
+              <button type="button" class="amount-btn" id="amount-minus" aria-label="Минус 1000">−</button>
+              <input class="amount-input" id="gift-amount" inputmode="numeric" autocomplete="off" value="3000" aria-describedby="amount-error">
+              <button type="button" class="amount-btn" id="amount-plus" aria-label="Плюс 1000">+</button>
+            </div>
+            <div class="chips" role="group" aria-label="Пресеты">
+              <button type="button" class="chip" data-amount-chip="1000">1 000</button>
+              <button type="button" class="chip" data-amount-chip="2000">2 000</button>
+              <button type="button" class="chip" data-amount-chip="3000" aria-pressed="true">3 000</button>
+              <button type="button" class="chip" data-amount-chip="5000">5 000</button>
+              <button type="button" class="chip" data-amount-chip="10000">10 000</button>
+              <button type="button" class="chip" data-amount-chip="20000">20 000</button>
+            </div>
+            <p class="field__err" id="amount-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="gift-phone">Телефон покупателя</label>
+            <input id="gift-phone" type="tel" inputmode="tel" placeholder="Телефон покупателя" autocomplete="off" aria-describedby="phone-error">
+            <p class="field__err" id="phone-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="gift-recipient">Имя получателя <small>(необязательно)</small></label>
+            <input id="gift-recipient-input" type="text" maxlength="48" placeholder="Например, Маша" autocomplete="off">
+          </div>
+        </form>
+        <div class="gift-success" id="gift-success" tabindex="-1">
+          <h3>Так будет выглядеть подтверждение</h3>
+          <p>Администратор свяжется с вами. В демо ничего никуда не уходит.</p>
+        </div>
+        <div class="bs__footsticky">
+          <button type="submit" class="btn btn--xl" id="gift-submit" form="gift-form" style="width:100%">Оставить заявку</button>
+          <p class="bs__demo">Демонстрация — заявка не отправляется</p>
+        </div>
       </div>
-      <footer class="sheet__foot">
-        <button type="submit" class="btn btn--xl" id="gift-submit" form="gift-form">Оставить заявку</button>
-        <p class="sheet-demo-note">Демонстрация — заявка не отправляется</p>
-      </footer>
     </div>
   </div>
+
+  <div class="callbar"><a class="btn" href="tel:+79302244551" data-book><svg class="i-phone" aria-hidden="true" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Позвонить или написать</a></div>
 
   <script src="js/preview.js" defer></script>
 </body>
