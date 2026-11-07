@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>PREVIEW · Админ — сертификаты VR Lounge</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/preview.css">
+</head>
+<body>
+  <p class="demo-ribbon">Демо-кабинет · без Firebase, Telegram-доставки покупателю и реальных оплат</p>
+  <div class="admin">
+    <p class="kicker">Preview only</p>
+    <h1>Сертификаты · демо-состояния</h1>
+    <p class="sec__note">Цепочка выпуска: «Ждёт проверки оплаты» → «Готовим сертификат» → «Выпущен». Ошибка выпуска не требует повторной оплаты. Отмена и возврат — отдельные статусы. Данные только в памяти вкладки.</p>
+    <p><a href="index.html">← Вернуться к витрине</a></p>
+
+    <table class="admin-table" id="cert-table">
+      <thead>
+        <tr>
+          <th>Заявка</th>
+          <th>Статус</th>
+          <th>Номинал</th>
+          <th>Остаток</th>
+          <th>Покупатель (CRM)</th>
+          <th>Получатель</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="cert-tbody"></tbody>
+    </table>
+
+    <div class="admin-grid">
+      <section class="admin-panel" aria-labelledby="new-h">
+        <h2 id="new-h">Новая заявка (демо)</h2>
+        <form id="admin-new-form">
+          <div class="field">
+            <label for="adm-amount">Сумма, ₽</label>
+            <input id="adm-amount" type="number" min="1000" max="20000" step="1000" value="5000" required>
+          </div>
+          <div class="field">
+            <label for="adm-phone">Телефон покупателя</label>
+            <input id="adm-phone" type="tel" placeholder="Телефон покупателя" required>
+          </div>
+          <div class="field">
+            <label for="adm-name">Имя получателя</label>
+            <input id="adm-name" type="text" placeholder="Необязательно">
+          </div>
+          <button type="submit" class="btn">Создать заявку</button>
+        </form>
+      </section>
+      <section class="admin-panel" aria-labelledby="issue-h">
+        <h2 id="issue-h">Обработка заявки</h2>
+        <p class="small">Пример уведомления в рабочий чат — только номер заявки, номинал и защищённая ссылка в CRM. Без телефона, имени и секретов. Авто-доставка в Telegram покупателю не обещается.</p>
+        <div id="admin-detail" hidden>
+          <p><strong id="detail-id"></strong> · <span id="detail-status"></span></p>
+          <div class="tg-mock" id="tg-mock" aria-label="Пример уведомления сотруднику"></div>
+          <ul class="history" id="detail-history"></ul>
+          <div class="admin-actions">
+            <button type="button" class="btn btn--sm" id="btn-verify-pay">Подтвердить демо-оплату</button>
+            <button type="button" class="btn btn--sm" id="btn-start-issue">Готовим сертификат</button>
+            <button type="button" class="btn btn--sm" id="btn-complete-issue">Выпустить (демо)</button>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-issue-fail">Сбой выпуска (демо)</button>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-retry-issue">Повторить выпуск</button>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-partial">Списать 1 000 ₽</button>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-cancel">Отмена заявки</button>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-refund">Возврат (демо)</button>
+          </div>
+          <p style="margin-top:12px">
+            <a class="btn btn--ghost btn--sm" href="artifacts/gift-card-demo.png" download="vr-lounge-gift-demo.png">Скачать DEMO PNG</a>
+            <a class="btn btn--ghost btn--sm" href="artifacts/gift-card-demo.pdf" download="vr-lounge-gift-demo.pdf">Скачать DEMO PDF</a>
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="js/admin-preview.js" defer></script>
+</body>
+</html>

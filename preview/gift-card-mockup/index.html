@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex, nofollow">
+  <title>PREVIEW · VR Lounge — подарочная карта</title>
+  <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/preview.css">
+</head>
+<body>
+  <p class="demo-ribbon" role="status">Демонстрация — заявка не отправляется · только превью UX</p>
+  <a class="skip" href="#main">К содержимому</a>
+
+  <header class="top">
+    <div class="wrap top__in">
+      <a class="logo" href="#main"><span class="logo__mark">VR</span> LOUNGE</a>
+      <nav class="nav" aria-label="Превью-разделы">
+        <a href="#play">Поиграть</a>
+        <a href="#birthday">День рождения</a>
+        <a href="admin-preview.html">Админ (демо)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__bg" aria-hidden="true">
+        <span class="orb orb--a"></span>
+        <span class="orb orb--b"></span>
+        <span class="grid-floor"></span>
+        <div class="stars"></div>
+      </div>
+      <div class="wrap hero__in">
+        <div class="hero__copy">
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Кольчугино · семейный VR-клуб</p>
+          <h1 id="hero-title">Звёзды, VR и&nbsp;<span class="grad">ваш праздник</span></h1>
+          <p class="lead">Узнаваемый клуб на ул. Зернова: шлемы, PS5, караоке и дни рождения под ключ. В этом превью — три понятных входа без звонка в шапке.</p>
+          <div class="hero-cta">
+            <a class="btn btn--xl" href="#play">Поиграть</a>
+            <div class="hero-cta__row">
+              <a class="btn btn--ghost btn--xl" href="#birthday">День рождения</a>
+              <button type="button" class="btn btn--gift btn--xl" id="btn-gift-open">Подарить</button>
+            </div>
+          </div>
+        </div>
+        <figure class="hero__figure" aria-hidden="true">
+          <span class="planet planet--1"></span>
+          <span class="planet planet--2"></span>
+          <img src="../../img/hero-david.webp" width="900" height="1000" alt="" fetchpriority="high" decoding="async">
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" id="play" aria-labelledby="play-h">
+      <div class="wrap">
+        <header class="sec__head">
+          <p class="kicker">Демо · Поиграть</p>
+          <h2 id="play-h">Шесть зон — каждому своё</h2>
+          <p class="sec__note">Кнопка «Поиграть» ведёт сюда: обзор форматов без изменения прод-навигации и тарифов.</p>
+        </header>
+        <div class="zone-grid">
+          <article class="zone-card">
+            <img src="../../img/zone-vr.webp" alt="" loading="lazy" width="800" height="500">
+            <div class="zone-card__t"><h3>VR-очки</h3><p>50+ игр, помощь администратора</p></div>
+          </article>
+          <article class="zone-card">
+            <img src="../../img/zone-ps5.webp" alt="" loading="lazy" width="800" height="500">
+            <div class="zone-card__t"><h3>PlayStation 5</h3><p>VIP-зона на одного-двух</p></div>
+          </article>
+          <article class="zone-card">
+            <img src="../../img/zone-karaoke.webp" alt="" loading="lazy" width="800" height="500">
+            <div class="zone-card__t"><h3>Караоке</h3><p>Поют и дети, и родители</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--alt" id="birthday" aria-labelledby="birthday-h">
+      <div class="wrap">
+        <header class="sec__head">
+          <p class="kicker">Демо · День рождения</p>
+          <h2 id="birthday-h">Праздник под ключ</h2>
+          <p class="sec__note">Второй CTA раскрывает логику пакетов — без правок блока цен на основном сайте.</p>
+        </header>
+        <div class="party-cards">
+          <div class="pack">
+            <h3>Старт</h3>
+            <p class="pack__price">от 8 500 ₽</p>
+            <p>2 часа, администратор, VR и приставки — ориентир из текущего канона клуба.</p>
+          </div>
+          <div class="pack">
+            <h3>Хит</h3>
+            <p class="pack__price">расширенный</p>
+            <p>Больше зон и времени — детали уточняет администратор при брони.</p>
+          </div>
+          <div class="pack">
+            <h3>Именная песня</h3>
+            <p class="pack__price">вау-момент</p>
+            <p>Отдельная опция: трек про именинника на празднике.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="sheet-root" id="gift-sheet-root" aria-hidden="true">
+    <div class="sheet" id="gift-sheet" role="dialog" aria-modal="true" aria-labelledby="gift-sheet-title" aria-describedby="gift-sheet-desc">
+      <div class="sheet__handle" aria-hidden="true"></div>
+      <header class="sheet__head">
+        <div>
+          <h2 class="sheet__title" id="gift-sheet-title">Подарочная карта VR Lounge</h2>
+          <p class="sheet__sub" id="gift-sheet-desc">Оставьте телефон — администратор свяжется, уточнит подарок и поможет с оформлением. Время звонка не обещаем: всё по-человечески.</p>
+        </div>
+        <button type="button" class="sheet__close" id="gift-sheet-close" aria-label="Закрыть">×</button>
+      </header>
+      <div class="sheet__body">
+        <div class="gift-layout">
+          <div class="gift-card-preview">
+            <div class="gift-card-shell" aria-hidden="true">
+              <div class="gift-card">
+                <div class="gift-card__face">
+                  <span class="gift-card__demo">ДЕМО / ОБРАЗЕЦ</span>
+                  <div class="gift-card__label">ПОДАРОЧНАЯ КАРТА</div>
+                  <div class="gift-card__brand">VR LOUNGE</div>
+                  <div class="gift-card__city">Кольчугино</div>
+                  <div class="gift-card__amount" id="card-amount">3 000 ₽</div>
+                  <div class="gift-card__recipient" id="card-recipient">Имя получателя — по желанию</div>
+                  <div class="gift-card__serial" id="card-serial">№ образца · VR-DEMO-0123</div>
+                  <div class="gift-card__qr" aria-hidden="true"><span>QR появится после выпуска</span></div>
+                </div>
+                <img class="gift-card__david" src="../../img/hero-david.webp" alt="" width="400" height="440" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </div>
+          <div>
+            <form id="gift-form" novalidate>
+              <div class="field">
+                <label for="gift-amount">Номинал карты</label>
+                <div class="amount-row">
+                  <button type="button" class="amount-btn" id="amount-minus" aria-label="Уменьшить на 1000">−</button>
+                  <input class="amount-input" id="gift-amount" name="amount" inputmode="numeric" autocomplete="off" value="3000" aria-describedby="amount-error" required>
+                  <button type="button" class="amount-btn" id="amount-plus" aria-label="Увеличить на 1000">+</button>
+                </div>
+                <div class="chips" role="group" aria-label="Быстрый выбор номинала">
+                  <button type="button" class="chip" data-amount-chip="1000" aria-pressed="false">1 000</button>
+                  <button type="button" class="chip" data-amount-chip="2000" aria-pressed="false">2 000</button>
+                  <button type="button" class="chip" data-amount-chip="3000" aria-pressed="true">3 000</button>
+                  <button type="button" class="chip" data-amount-chip="5000" aria-pressed="false">5 000</button>
+                  <button type="button" class="chip" data-amount-chip="10000" aria-pressed="false">10 000</button>
+                  <button type="button" class="chip" data-amount-chip="20000" aria-pressed="false">20 000</button>
+                </div>
+                <p class="field__err" id="amount-error" role="alert"></p>
+              </div>
+              <div class="field">
+                <label for="gift-phone">Телефон покупателя</label>
+                <input id="gift-phone" name="phone" type="tel" inputmode="tel" placeholder="Телефон покупателя" autocomplete="off" aria-describedby="phone-error" required>
+                <p class="field__err" id="phone-error" role="alert"></p>
+              </div>
+              <div class="field">
+                <label for="gift-recipient">Имя получателя <span class="small">(необязательно)</span></label>
+                <input id="gift-recipient" name="recipient" type="text" autocomplete="off" maxlength="60" placeholder="Например, Маша">
+                <small>Это тот, кому дарите впечатления — не обязательно совпадает с покупателем.</small>
+              </div>
+            </form>
+            <div class="success-panel" id="gift-success" tabindex="-1">
+              <h3>Так будет выглядеть подтверждение заявки</h3>
+              <p>Администратор получит заявку и свяжется с вами. В этом превью ничего никуда не уходит — только показываем финальный экран.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="sheet__foot">
+        <button type="submit" class="btn btn--xl" id="gift-submit" form="gift-form">Оставить заявку</button>
+        <p class="sheet-demo-note">Демонстрация — заявка не отправляется</p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="js/preview.js" defer></script>
+</body>
+</html>
