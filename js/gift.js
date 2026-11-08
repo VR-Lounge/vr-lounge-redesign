@@ -107,11 +107,42 @@
     var flipped = false;
     var tiltEnabled = options.tilt !== false;
     var listeners = [];
+    var settleTimer = null;
+    var coarsePointer =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
     function on(el, type, fn, opts) {
       if (!el) return;
       el.addEventListener(type, fn, opts);
       listeners.push([el, type, fn, opts]);
+    }
+
+    function clearSettleTimer() {
+      if (settleTimer) {
+        clearTimeout(settleTimer);
+        settleTimer = null;
+      }
+    }
+
+    function markFaceSettled() {
+      root.classList.add("is-face-settled");
+    }
+
+    function scheduleFaceSettled() {
+      clearSettleTimer();
+      root.classList.remove("is-face-settled");
+      if (rm.matches) {
+        markFaceSettled();
+        return;
+      }
+      /* Coarse: wait for opacity crossfade, then display:none inactive face. */
+      if (coarsePointer) {
+        settleTimer = setTimeout(markFaceSettled, 420);
+        return;
+      }
+      /* Desktop 3D: match .vrl-gift__card transition (~1s). */
+      settleTimer = setTimeout(markFaceSettled, 1050);
     }
 
     function setFlipped(next) {
@@ -121,6 +152,7 @@
       if (back) back.setAttribute("aria-hidden", flipped ? "false" : "true");
       if (backLink) backLink.tabIndex = flipped ? 0 : -1;
       if (card) card.setAttribute("aria-pressed", flipped ? "true" : "false");
+      scheduleFaceSettled();
     }
 
     function flip() {
@@ -157,6 +189,12 @@
     on(card, "keydown", onCardKey);
     on(scene, "pointermove", onPointerMove);
     on(scene, "pointerleave", resetTilt);
+    on(card, "transitionend", function (e) {
+      if (!e || e.target !== card) return;
+      if (e.propertyName && e.propertyName.indexOf("transform") === -1) return;
+      clearSettleTimer();
+      markFaceSettled();
+    });
 
     var resizeObserver = null;
     var nameEl = root.querySelector("[data-vrl-name]");
@@ -175,6 +213,7 @@
       flip: flip,
       setFlipped: setFlipped,
       destroy: function () {
+        clearSettleTimer();
         listeners.forEach(function (item) {
           item[0].removeEventListener(item[1], item[2], item[3]);
         });

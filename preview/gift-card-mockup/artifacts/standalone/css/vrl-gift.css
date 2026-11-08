@@ -36,14 +36,26 @@
 }
 .vrl-gift.is-flipped .vrl-gift__card{transform:rotateY(180deg)}
 .vrl-gift__face{
-  position:absolute;inset:0;border-radius:3.4cqw;overflow:hidden;
+  position:absolute;inset:0;border-radius:3.4cqw;
+  /* Do NOT use overflow:hidden on the 3D face — iOS Safari then ignores backface-visibility
+     and the opposite face bleeds through mirrored. Clip with clip-path instead. */
+  overflow:visible;
+  clip-path:inset(0 round 3.4cqw);
+  -webkit-clip-path:inset(0 round 3.4cqw);
   backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  /* Promote a compositing layer; slight Z separates faces for WebKit */
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
   background:
     radial-gradient(ellipse at 15% 85%,var(--vrl-c1),transparent 65%),
     radial-gradient(ellipse at 90% 5%,var(--vrl-c2),transparent 65%),
     #0b0b12;
   border:1px solid #ffffff40;
   box-shadow:0 18px 40px #0008,inset 0 1px 0 #ffffff60,inset 0 -2px 0 #000,inset 0 0 0 3px #ffffff06;
+}
+.vrl-gift__front{
+  transform:rotateY(0deg) translateZ(1px);
+  -webkit-transform:rotateY(0deg) translateZ(1px);
 }
 .vrl-gift--amethyst .vrl-gift__face{
   background:linear-gradient(125deg,#111018 4%,#38213f 46%,#784187 100%);
@@ -55,7 +67,56 @@
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.09;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.6' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
 }
-.vrl-gift__back{transform:rotateY(180deg);padding:7%;box-sizing:border-box}
+.vrl-gift__back{
+  transform:rotateY(180deg) translateZ(1px);
+  -webkit-transform:rotateY(180deg) translateZ(1px);
+  padding:7%;box-sizing:border-box;
+}
+
+/* Belt-and-suspenders after flip settles: fully remove inactive face from paint
+   (visibility alone is not always enough for WebKit preserve-3d layers). */
+.vrl-gift.is-face-settled.is-flipped .vrl-gift__front,
+.vrl-gift.is-face-settled:not(.is-flipped) .vrl-gift__back{
+  visibility:hidden;
+  opacity:0;
+  pointer-events:none;
+  display:none;
+}
+
+/*
+  Coarse-pointer (phones): skip CSS 3D flip entirely.
+  iOS Safari / Yandex WebKit often fail backface-visibility even with the fixes above.
+  Crossfade keeps a clear front↔back swap without mirrored overlay.
+*/
+@media (hover:none) and (pointer:coarse){
+  .vrl-gift__tilt{transform:none!important}
+  .vrl-gift__card{
+    transform:none!important;
+    transition:none!important;
+    transform-style:flat;
+  }
+  .vrl-gift__face{
+    backface-visibility:visible;
+    -webkit-backface-visibility:visible;
+    transition:opacity .4s ease,visibility .4s ease;
+  }
+  .vrl-gift__front{
+    transform:none;
+    -webkit-transform:none;
+    opacity:1;visibility:visible;z-index:2;
+  }
+  .vrl-gift__back{
+    transform:none;
+    -webkit-transform:none;
+    opacity:0;visibility:hidden;z-index:1;
+  }
+  .vrl-gift.is-flipped .vrl-gift__front{
+    opacity:0;visibility:hidden;pointer-events:none;z-index:1;
+  }
+  .vrl-gift.is-flipped .vrl-gift__back{
+    opacity:1;visibility:visible;z-index:2;
+  }
+}
 .vrl-gift__rim{
   position:absolute;inset:0;border-radius:inherit;padding:1.4px;
   background:conic-gradient(from var(--vrl-angle,0deg),transparent 0deg,transparent 70deg,#b5a1e933 125deg,#f4d8ff 155deg,#ad6db8 175deg,transparent 220deg,transparent 310deg,#b9d6ff88 340deg,transparent);
@@ -260,7 +321,7 @@
 
 @media(prefers-reduced-motion:reduce){
   .vrl-gift__rim,.vrl-gift__glint{animation:none!important}
-  .vrl-gift__tilt,.vrl-gift__card{transition:none!important}
+  .vrl-gift__tilt,.vrl-gift__card,.vrl-gift__face{transition:none!important}
 }
 
 /* Export page */
