@@ -11,11 +11,12 @@ Classic WebKit 3D-flip failure:
 
 David appearing on the back was **not** wrong markup — the portrait lives only on the front and was bleeding through.
 
-## Fix
+## Fix (smooth 3D + anti-bleed)
 - Replace face `overflow: hidden` with `clip-path: inset(0 round …)`.
-- Explicit `-webkit-backface-visibility` + `translateZ(1px)` on front/back.
-- After flip settles, `.is-face-settled` hides the inactive face (`visibility` / `pointer-events`).
-- On coarse pointers (phones): skip CSS 3D and crossfade faces instead (reliable on iOS WebKit).
-- `prefers-reduced-motion` still disables transitions.
+- Explicit `-webkit-backface-visibility` + `translateZ(2px)` on front/back.
+- Keep CSS `rotateY` 3D flip on **all** pointers (desktop and mobile) — no coarse-pointer crossfade shortcut.
+- Mid-flip: both faces stay in the 3D tree (no `display:none` / visibility hide).
+- After settle (`transitionend` + timeout fallback): `.is-face-settled` applies `visibility` / `pointer-events` / `display:none` on the inactive face so WebKit cannot keep a mirrored layer.
+- `prefers-reduced-motion` still disables transitions and settles immediately.
 
 Live check: `https://vr-lounge.github.io/vr-lounge-redesign/?autogift=1` (after merge to `main`).

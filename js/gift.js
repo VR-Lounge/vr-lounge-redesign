@@ -108,9 +108,8 @@
     var tiltEnabled = options.tilt !== false;
     var listeners = [];
     var settleTimer = null;
-    var coarsePointer =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    /* Match .vrl-gift__card transition (~1s); fallback if transitionend is missed. */
+    var FLIP_SETTLE_MS = 1050;
 
     function on(el, type, fn, opts) {
       if (!el) return;
@@ -131,23 +130,19 @@
 
     function scheduleFaceSettled() {
       clearSettleTimer();
+      /* Re-enter 3D tree for both faces before rotateY runs — never hide mid-flip. */
       root.classList.remove("is-face-settled");
       if (rm.matches) {
         markFaceSettled();
         return;
       }
-      /* Coarse: wait for opacity crossfade, then display:none inactive face. */
-      if (coarsePointer) {
-        settleTimer = setTimeout(markFaceSettled, 420);
-        return;
-      }
-      /* Desktop 3D: match .vrl-gift__card transition (~1s). */
-      settleTimer = setTimeout(markFaceSettled, 1050);
+      settleTimer = setTimeout(markFaceSettled, FLIP_SETTLE_MS);
     }
 
     function setFlipped(next) {
       flipped = !!next;
       root.classList.toggle("is-flipped", flipped);
+      /* aria-hidden tracks intent immediately; visual hide waits for transitionend. */
       if (front) front.setAttribute("aria-hidden", flipped ? "true" : "false");
       if (back) back.setAttribute("aria-hidden", flipped ? "false" : "true");
       if (backLink) backLink.tabIndex = flipped ? 0 : -1;
