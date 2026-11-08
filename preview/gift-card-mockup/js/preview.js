@@ -424,12 +424,12 @@
       txt("₽", 443 + aw, 193, 70, "#b9a8c5", 350);
       txt("ТОЛЬКО ДЛЯ ВАС", 441, 310, 9.5, "#a899b8");
       if (given && family) {
-        txt(given, 441, 350, 25.2, "#eee5f4", 400, 359);
+        txt(given, 800, 350, 25.2, "#eee5f4", 400, 359, "right");
         txt(family, 800, 389, 35.5, "#eee5f4", 750, 359, "right");
       } else if (family) {
         txt(family, 800, 350, 35.5, "#eee5f4", 750, 359, "right");
       } else if (given) {
-        txt(given, 441, 350, 22, "#c5b6d1", 400, 359);
+        txt(given, 800, 350, 22, "#c5b6d1", 400, 359, "right");
       }
       txt(numberText, 800, 485, 24, "#c5b6d1", 400, 350, "right");
       txt("Д Р У Г О Е  И З М Е Р Е Н И Е", 364, 507, 9.5, "#c3b4d1");

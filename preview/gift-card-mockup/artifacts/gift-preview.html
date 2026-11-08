@@ -984,14 +984,14 @@ body.gift-lb-open .callbar{display:none !important}
   font-size:1.15cqw;letter-spacing:.22cqw;color:#9d8fab;text-transform:uppercase;
 }
 .vrl-gift__name{
-  margin-top:3.5cqw;font-size:2.95cqw;letter-spacing:0;line-height:1.25;
-  white-space:normal;overflow:visible;text-transform:uppercase;color:#eee5f4;
+  margin-top:3.5cqw;width:100%;font-size:2.95cqw;letter-spacing:0;line-height:1.25;
+  white-space:normal;overflow:visible;text-transform:uppercase;color:#eee5f4;text-align:right;
 }
-.vrl-gift__name .given{display:block;white-space:nowrap}
+.vrl-gift__name .given{display:block;width:100%;white-space:nowrap;text-align:right}
 .vrl-gift__name .family{
-  display:block;text-align:right;font-size:4.15cqw;font-weight:750;margin-top:.9cqw;white-space:nowrap;
+  display:block;width:100%;text-align:right;font-size:4.15cqw;font-weight:750;margin-top:.9cqw;white-space:nowrap;
 }
-.vrl-gift__name.is-placeholder{opacity:.55}
+.vrl-gift__name.is-placeholder{opacity:.55;text-align:left}
 .vrl-gift__name.is-placeholder .given{
   display:block;text-align:left;font-size:2.4cqw;font-weight:500;white-space:nowrap;
 }
@@ -1333,8 +1333,9 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
             <p class="field__err" id="phone-error" role="alert"></p>
           </div>
           <div class="field">
-            <label for="gift-recipient">Имя получателя <small>(необязательно)</small></label>
-            <input id="gift-recipient-input" type="text" maxlength="70" placeholder="Например, Маша" autocomplete="off" value="">
+            <label for="gift-recipient-input">Имя получателя <small>(необязательно)</small></label>
+            <input id="gift-recipient-input" type="text" maxlength="70" placeholder="Например, Александр Васильевич Лобанов" autocomplete="name" value="" aria-describedby="recipient-hint">
+            <small id="recipient-hint">Порядок: имя, отчество, фамилия</small>
           </div>
         </form>
           <div class="gift-success" id="gift-success" tabindex="-1" data-gift-state="demo" hidden>
@@ -1744,12 +1745,12 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
       txt("₽", 443 + aw, 193, 70, "#b9a8c5", 350);
       txt("ТОЛЬКО ДЛЯ ВАС", 441, 310, 9.5, "#a899b8");
       if (given && family) {
-        txt(given, 441, 350, 25.2, "#eee5f4", 400, 359);
+        txt(given, 800, 350, 25.2, "#eee5f4", 400, 359, "right");
         txt(family, 800, 389, 35.5, "#eee5f4", 750, 359, "right");
       } else if (family) {
         txt(family, 800, 350, 35.5, "#eee5f4", 750, 359, "right");
       } else if (given) {
-        txt(given, 441, 350, 22, "#c5b6d1", 400, 359);
+        txt(given, 800, 350, 22, "#c5b6d1", 400, 359, "right");
       }
       txt(numberText, 800, 485, 24, "#c5b6d1", 400, 350, "right");
       txt("Д Р У Г О Е  И З М Е Р Е Н И Е", 364, 507, 9.5, "#c3b4d1");

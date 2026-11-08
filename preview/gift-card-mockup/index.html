@@ -207,8 +207,9 @@
             <p class="field__err" id="phone-error" role="alert"></p>
           </div>
           <div class="field">
-            <label for="gift-recipient">Имя получателя <small>(необязательно)</small></label>
-            <input id="gift-recipient-input" type="text" maxlength="70" placeholder="Например, Маша" autocomplete="off" value="">
+            <label for="gift-recipient-input">Имя получателя <small>(необязательно)</small></label>
+            <input id="gift-recipient-input" type="text" maxlength="70" placeholder="Например, Александр Васильевич Лобанов" autocomplete="name" value="" aria-describedby="recipient-hint">
+            <small id="recipient-hint">Порядок: имя, отчество, фамилия</small>
           </div>
         </form>
           <div class="gift-success" id="gift-success" tabindex="-1" data-gift-state="demo" hidden>

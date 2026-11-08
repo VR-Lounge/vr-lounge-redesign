@@ -194,14 +194,14 @@
   font-size:1.15cqw;letter-spacing:.22cqw;color:#9d8fab;text-transform:uppercase;
 }
 .vrl-gift__name{
-  margin-top:3.5cqw;font-size:2.95cqw;letter-spacing:0;line-height:1.25;
-  white-space:normal;overflow:visible;text-transform:uppercase;color:#eee5f4;
+  margin-top:3.5cqw;width:100%;font-size:2.95cqw;letter-spacing:0;line-height:1.25;
+  white-space:normal;overflow:visible;text-transform:uppercase;color:#eee5f4;text-align:right;
 }
-.vrl-gift__name .given{display:block;white-space:nowrap}
+.vrl-gift__name .given{display:block;width:100%;white-space:nowrap;text-align:right}
 .vrl-gift__name .family{
-  display:block;text-align:right;font-size:4.15cqw;font-weight:750;margin-top:.9cqw;white-space:nowrap;
+  display:block;width:100%;text-align:right;font-size:4.15cqw;font-weight:750;margin-top:.9cqw;white-space:nowrap;
 }
-.vrl-gift__name.is-placeholder{opacity:.55}
+.vrl-gift__name.is-placeholder{opacity:.55;text-align:left}
 .vrl-gift__name.is-placeholder .given{
   display:block;text-align:left;font-size:2.4cqw;font-weight:500;white-space:nowrap;
 }
