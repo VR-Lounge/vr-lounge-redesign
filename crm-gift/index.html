@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Подарочные карты · VR Lounge CRM</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    body { background: #f3f4f6; }
+    .nav-link { color: #4a5568; font-size: 0.875rem; font-weight: 500; }
+    .nav-link.active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+  </style>
+</head>
+<body>
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="font-semibold text-gray-900">VR Lounge — Подарочные карты</span>
+        <span class="text-xs text-amber-700 bg-amber-50 px-2 py-1 rounded-full">аддитивный модуль · payroll не затрагивает</span>
+      </div>
+      <div class="flex items-center gap-3 text-sm">
+        <a class="nav-link" href="https://vr-lounge.github.io/-/">← Основной CRM</a>
+        <button id="loginBtn" class="px-3 py-1.5 rounded-2xl bg-blue-600 text-white">Войти</button>
+        <button id="logoutBtn" class="hidden px-3 py-1.5 rounded-2xl border border-gray-300">Выйти</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="authContainer" class="fixed inset-0 bg-white/90 flex items-center justify-center z-50 hidden">
+    <form id="loginForm" class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md border space-y-4">
+      <h2 class="text-xl font-semibold text-center">Вход администратора</h2>
+      <input id="loginEmail" type="email" required placeholder="Email" class="w-full rounded-2xl border px-4 py-3" />
+      <input id="loginPassword" type="password" required placeholder="Пароль" class="w-full rounded-2xl border px-4 py-3" />
+      <button class="w-full rounded-2xl bg-blue-600 text-white py-3 font-semibold">Войти</button>
+      <button type="button" id="closeAuthBtn" class="w-full text-gray-500 py-2">Отмена</button>
+    </form>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <p class="text-sm text-gray-600 mb-4">
+      Временный standalone UI, пока патч не влит в
+      <a class="text-blue-600 underline" href="https://github.com/VR-Lounge/-">VR-Lounge/-</a>.
+      Тот же Firebase-проект <code>vr-lounge33</code>.
+    </p>
+    <section id="giftCardsSection"></section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import {
+      getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { initGiftCardsCrm, defaultGiftSectionHtml } from "../js/gift-cards.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBaq_faWwfE_TXn4Xh_2U3GYSAsUzGJ1bk",
+      authDomain: "vr-lounge33.firebaseapp.com",
+      projectId: "vr-lounge33",
+      storageBucket: "vr-lounge33.appspot.com",
+      messagingSenderId: "825655988090",
+      appId: "1:825655988090:web:76d8e0554b8601f8bd10c3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    let isAdmin = false;
+
+    const section = document.getElementById("giftCardsSection");
+    section.innerHTML = defaultGiftSectionHtml();
+    section.classList.remove("hidden");
+
+    initGiftCardsCrm({
+      db,
+      isAdmin: () => isAdmin,
+      getUid: () => (auth.currentUser && auth.currentUser.uid) || "crm",
+      preferLocal: new URLSearchParams(location.search).get("giftLocal") === "1",
+    });
+
+    const authContainer = document.getElementById("authContainer");
+    document.getElementById("loginBtn").onclick = () => authContainer.classList.remove("hidden");
+    document.getElementById("closeAuthBtn").onclick = () => authContainer.classList.add("hidden");
+    document.getElementById("logoutBtn").onclick = () => signOut(auth);
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById("loginEmail").value,
+          document.getElementById("loginPassword").value
+        );
+        authContainer.classList.add("hidden");
+      } catch (err) {
+        alert("Ошибка входа: " + err.message);
+      }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      isAdmin = !!user;
+      document.getElementById("loginBtn").classList.toggle("hidden", !!user);
+      document.getElementById("logoutBtn").classList.toggle("hidden", !user);
+    });
+  </script>
+</body>
+</html>

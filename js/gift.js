@@ -1,4 +1,7 @@
-/* Gift card sheet + Premium v2 card (.vrl-gift). Demo only — no CRM/payment backend. */
+/* Gift card sheet + Premium v2 card (.vrl-gift).
+ * Issuance: Firebase giftCards when rules allow; otherwise honest error.
+ * Force demo UI with ?giftDemo=1 (no write). Empty-card preview name stays demo-only.
+ */
 (function () {
   "use strict";
 
@@ -8,6 +11,10 @@
   var DEMO_NUMBER = "VRL 007";
   /* Empty-card demo only — never treated as submitted recipient data. */
   var DEMO_RECIPIENT = "ДАВИД МИКЕЛАНДЖЕЛОВИЧ БУОНОРОТТИ";
+  var PUBLIC_CARD_BASE = "https://vr-lounge.github.io/vr-lounge-redesign/gift.html";
+  var FORCE_DEMO =
+    /(?:\?|&)giftDemo=1(?:&|$)/.test(location.search) ||
+    window.VRL_GIFT_DEMO === true;
   var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   function fmtAmount(n) {
@@ -346,28 +353,68 @@
     function setFormState(state, detail) {
       submitState = state;
       if (statusEl) {
-        if (state === "submitting") statusEl.textContent = "Демо: имитация отправки…";
-        else if (state === "error") statusEl.textContent = detail || "Не удалось показать демо-статус. Повторите.";
-        else statusEl.textContent = "";
+        if (state === "submitting") {
+          statusEl.textContent = FORCE_DEMO
+            ? "Демо: имитация отправки…"
+            : "Создаём карту…";
+        } else if (state === "error") {
+          statusEl.textContent = detail || "Не удалось оформить карту. Повторите.";
+        } else {
+          statusEl.textContent = "";
+        }
       }
       if (!success) return;
       if (state === "success") {
         success.hidden = false;
         success.classList.add("is-visible");
         success.setAttribute("data-gift-state", "success");
-        if (successTitle) successTitle.textContent = "Демо: заявка никуда не отправлена";
-        if (successBody) {
-          successBody.replaceChildren();
-          successBody.appendChild(
-            document.createTextNode(
-              "Онлайн-оформление сертификата ещё не подключено. Для покупки подарочной карты позвоните "
-            )
-          );
-          var a = document.createElement("a");
-          a.href = "tel:+79302244551";
-          a.textContent = "+7 930 224-45-51";
-          successBody.appendChild(a);
-          successBody.appendChild(document.createTextNode("."));
+        if (detail && detail.publicCode) {
+          if (successTitle) successTitle.textContent = "Карта создана · " + detail.publicCode;
+          if (successBody) {
+            successBody.replaceChildren();
+            successBody.appendChild(
+              document.createTextNode(
+                detail.pending
+                  ? "Заявка сохранена (статус «ожидает»). Ссылка на карту: "
+                  : "Публичная страница карты: "
+              )
+            );
+            var link = document.createElement("a");
+            link.href = detail.url;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.textContent = detail.url;
+            successBody.appendChild(link);
+            successBody.appendChild(document.createElement("br"));
+            var pdfHint = document.createElement("p");
+            pdfHint.style.marginTop = "8px";
+            pdfHint.textContent =
+              "Откройте ссылку и нажмите «Скачать / печать PDF», чтобы сохранить визуал карты.";
+            successBody.appendChild(pdfHint);
+            if (detail.localOnly) {
+              var warn = document.createElement("p");
+              warn.style.marginTop = "8px";
+              warn.style.color = "#f0c4e0";
+              warn.textContent =
+                "Запись пока только локально в этом браузере (Firestore rules ещё не задеплоены). Для боевой выдачи нужен деплой правил.";
+              successBody.appendChild(warn);
+            }
+          }
+        } else if (FORCE_DEMO) {
+          if (successTitle) successTitle.textContent = "Демо: заявка никуда не отправлена";
+          if (successBody) {
+            successBody.replaceChildren();
+            successBody.appendChild(
+              document.createTextNode(
+                "Режим giftDemo. Для покупки подарочной карты позвоните "
+              )
+            );
+            var a = document.createElement("a");
+            a.href = "tel:+79302244551";
+            a.textContent = "+7 930 224-45-51";
+            successBody.appendChild(a);
+            successBody.appendChild(document.createTextNode("."));
+          }
         }
       } else {
         success.hidden = true;
@@ -500,19 +547,57 @@
         setFormState("error", "Проверьте номинал и телефон.");
         return;
       }
+      var recipient = (nameInput.value || "").trim();
+      if (!recipient || recipient.split(/\s+/).length < 2) {
+        setFormState("error", "Укажите Имя Отчество Фамилия получателя.");
+        return;
+      }
       btn.disabled = true;
       setFormState("submitting");
-      window.setTimeout(function () {
-        try {
+
+      if (FORCE_DEMO) {
+        window.setTimeout(function () {
+          try {
+            form.hidden = true;
+            setFormState("success");
+            success.focus();
+          } catch (err) {
+            setFormState("error", "Демо-ошибка интерфейса. Заявка всё равно никуда не ушла.");
+            form.hidden = false;
+          }
+          btn.disabled = false;
+        }, 450);
+        return;
+      }
+
+      issueGiftCard({
+        faceValue: parseAmount(amountInput.value),
+        buyerPhone: phoneInput.value,
+        recipientName: recipient,
+      })
+        .then(function (card) {
+          var url = PUBLIC_CARD_BASE + "?code=" + encodeURIComponent(card.publicCode);
           form.hidden = true;
-          setFormState("success");
-          success.focus();
-        } catch (err) {
-          setFormState("error", "Демо-ошибка интерфейса. Заявка всё равно никуда не ушла.");
+          setFormState("success", {
+            publicCode: card.publicCode,
+            url: url,
+            pending: card.status === "pending",
+            localOnly: !!card._local,
+          });
+          if (success) success.focus();
+        })
+        .catch(function (err) {
+          console.error(err);
+          setFormState(
+            "error",
+            (err && err.message) ||
+              "Не удалось записать карту. Проверьте соединение или позвоните +7 930 224-45-51."
+          );
           form.hidden = false;
-        }
-        btn.disabled = false;
-      }, 450);
+        })
+        .then(function () {
+          btn.disabled = false;
+        });
     });
 
     var y0 = null;
@@ -565,6 +650,52 @@
             el.scrollIntoView(true);
           }
         }, 280);
+      });
+    });
+  }
+
+  function issueGiftCard(payload) {
+    return import("./gift-cards.js").then(function (mod) {
+      return import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js").then(function (appMod) {
+        return import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js").then(function (fsMod) {
+          var firebaseConfig = {
+            apiKey: "AIzaSyBaq_faWwfE_TXn4Xh_2U3GYSAsUzGJ1bk",
+            authDomain: "vr-lounge33.firebaseapp.com",
+            projectId: "vr-lounge33",
+            storageBucket: "vr-lounge33.appspot.com",
+            messagingSenderId: "825655988090",
+            appId: "1:825655988090:web:76d8e0554b8601f8bd10c3",
+          };
+          var app;
+          try {
+            app = appMod.getApp();
+          } catch (e) {
+            app = appMod.initializeApp(firebaseConfig);
+          }
+          var db = fsMod.getFirestore(app);
+          return mod
+            .createGiftCard(db, {
+              faceValue: payload.faceValue,
+              buyerPhone: payload.buyerPhone,
+              recipientName: payload.recipientName,
+              theme: "amethyst",
+              createdBy: "site",
+              status: "pending",
+              useLocal: false,
+            })
+            .catch(function (err) {
+              console.warn("[gift] Firestore create failed, local fallback:", err);
+              return mod.createGiftCard(null, {
+                faceValue: payload.faceValue,
+                buyerPhone: payload.buyerPhone,
+                recipientName: payload.recipientName,
+                theme: "amethyst",
+                createdBy: "site",
+                status: "pending",
+                useLocal: true,
+              });
+            });
+        });
       });
     });
   }
