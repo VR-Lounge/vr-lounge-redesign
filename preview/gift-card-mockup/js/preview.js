@@ -4,7 +4,7 @@
   var AMOUNT_MIN = 1000;
   var AMOUNT_MAX = 20000;
   var AMOUNT_STEP = 1000;
-  var DEMO_NUMBER = "VRL DEMO";
+  var DEMO_NUMBER = "VRL 007";
   var NAME_PLACEHOLDER = "ИМЯ ПОЛУЧАТЕЛЯ";
   var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
   var giftControllers = [];
@@ -432,7 +432,7 @@
         txt(given, 441, 350, 22, "#c5b6d1", 400, 359);
       }
       txt(numberText, 800, 485, 24, "#c5b6d1", 400, 350, "right");
-      txt("Д Р У Г О Е  И З М Е Р Е Н И Е", 364, 507, 6.7, "#c3b4d1");
+      txt("Д Р У Г О Е  И З М Е Р Е Н И Е", 364, 507, 9.5, "#c3b4d1");
     } else {
       txt("VR LOUNGE", 60, 48, 36, "#dfc6ec", 800);
       txt("VR, PS5, Kinect-танцы, караоке и", 800, 44, 19.5, "#b9afc3", 400, 365, "right");

@@ -1006,7 +1006,7 @@ body.gift-lb-open .callbar{display:none !important}
 }
 .vrl-gift__micro{
   position:absolute;left:42.5%;bottom:5.2%;z-index:4;
-  font-size:.9cqw;letter-spacing:.22cqw;color:#d8c7e3;text-transform:uppercase;
+  font-size:1.4cqw;letter-spacing:.22cqw;color:#d8c7e3;text-transform:uppercase;
 }
 .vrl-gift__backhead{
   display:flex;justify-content:space-between;align-items:flex-start;gap:3cqw;
@@ -1055,6 +1055,8 @@ body.gift-lb-open .callbar{display:none !important}
   color:inherit;text-decoration:none;pointer-events:auto;white-space:nowrap;
   order:1;
 }
+.vrl-gift__backfoot a::before,
+.vrl-gift__backfoot a::after{content:none!important;display:none!important}
 .vrl-gift__backfoot > span{pointer-events:none;order:2}
 .vrl-gift__backfoot a:focus-visible{outline:2px solid var(--vrl-accent);outline-offset:3px}
 
@@ -1272,7 +1274,7 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
                         </div>
                       </div>
                       <div class="vrl-gift__micro">ДРУГОЕ ИЗМЕРЕНИЕ</div>
-                      <div class="vrl-gift__bottom"><span class="vrl-gift__serial" data-vrl-number id="card-serial">VRL DEMO</span></div>
+                      <div class="vrl-gift__bottom"><span class="vrl-gift__serial" data-vrl-number id="card-serial">VRL 007</span></div>
                       <div class="vrl-gift__glint" aria-hidden="true"></div>
                       <div class="vrl-gift__rim" aria-hidden="true"></div>
                     </div>
@@ -1295,8 +1297,8 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
                         </div>
                       </div>
                       <div class="vrl-gift__backfoot">
-                        <a href="https://vr-lounge.ru/" tabindex="-1" target="_blank" rel="noopener">vr-lounge.ru ↗</a>
-                        <span data-vrl-number-back>VRL DEMO</span>
+                        <a href="https://vr-lounge.ru/" tabindex="-1" target="_blank" rel="noopener">vr-lounge.ru</a>
+                        <span data-vrl-number-back>VRL 007</span>
                       </div>
                       <div class="vrl-gift__glint" aria-hidden="true"></div>
                       <div class="vrl-gift__rim" aria-hidden="true"></div>
@@ -1374,7 +1376,7 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
               </div>
             </div>
             <div class="vrl-gift__micro">ДРУГОЕ ИЗМЕРЕНИЕ</div>
-            <div class="vrl-gift__bottom"><span class="vrl-gift__serial" data-vrl-number>VRL DEMO</span></div>
+            <div class="vrl-gift__bottom"><span class="vrl-gift__serial" data-vrl-number>VRL 007</span></div>
             <div class="vrl-gift__glint" aria-hidden="true"></div>
             <div class="vrl-gift__rim" aria-hidden="true"></div>
           </div>
@@ -1398,7 +1400,7 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
             </div>
             <div class="vrl-gift__backfoot">
               <span>vr-lounge.ru</span>
-              <span data-vrl-number-back>VRL DEMO</span>
+              <span data-vrl-number-back>VRL 007</span>
             </div>
             <div class="vrl-gift__glint" aria-hidden="true"></div>
             <div class="vrl-gift__rim" aria-hidden="true"></div>
@@ -1413,7 +1415,7 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
   var AMOUNT_MIN = 1000;
   var AMOUNT_MAX = 20000;
   var AMOUNT_STEP = 1000;
-  var DEMO_NUMBER = "VRL DEMO";
+  var DEMO_NUMBER = "VRL 007";
   var NAME_PLACEHOLDER = "ИМЯ ПОЛУЧАТЕЛЯ";
   var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
   var giftControllers = [];
@@ -1750,7 +1752,7 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
         txt(given, 441, 350, 22, "#c5b6d1", 400, 359);
       }
       txt(numberText, 800, 485, 24, "#c5b6d1", 400, 350, "right");
-      txt("Д Р У Г О Е  И З М Е Р Е Н И Е", 364, 507, 6.7, "#c3b4d1");
+      txt("Д Р У Г О Е  И З М Е Р Е Н И Е", 364, 507, 9.5, "#c3b4d1");
     } else {
       txt("VR LOUNGE", 60, 48, 36, "#dfc6ec", 800);
       txt("VR, PS5, Kinect-танцы, караоке и", 800, 44, 19.5, "#b9afc3", 400, 365, "right");

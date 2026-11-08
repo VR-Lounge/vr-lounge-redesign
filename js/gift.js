@@ -5,7 +5,7 @@
   var AMOUNT_MIN = 1000;
   var AMOUNT_MAX = 20000;
   var AMOUNT_STEP = 1000;
-  var DEMO_NUMBER = "VRL DEMO";
+  var DEMO_NUMBER = "VRL 007";
   var NAME_PLACEHOLDER = "ИМЯ ПОЛУЧАТЕЛЯ";
   var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
 
