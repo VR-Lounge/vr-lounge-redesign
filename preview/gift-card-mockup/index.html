@@ -13,6 +13,7 @@
   <link rel="preload" as="font" type="font/woff2" href="../../fonts/inter-cyr.woff2" crossorigin>
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="css/preview-gift.css">
+  <link rel="stylesheet" href="css/vrl-gift.css">
 </head>
 <body class="has-preview-tag">
   <p class="preview-tag" role="status">Демо-превью · заявки не отправляются</p>
@@ -91,10 +92,11 @@
     <div class="card-lightbox__back" data-card-lb-close></div>
     <div class="card-lightbox__panel">
       <button type="button" class="card-lightbox__x" data-card-lb-close aria-label="Закрыть">×</button>
-      <h2 class="visually-hidden" id="card-lightbox-h">Подарочная карта — образец</h2>
+      <h2 class="visually-hidden" id="card-lightbox-h">Подарочная карта — образец Premium v2</h2>
       <div class="card-lightbox__stage" id="card-lightbox-mount"></div>
     </div>
   </div>
+  <div class="vrl-gift__toast" id="vrl-gift-toast" role="status" hidden></div>
 
   <div class="bs" id="bs" role="dialog" aria-modal="true" aria-labelledby="bs-h" hidden>
     <div class="bs__back" data-bs-close></div>
@@ -127,27 +129,55 @@
         <p class="bs__lead">Укажите номинал и телефон — администратор перезвонит, уточнит детали и поможет оформить сертификат. В демо заявка никуда не уходит.</p>
         <div class="gift-form">
           <div class="gift-sheet-card">
-            <div class="gift-card-shell" aria-hidden="true">
-              <div class="gift-card">
-                <div class="gift-card__stars"></div>
-                <div class="gift-card__wash"></div>
-                <div class="gift-card__body">
-                  <div class="gift-card__main">
-                    <div class="gift-card__david-wrap">
-                      <img class="gift-card__david" src="../../img/hero-david.webp" alt="" width="512" height="512" decoding="async">
+            <div class="vrl-gift" id="gift-sheet-card" data-vrl-gift data-vrl-mode="sheet">
+              <div class="vrl-gift__scene">
+                <div class="vrl-gift__tilt">
+                  <div class="vrl-gift__card" tabindex="0" aria-label="Подарочная карта VR Lounge. Enter или пробел — перевернуть.">
+                    <div class="vrl-gift__face vrl-gift__front">
+                      <div class="vrl-gift__halo" aria-hidden="true"></div>
+                      <div class="vrl-gift__stars" aria-hidden="true"></div>
+                      <div class="vrl-gift__topmark">PRIVATE GIFT / 01</div>
+                      <img class="vrl-gift__portrait" src="img/david-vr-v2.png" alt="" width="640" height="980" decoding="async">
+                      <div class="vrl-gift__info">
+                        <div class="vrl-gift__brand">VR LOUNGE</div>
+                        <div class="vrl-gift__sub">ПОДАРОЧНАЯ КАРТА</div>
+                        <div class="vrl-gift__amount"><b data-vrl-amount id="card-amount">3 000</b> <span>₽</span></div>
+                        <div class="vrl-gift__holder">
+                          <div class="vrl-gift__label">ТОЛЬКО ДЛЯ ВАС</div>
+                          <div class="vrl-gift__name is-placeholder" data-vrl-name id="card-recipient"><span class="given">ИМЯ ПОЛУЧАТЕЛЯ</span></div>
+                        </div>
+                      </div>
+                      <div class="vrl-gift__micro">ДРУГОЕ ИЗМЕРЕНИЕ</div>
+                      <div class="vrl-gift__bottom"><span class="vrl-gift__serial" data-vrl-number id="card-serial">VRL DEMO</span></div>
+                      <div class="vrl-gift__glint" aria-hidden="true"></div>
+                      <div class="vrl-gift__rim" aria-hidden="true"></div>
                     </div>
-                    <div class="gift-card__copy">
-                      <span class="gift-card__demo">ДЕМО</span>
-                      <div class="gift-card__label">ПОДАРОЧНАЯ КАРТА</div>
-                      <div class="gift-card__brand"><span class="gift-card__brand-vr">VR</span> LOUNGE</div>
-                      <div class="gift-card__city">Кольчугино</div>
-                      <div class="gift-card__amount" id="card-amount">3 000 ₽</div>
-                      <div class="gift-card__recipient" id="card-recipient">Кому дарите — по желанию</div>
+                    <div class="vrl-gift__face vrl-gift__back" aria-hidden="true">
+                      <div class="vrl-gift__backhead">
+                        <div class="vrl-gift__brand">VR LOUNGE</div>
+                        <span class="vrl-gift__backhead-note">VR, PS5, Kinect-танцы, караоке и лучшие дни рождения в одном клубе</span>
+                      </div>
+                      <div class="vrl-gift__rule"></div>
+                      <div class="vrl-gift__backgrid">
+                        <div>
+                          <h3>ВАШЕ МЕСТО ВСТРЕЧИ</h3>
+                          <p class="vrl-gift__address">Кольчугино<br>ул. Зернова 11<br>ТЦ «ТРИО»</p>
+                          <p>Запись и вопросы<br>+7 930 224-45-51</p>
+                          <span class="vrl-gift__specimen">ОБРАЗЕЦ · НЕ АКТИВИРОВАН</span>
+                        </div>
+                        <div>
+                          <h3>КАК ИСПОЛЬЗОВАТЬ</h3>
+                          <p>Свяжитесь с администратором и согласуйте дату и развлечения. При записи назовите номер карты.<br><br>Номинал, остаток и условия подтверждает администратор.</p>
+                        </div>
+                      </div>
+                      <div class="vrl-gift__backfoot">
+                        <a href="https://vr-lounge.ru/" tabindex="-1" target="_blank" rel="noopener">vr-lounge.ru ↗</a>
+                        <span data-vrl-number-back>VRL DEMO</span>
+                      </div>
+                      <div class="vrl-gift__glint" aria-hidden="true"></div>
+                      <div class="vrl-gift__rim" aria-hidden="true"></div>
                     </div>
                   </div>
-                  <footer class="gift-card__footer">
-                    <div class="gift-card__serial" id="card-serial">VR-DEMO-0123 · образец</div>
-                  </footer>
                 </div>
               </div>
             </div>
@@ -178,13 +208,14 @@
           </div>
           <div class="field">
             <label for="gift-recipient">Имя получателя <small>(необязательно)</small></label>
-            <input id="gift-recipient-input" type="text" maxlength="48" placeholder="Например, Маша" autocomplete="off">
+            <input id="gift-recipient-input" type="text" maxlength="70" placeholder="Например, Маша" autocomplete="off" value="">
           </div>
         </form>
-          <div class="gift-success" id="gift-success" tabindex="-1">
-            <h3>Заявка принята (демо)</h3>
-            <p>Администратор свяжется с вами по телефону. Карта в демо не выпускается и не отправляется.</p>
+          <div class="gift-success" id="gift-success" tabindex="-1" data-gift-state="demo" hidden>
+            <h3 id="gift-success-title">Демо: заявка никуда не отправлена</h3>
+            <p id="gift-success-body">Это превью без CRM, оплаты и выпуска сертификата. Для реальной покупки позвоните <a href="tel:+79302244551">+7 930 224-45-51</a>.</p>
           </div>
+          <p class="gift-form-status" id="gift-form-status" role="status" aria-live="polite"></p>
         </div>
       </div>
       <div class="bs__gift-foot" id="gift-sheet-foot">

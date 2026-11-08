@@ -1,18 +1,17 @@
-/* Fixed 1.6:1 export (800×500) + 5% safe inset; footer band ≥6% */
-:root{--card-w:800px;--card-h:500px;--export-pad:40px;--frame-w:calc(var(--card-w) + var(--export-pad) * 2);--frame-h:calc(var(--card-h) + var(--export-pad) * 2)}
+/* Fixed ~1.586:1 export (800×504) for Premium v2 card */
+:root{--card-w:800px;--card-h:504px;--export-pad:40px;--frame-w:calc(var(--card-w) + var(--export-pad) * 2);--frame-h:calc(var(--card-h) + var(--export-pad) * 2)}
 html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow:hidden;background:#14101c;box-sizing:border-box}
 *,*::before,*::after{box-sizing:border-box}
 .export-root{width:var(--frame-w);height:var(--frame-h);display:grid;place-items:center;padding:var(--export-pad)}
-.export-root .gift-card-shell{width:var(--card-w);height:var(--card-h);max-height:none;aspect-ratio:auto;border-radius:20px;padding:3px}
-.export-root .gift-card{border-radius:17px}
-.export-root .gift-card__body{padding:5%}
-.export-root .gift-card__main{align-items:center}
-.export-root .gift-card__david{height:78%;max-height:78%;transform:translateX(-4%)}
-.export-root .gift-card__brand{font-size:32px}
-.export-root .gift-card__amount{font-size:56px}
-.export-root .gift-card__recipient{font-size:17px}
-.export-root .gift-card__footer{flex-basis:8%;min-height:8%}
-.export-root .gift-card__serial{font-size:10px}
+.export-root .vrl-gift{width:var(--card-w);max-width:var(--card-w)}
+.export-root .vrl-gift__card{
+  width:var(--card-w);height:var(--card-h);aspect-ratio:auto;border-radius:28px;cursor:default;
+  transform:none!important;transition:none!important;
+}
+.export-root .vrl-gift__tilt{transform:none!important;transition:none!important}
+.export-root .vrl-gift__face{border-radius:28px;box-shadow:none}
+.export-root .vrl-gift__rim,.export-root .vrl-gift__glint{animation:none!important}
+.export-root .vrl-gift__back{display:none}
 @page{size:var(--frame-w) var(--frame-h);margin:0}
 @media print{
   html,body{width:var(--frame-w);height:var(--frame-h);background:#14101c;-webkit-print-color-adjust:exact;print-color-adjust:exact}

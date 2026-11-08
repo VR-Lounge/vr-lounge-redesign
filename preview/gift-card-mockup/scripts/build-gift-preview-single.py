@@ -21,6 +21,7 @@ ASSETS = [
     REPO / "img/yandex-good-place-2025.svg",
     REPO / "img/yandex-good-place-2026.svg",
     REPO / "img/favicon.svg",
+    ROOT / "img/david-vr-v2.png",
 ]
 
 
@@ -50,14 +51,19 @@ def main() -> None:
     site_css = inline_fonts((REPO / "css/style.css").read_text(encoding="utf-8"))
     site_css = re.sub(r"url\(\.\./img/", 'url("embedded://img/', site_css)
     gift_css = (ROOT / "css/preview-gift.css").read_text(encoding="utf-8")
+    vrl_css = (ROOT / "css/vrl-gift.css").read_text(encoding="utf-8")
     export_css = (ROOT / "css/export-card.css").read_text(encoding="utf-8")
     js = (ROOT / "js/preview.js").read_text(encoding="utf-8")
 
     html = (ROOT / "index.html").read_text(encoding="utf-8")
-    html = re.sub(r"<link rel=\"stylesheet\" href=\"../../css/style.css\">", "", html)
-    html = re.sub(r"<link rel=\"stylesheet\" href=\"css/preview-gift.css\">", "", html)
-    html = re.sub(r"<script src=\"js/preview.js\" defer></script>", "", html)
-    html = re.sub(r'href=\"admin-preview.html\"', 'href="#" data-offline-admin', html)
+    html = re.sub(r'<link rel="stylesheet" href="../../css/style.css">', "", html)
+    html = re.sub(r'<link rel="stylesheet" href="css/preview-gift.css">', "", html)
+    html = re.sub(r'<link rel="stylesheet" href="css/vrl-gift.css">', "", html)
+    html = re.sub(r'<script src="js/preview.js" defer></script>', "", html)
+    html = re.sub(r'href="admin-preview.html"', 'href="#" data-offline-admin', html)
+
+    david = ROOT / "img/david-vr-v2.png"
+    david_data = b64(david) if david.is_file() else ""
 
     for rel in ASSETS:
         if not rel.is_file():
@@ -66,6 +72,10 @@ def main() -> None:
         name = rel.name
         html = html.replace(f"../../img/{name}", data)
         html = html.replace(f"../img/{name}", data)
+        html = html.replace(f"img/{name}", data)
+
+    if david_data:
+        html = html.replace("img/david-vr-v2.png", david_data)
 
     fonts_block = ""
     for f in (REPO / "fonts").glob("*.woff2"):
@@ -76,9 +86,13 @@ def main() -> None:
         )
 
     card_presentation = (ROOT / "gift-card-artwork.html").read_text(encoding="utf-8")
-    card_inner = re.search(r"<body class=\"export-root\">(.*)</body>", card_presentation, re.S)
+    card_inner = re.search(r'<body class="export-root">(.*)</body>', card_presentation, re.S)
     card_fragment = card_inner.group(1).strip() if card_inner else ""
-    card_fragment = card_fragment.replace("../../img/hero-david.webp", b64(REPO / "img/hero-david.webp"))
+    if david_data:
+        card_fragment = card_fragment.replace("img/david-vr-v2.png", david_data)
+
+    body = re.sub(r"<!doctype html>.*?<body[^>]*>", "", html, flags=re.S | re.I)
+    body = body.replace("</body></html>", "")
 
     embedded = f"""<!doctype html>
 <html lang="ru" class="js" data-offline-preview="1">
@@ -89,18 +103,13 @@ def main() -> None:
 <style id="embedded-fonts">{fonts_block}</style>
 <style id="embedded-site">{site_css}</style>
 <style id="embedded-gift">{gift_css}</style>
+<style id="embedded-vrl">{vrl_css}</style>
 <style id="embedded-export">{export_css}</style>
-<style>#card-lightbox-mount .export-root{{padding:0;width:100%;height:auto}}#card-lightbox-mount .gift-card-shell{{max-width:100%}}</style>
 </head>
 <body>
-{re.sub(r"<!doctype html>.*?<body[^>]*>", "", html, flags=re.S|re.I).replace("</body></html>", "")}
+{body}
 <template id="card-export-template">{card_fragment}</template>
-<script>{js}
-document.getElementById("btn-view-full-card")?.addEventListener("click",function(e){{e.preventDefault();
-var t=document.getElementById("card-export-template");if(t&&document.getElementById("card-lightbox-mount")){{
-document.getElementById("card-lightbox-mount").innerHTML=t.innerHTML;}}
-}},{{capture:true,once:false}});
-</script>
+<script>{js}</script>
 </body>
 </html>"""
 

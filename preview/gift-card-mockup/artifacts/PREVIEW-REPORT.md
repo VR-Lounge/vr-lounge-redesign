@@ -1,19 +1,29 @@
-# Gift preview v3 (same PR, preview-only)
+# VR Lounge gift preview v4 — Premium v2 card
 
-## v3 changes
+**V2 HTML found:** `/home/ubuntu/.cursor/projects/agent-repos-vr-lounge-redesign/uploads/VR-Lounge-Premium-v2_4d2e.html` (PRIMARY, used).
 
-- Hero: only **Поиграть / День рождения / Подарить** (header **Забронировать** kept).
-- Callbar: after hero leaves viewport (`intersectionRatio ≤ 6%`); hidden with sheet/lightbox open.
-- Gift sheet: **scroll body + fixed foot**; reserved `padding-bottom` so phone/recipient sit above CTA; CTA **«Оставить заявку на сертификат»**.
-- Card grid UX: 40% / 5% / 55%, footer band ≥6%, export **1.6:1** (800×500 + 5% pad) PNG/PDF.
-- Offline file: `artifacts/gift-preview.html` (~1.5 MiB, embedded assets).
+## Local preview
+```bash
+cd preview/gift-card-mockup && python3 -m http.server 8765
+```
+http://127.0.0.1:8765/
 
-## Artifacts (box paths)
+## Demo messaging
+- Success: «Демо: заявка никуда не отправлена» + phone `+7 930 224-45-51`
+- States: `demo` / `submitting` / `success` / `error`
+- Forbidden copy «Заявка принята» removed
 
-`/opt/cursor/artifacts/vr-lounge-gift-preview-v3/`
+## Address check
+- Repo: `Кольчугино, ул. Зернова 11, ТЦ «ТРИО»`
+- V2 HTML: `Кольчугино / ул. Зернова, 11 / ТЦ «ТРИО»`
+- Same place; card uses repo form (no comma after Зернова). Minor punctuation variance only.
 
-- `gift-preview.html` — open locally via `file://`
-- `gift-card-demo.png`, `gift-card-demo.pdf`
-- `v3-mobile-hero-3cta.png`, `v3-mobile-scrolled-callbar.png`
-- `v3-mobile-gift-sheet.png`, `v3-mobile-gift-sheet-phone.png` (scroll to phone)
-- `vr-lounge-gift-preview-standalone.zip`
+## Artifact paths (absolute)
+- `/opt/cursor/artifacts/vr-lounge-gift-preview-v4/gift-preview.html`
+- `/opt/cursor/artifacts/vr-lounge-gift-preview-v4/gift-card-demo.png`
+- `/opt/cursor/artifacts/vr-lounge-gift-preview-v4/v4-gift-sheet-front.png`
+- `/opt/cursor/artifacts/vr-lounge-gift-preview-v4/v4-gift-sheet-back.png`
+- `/opt/cursor/artifacts/vr-lounge-gift-preview-v4/v4-gift-full-front.png`
+- `/opt/cursor/artifacts/vr-lounge-gift-preview-v4/v4-gift-full-back.png`
+- `/opt/cursor/artifacts/vr-lounge-gift-preview-v4/v4-gift-demo-success.png`
+- `/opt/cursor/artifacts/vr-lounge-gift-preview-v4/v4-mobile-gift-sheet.png`

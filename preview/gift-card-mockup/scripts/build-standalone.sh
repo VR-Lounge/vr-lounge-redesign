@@ -13,7 +13,9 @@ cp "$ROOT/css/export-card.css" "$DIST/css/" 2>/dev/null || true
 cp -r "$ROOT/js/." "$DIST/js/"
 cp "$REPO/css/style.css" "$DIST/css/site.css"
 cp "$REPO/img/hero-david.webp" "$REPO/img/favicon.svg" "$REPO/img/zone-vr.webp" "$REPO/img/zone-ps5.webp" "$REPO/img/zone-karaoke.webp" "$DIST/img/"
+cp "$ROOT/img/david-vr-v2.png" "$DIST/img/"
 cp "$REPO/fonts/"*.woff2 "$DIST/fonts/"
+cp "$ROOT/css/vrl-gift.css" "$DIST/css/"
 
 # rewrite asset paths for standalone tree
 sed -i 's|../../css/style.css|css/site.css|g; s|../../img/|img/|g; s|../../fonts/|fonts/|g' "$DIST/index.html" "$DIST/admin-preview.html" "$DIST/gift-card-artwork.html"
