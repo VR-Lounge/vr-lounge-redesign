@@ -10,7 +10,7 @@ function show(label){clearTimeout(t);prev=d.activeElement;ctx.hidden=!label;ctx.
 function close(){if(!open)return;open=false;bs.classList.remove('is-open');d.removeEventListener('keydown',key);box.style.transform='';
   const fin=()=>{bs.hidden=true;d.body.classList.remove('lock');prev&&prev.focus&&prev.focus({preventScroll:true})};
   rm.matches?fin():(t=setTimeout(fin,320))}
-d.addEventListener('click',e=>{const a=e.target.closest('[data-book]');if(!a||e.metaKey||e.ctrlKey)return;e.preventDefault();show(a.dataset.book||'')});
+d.addEventListener('click',e=>{const a=e.target.closest('[data-book]');if(!a||e.metaKey||e.ctrlKey||a.id==='btn-gift-open')return;e.preventDefault();show(a.dataset.bookLabel||a.dataset.book||'')});
 bs.querySelectorAll('[data-bs-close]').forEach(x=>x.addEventListener('click',close));
 /* links inside: close after the tap so returning to the page is clean */
 bs.querySelectorAll('.bs__call,.bs__opt').forEach(a=>a.addEventListener('click',()=>setTimeout(close,400)));

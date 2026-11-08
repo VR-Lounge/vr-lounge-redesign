@@ -16,6 +16,8 @@
 <link rel="preload" as="font" type="font/woff2" href="fonts/mont-cyr.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="fonts/inter-cyr.woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/gift.css">
+<link rel="stylesheet" href="css/vrl-gift.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -186,13 +188,19 @@
       <h1 id="h1">VR, PS5, караоке<br>и&nbsp;дни рождения<br><span class="grad">в&nbsp;одном клубе</span></h1>
       <p class="lead">Игротека для всей семьи:<span class="lead__more"> 6&nbsp;зон, 50+ VR-игр, до&nbsp;20&nbsp;гостей в&nbsp;зале.</span> VR-очки от&nbsp;500&nbsp;₽/&#8288;час, дни рождения под&nbsp;ключ от&nbsp;8&nbsp;500&nbsp;₽.</p>
       <div class="cta">
-        <a class="btn btn--xl" href="tel:+79302244551" data-book><svg class="i-phone" aria-hidden="true" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Позвонить и забронировать</a>
+        <div class="gift-actions" aria-label="Основные действия">
+          <button type="button" class="btn btn--xl" data-book data-book-label="Поиграть">Поиграть</button>
+          <div class="gift-actions__row">
+            <button type="button" class="btn btn--ghost btn--xl" data-book data-book-label="День рождения">День рождения</button>
+            <button type="button" class="btn btn--gift btn--xl" id="btn-gift-open">Подарить</button>
+          </div>
+        </div>
         <div class="msg">
           <a class="chip" href="https://wa.me/79302244551">WhatsApp</a><a class="chip" href="https://t.me/YulaAlex">Telegram</a>
           <a class="chip" href="https://vk.me/vr_lounge">ВКонтакте</a>
           <a class="chip" href="https://max.ru/u/f9LHodD0cOKSx9uuDZ-6hXAbDeN5QP3qLkAMXoGyU8OJMya8zv9ih77FB_w">MAX</a>
         </div>
-        <a class="btn btn--ghost hero__alt" href="#party">Пакеты на день рождения</a>
+        <a class="btn btn--ghost hero__alt" href="#party" hidden>Пакеты на день рождения</a>
       </div>
      </div>
       <div class="hero__meta"><a class="gp" href="https://yandex.ru/maps/org/vr_lounge/5361992713/reviews/" aria-label="Награда Яндекс Карт «Хорошее место» 2025 и 2026 — читать отзывы"><img src="img/yandex-good-place-2025.svg" alt="Хорошее место 2025" width="54" height="110"><img src="img/yandex-good-place-2026.svg" alt="Хорошее место 2026" width="54" height="110"><span class="gp__t"><b>«Хорошее место»</b>Яндекс Карты · 2025 и 2026</span></a><dl class="hours">
@@ -528,6 +536,116 @@
     <p class="bs__hint">Кольчугино, ул. Зернова 11, ТЦ «ТРИО» · Пн–Пт 12–20, Сб–Вс 10–21</p>
   </div>
 </div>
+
+<div class="vrl-gift__toast" id="vrl-gift-toast" role="status" hidden></div>
+
+<div class="bs bs--gift" id="gift-bs" role="dialog" aria-modal="true" aria-labelledby="gift-bs-h" hidden>
+  <div class="bs__back" data-gift-close></div>
+  <div class="bs__box">
+    <div class="bs__gift-scroll">
+      <div class="bs__grab" aria-hidden="true"></div>
+      <button type="button" class="bs__x" data-gift-close aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <p class="kicker bs__k">Подарок · VR Lounge</p>
+      <h2 class="bs__h" id="gift-bs-h">Подарочная карта</h2>
+      <p class="bs__lead">Укажите номинал и телефон — администратор перезвонит, уточнит детали и поможет оформить сертификат. Онлайн-оплата пока не подключена: заявка с сайта никуда не уходит.</p>
+      <div class="gift-form">
+        <div class="gift-sheet-card">
+          <div class="vrl-gift" id="gift-sheet-card" data-vrl-gift data-vrl-mode="sheet">
+            <div class="vrl-gift__scene">
+              <div class="vrl-gift__tilt">
+                <div class="vrl-gift__card" tabindex="0" aria-label="Подарочная карта VR Lounge. Enter или пробел — перевернуть.">
+                  <div class="vrl-gift__face vrl-gift__front">
+                    <div class="vrl-gift__halo" aria-hidden="true"></div>
+                    <div class="vrl-gift__stars" aria-hidden="true"></div>
+                    <div class="vrl-gift__topmark">PRIVATE GIFT / 01</div>
+                    <img class="vrl-gift__portrait" src="img/david-vr-v2.png" alt="" width="640" height="980" decoding="async">
+                    <div class="vrl-gift__info">
+                      <div class="vrl-gift__brand">VR LOUNGE</div>
+                      <div class="vrl-gift__sub">ПОДАРОЧНАЯ КАРТА</div>
+                      <div class="vrl-gift__amount"><b data-vrl-amount id="card-amount">3 000</b> <span>₽</span></div>
+                      <div class="vrl-gift__holder">
+                        <div class="vrl-gift__label">ТОЛЬКО ДЛЯ ВАС</div>
+                        <div class="vrl-gift__name is-placeholder" data-vrl-name id="card-recipient"><span class="given">ИМЯ ПОЛУЧАТЕЛЯ</span></div>
+                      </div>
+                    </div>
+                    <div class="vrl-gift__micro">ДРУГОЕ ИЗМЕРЕНИЕ</div>
+                    <div class="vrl-gift__bottom"><span class="vrl-gift__serial" data-vrl-number id="card-serial">VRL DEMO</span></div>
+                    <div class="vrl-gift__glint" aria-hidden="true"></div>
+                    <div class="vrl-gift__rim" aria-hidden="true"></div>
+                  </div>
+                  <div class="vrl-gift__face vrl-gift__back" aria-hidden="true">
+                    <div class="vrl-gift__backhead">
+                      <div class="vrl-gift__brand">VR LOUNGE</div>
+                      <span class="vrl-gift__backhead-note">VR, PS5, Kinect-танцы, караоке и лучшие дни рождения в одном клубе</span>
+                    </div>
+                    <div class="vrl-gift__rule"></div>
+                    <div class="vrl-gift__backgrid">
+                      <div>
+                        <h3>ВАШЕ МЕСТО ВСТРЕЧИ</h3>
+                        <p class="vrl-gift__address">Кольчугино<br>ул. Зернова 11<br>ТЦ «ТРИО»</p>
+                        <p>Запись и вопросы<br>+7 930 224-45-51</p>
+                        <span class="vrl-gift__specimen">ОБРАЗЕЦ · НЕ АКТИВИРОВАН</span>
+                      </div>
+                      <div>
+                        <h3>КАК ИСПОЛЬЗОВАТЬ</h3>
+                        <p>Свяжитесь с администратором и согласуйте дату и развлечения. При записи назовите номер карты.<br><br>Номинал, остаток и условия подтверждает администратор.</p>
+                      </div>
+                    </div>
+                    <div class="vrl-gift__backfoot">
+                      <a href="https://vr-lounge.ru/" tabindex="-1" target="_blank" rel="noopener">vr-lounge.ru ↗</a>
+                      <span data-vrl-number-back>VRL DEMO</span>
+                    </div>
+                    <div class="vrl-gift__glint" aria-hidden="true"></div>
+                    <div class="vrl-gift__rim" aria-hidden="true"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form id="gift-form" novalidate>
+          <div class="field">
+            <label for="gift-amount">Номинал</label>
+            <div class="amount-row">
+              <button type="button" class="amount-btn" id="amount-minus" aria-label="Минус 1000">−</button>
+              <input class="amount-input" id="gift-amount" inputmode="numeric" autocomplete="off" value="3000" aria-describedby="amount-error">
+              <button type="button" class="amount-btn" id="amount-plus" aria-label="Плюс 1000">+</button>
+            </div>
+            <div class="chips" role="group" aria-label="Пресеты">
+              <button type="button" class="chip" data-amount-chip="1000">1 000</button>
+              <button type="button" class="chip" data-amount-chip="2000">2 000</button>
+              <button type="button" class="chip" data-amount-chip="3000" aria-pressed="true">3 000</button>
+              <button type="button" class="chip" data-amount-chip="5000">5 000</button>
+              <button type="button" class="chip" data-amount-chip="10000">10 000</button>
+              <button type="button" class="chip" data-amount-chip="20000">20 000</button>
+            </div>
+            <p class="field__err" id="amount-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="gift-phone">Телефон для связи</label>
+            <input id="gift-phone" type="tel" inputmode="tel" placeholder="+7 …" autocomplete="tel" aria-describedby="phone-hint phone-error">
+            <small id="phone-hint">Перезвоним, чтобы подтвердить заявку на сертификат — не для оплаты онлайн.</small>
+            <p class="field__err" id="phone-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="gift-recipient-input">Имя получателя <small>(необязательно)</small></label>
+            <input id="gift-recipient-input" type="text" maxlength="70" placeholder="Например, Маша" autocomplete="off" value="">
+          </div>
+        </form>
+        <div class="gift-success" id="gift-success" tabindex="-1" data-gift-state="demo" hidden>
+          <h3 id="gift-success-title">Демо: заявка никуда не отправлена</h3>
+          <p id="gift-success-body">Онлайн-оформление сертификата ещё не подключено. Для покупки подарочной карты позвоните <a href="tel:+79302244551">+7 930 224-45-51</a>.</p>
+        </div>
+        <p class="gift-form-status" id="gift-form-status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+    <div class="bs__gift-foot" id="gift-sheet-foot">
+      <button type="submit" class="btn btn--xl" id="gift-submit" form="gift-form">Оставить заявку на сертификат</button>
+      <p class="bs__demo">Демонстрация — заявка не отправляется</p>
+    </div>
+  </div>
+</div>
+
 <div class="callbar"><a class="btn" href="tel:+79302244551" data-book><svg class="i-phone" aria-hidden="true" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Позвонить или написать</a></div>
 <script src="js/main.js" defer></script>
 <script src="js/videos.js" defer></script>
@@ -535,5 +653,6 @@
 <script src="js/reviews.js" defer></script>
 <script src="js/extra.js" defer></script>
 <script src="js/book.js" defer></script>
+<script src="js/gift.js" defer></script>
 </body>
 </html>
