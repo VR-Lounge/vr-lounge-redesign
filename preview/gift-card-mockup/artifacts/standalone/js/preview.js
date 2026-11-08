@@ -123,6 +123,12 @@
     var flipped = false;
     var tiltEnabled = options.tilt !== false;
     var listeners = [];
+    var settleTimer = null;
+    var flipRaf = 0;
+    var flipStartedAt = 0;
+    /* Match --vrl-flip-ms (~900ms) + small cushion if transitionend is missed. */
+    var FLIP_SETTLE_MS = 950;
+    var FLIP_MIN_MS = 700;
 
     function on(el, type, fn, opts) {
       if (!el) return;
@@ -130,13 +136,86 @@
       listeners.push([el, type, fn, opts]);
     }
 
-    function setFlipped(next) {
-      flipped = !!next;
-      root.classList.toggle("is-flipped", flipped);
+    function clearSettleTimer() {
+      if (settleTimer) {
+        clearTimeout(settleTimer);
+        settleTimer = null;
+      }
+    }
+
+    function cancelFlipRaf() {
+      if (flipRaf) {
+        cancelAnimationFrame(flipRaf);
+        flipRaf = 0;
+      }
+    }
+
+    function markFaceSettled(fromEvent) {
+      if (fromEvent && root.classList.contains("is-flipping")) {
+        if (flipStartedAt && performance.now() - flipStartedAt < FLIP_MIN_MS) {
+          return;
+        }
+      }
+      root.classList.remove("is-flipping");
+      root.classList.add("is-face-settled");
+    }
+
+    function syncFaceA11y() {
       if (front) front.setAttribute("aria-hidden", flipped ? "true" : "false");
       if (back) back.setAttribute("aria-hidden", flipped ? "false" : "true");
       if (backLink) backLink.tabIndex = flipped ? 0 : -1;
       if (card) card.setAttribute("aria-pressed", flipped ? "true" : "false");
+    }
+
+    function applyFlipClass() {
+      root.classList.toggle("is-flipped", flipped);
+    }
+
+    /**
+     * Critical for iPhone/Android: never toggle is-flipped while is-face-settled is still
+     * on — that briefly matches .is-face-settled.is-flipped and display:none's the outgoing
+     * face in the same frame as the transform change, so WebKit skips the rotateY transition
+     * and the card appears to swap instantly. Sequence:
+     *   1) enter is-flipping, drop settle (both faces back in the 3D tree)
+     *   2) force a layout/paint of the CURRENT transform
+     *   3) then toggle is-flipped so the CSS transition can interpolate
+     *   4) hide inactive face only on transitionend / timeout
+     */
+    function setFlipped(next, opts) {
+      opts = opts || {};
+      var instant = !!opts.instant || rm.matches;
+      var wasFlipped = flipped;
+      flipped = !!next;
+      syncFaceA11y();
+      clearSettleTimer();
+      cancelFlipRaf();
+
+      if (instant) {
+        root.classList.remove("is-flipping");
+        applyFlipClass();
+        markFaceSettled();
+        return;
+      }
+
+      if (wasFlipped === flipped && root.classList.contains("is-face-settled")) {
+        return;
+      }
+
+      root.classList.add("is-flipping");
+      root.classList.remove("is-face-settled");
+
+      if (card) {
+        void card.offsetWidth;
+      }
+
+      flipRaf = requestAnimationFrame(function () {
+        flipRaf = 0;
+        flipStartedAt = performance.now();
+        applyFlipClass();
+        settleTimer = setTimeout(function () {
+          markFaceSettled(false);
+        }, FLIP_SETTLE_MS);
+      });
     }
 
     function flip() {
@@ -173,6 +252,16 @@
     on(card, "keydown", onCardKey);
     on(scene, "pointermove", onPointerMove);
     on(scene, "pointerleave", resetTilt);
+    function onFlipTransitionEnd(e) {
+      if (!e || e.target !== card) return;
+      if (e.propertyName && e.propertyName.indexOf("transform") === -1) return;
+      if (!root.classList.contains("is-flipping")) return;
+      if (flipStartedAt && performance.now() - flipStartedAt < FLIP_MIN_MS) return;
+      clearSettleTimer();
+      markFaceSettled(true);
+    }
+    on(card, "transitionend", onFlipTransitionEnd);
+    on(card, "webkitTransitionEnd", onFlipTransitionEnd);
 
     var resizeObserver = null;
     var nameEl = root.querySelector("[data-vrl-name]");
@@ -183,7 +272,7 @@
       resizeObserver.observe(scene);
     }
 
-    setFlipped(false);
+    setFlipped(false, { instant: true });
     setCardNumber(root, DEMO_NUMBER);
     fitNames(nameEl);
 
@@ -212,6 +301,8 @@
         setCardName(root, raw);
       },
       destroy: function () {
+        clearSettleTimer();
+        cancelFlipRaf();
         listeners.forEach(function (item) {
           item[0].removeEventListener(item[1], item[2], item[3]);
         });

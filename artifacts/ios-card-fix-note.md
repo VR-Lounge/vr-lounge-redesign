@@ -1,22 +1,29 @@
-# iOS gift-card back-face bleed — root cause
+# iOS gift-card flip — root cause (instant swap on iPhone)
 
 ## Symptom
-On iPhone Safari and Yandex (WebKit), the gift-card **back** showed mirrored front content overlaid on the reverse (David bust, “VR LOUNGE”, amount, etc.). Desktop browsers were fine.
+Desktop showed a smooth ~1s `rotateY` 3D flip. iPhone (Safari / WebKit shells) showed an **instant front↔back swap** with zero flip animation.
 
-## Cause
-Classic WebKit 3D-flip failure:
+## Root cause (why removing coarse-pointer CSS was not enough)
+A previous fix removed the `@media (hover:none) and (pointer:coarse)` crossfade that forced `transition:none` on phones. That was necessary but incomplete.
 
-1. `.vrl-gift__face` used `overflow: hidden` **on the same element** as `backface-visibility: hidden`. iOS Safari often ignores backface hiding in that combo, so the front stays painted (mirrored) while the back is shown.
-2. Faces lacked a small `translateZ` separation, which further confuses WebKit’s preserve-3d compositing under a nested tilt (`preserve-3d` on tilt + card).
+The remaining killer was **class ordering around anti-bleed settle**:
 
-David appearing on the back was **not** wrong markup — the portrait lives only on the front and was bleeding through.
+1. After each flip, `.is-face-settled` applies `display:none` to the inactive face (needed so iOS WebKit cannot keep painting a mirrored bleed).
+2. On the next tap, JS toggled `.is-flipped` **while `.is-face-settled` was still present**.
+3. For one style pass that matched `.is-face-settled.is-flipped .vrl-gift__front { display:none }`, the outgoing face was removed from the tree in the **same frame** as the `transform` change.
+4. iOS Safari then skipped interpolating `rotateY` (no painted start state with both faces), so the card appeared to switch instantly. Desktop Chrome still often animated, which matched the report.
 
-## Fix (smooth 3D + anti-bleed)
-- Replace face `overflow: hidden` with `clip-path: inset(0 round …)`.
-- Explicit `-webkit-backface-visibility` + `translateZ(2px)` on front/back.
-- Keep CSS `rotateY` 3D flip on **all** pointers (desktop and mobile) — no coarse-pointer crossfade shortcut.
-- Mid-flip: both faces stay in the 3D tree (no `display:none` / visibility hide).
-- After settle (`transitionend` + timeout fallback): `.is-face-settled` applies `visibility` / `pointer-events` / `display:none` on the inactive face so WebKit cannot keep a mirrored layer.
-- `prefers-reduced-motion` still disables transitions and settles immediately.
+Secondary hardening for WebKit: missing explicit `rotateY(0deg)` from-state / `-webkit-transition`, and sheet `overflow` ancestors can flatten 3D — addressed with `translateZ(0)` on `.vrl-gift` plus webkit transition prefixes.
 
-Live check: `https://vr-lounge.github.io/vr-lounge-redesign/?autogift=1` (after merge to `main`).
+## Fix
+1. Enter `.is-flipping`, **remove** `.is-face-settled` first (both faces re-enter the 3D tree).
+2. Force layout (`offsetWidth`) + `requestAnimationFrame`, **then** toggle `.is-flipped` so the CSS transition can run.
+3. Apply settle `display:none` only after `transitionend` / `webkitTransitionEnd` (with min-duration guard) or a ~950ms timeout — never mid-flip.
+4. Keep ~0.9s `rotateY` transition on all pointers; no coarse-pointer shortcut.
+5. GPU/compositor hints: `translateZ(0)`, `-webkit-transform`, `-webkit-transition`, `-webkit-perspective`.
+
+## Live
+https://vr-lounge.github.io/vr-lounge-redesign/?autogift=1
+
+## Proof
+`/opt/cursor/artifacts/vr-lounge-mobile-flip/` — coarse-pointer emulation, computed `transition: transform 0.9s …`, mid-flip `matrix3d(...)` screenshot.

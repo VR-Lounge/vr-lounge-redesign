@@ -7,36 +7,63 @@
   --vrl-c2:#352243;
   --rx:0deg;
   --ry:0deg;
+  --vrl-flip-ms:900ms;
   position:relative;
   width:100%;
   max-width:100%;
   container-type:inline-size;
+  /* Own compositor layer so overflow:auto sheet ancestors cannot flatten the flip on iOS. */
+  -webkit-perspective:1600px;
   perspective:1600px;
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
   font-family:"Inter Cyr",Arial,sans-serif;
   color:#eeeef3;
   -webkit-tap-highlight-color:transparent;
 }
 .vrl-gift--amethyst{--vrl-c1:#723c87;--vrl-c2:#592349}
 .vrl-gift--silver{--vrl-accent:#afcedc;--vrl-pink:#becad9;--vrl-c1:#2d4553;--vrl-c2:#131e28}
-.vrl-gift__scene{width:100%;position:relative;z-index:1;container-type:inline-size}
-.vrl-gift__tilt{
-  transform:rotateX(var(--rx)) rotateY(var(--ry));
-  transition:transform .35s ease;
-  transform-style:preserve-3d;
+.vrl-gift__scene{
+  width:100%;position:relative;z-index:1;container-type:inline-size;
   -webkit-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+}
+.vrl-gift__tilt{
+  -webkit-transform:rotateX(var(--rx)) rotateY(var(--ry));
+  transform:rotateX(var(--rx)) rotateY(var(--ry));
+  -webkit-transition:-webkit-transform .35s ease,transform .35s ease;
+  transition:transform .35s ease;
+  -webkit-transform-style:preserve-3d;
+  transform-style:preserve-3d;
 }
 .vrl-gift__card{
   width:100%;
   aspect-ratio:1.586;
   position:relative;
-  transform-style:preserve-3d;
   -webkit-transform-style:preserve-3d;
-  transition:transform 1s cubic-bezier(.2,.7,.2,1);
+  transform-style:preserve-3d;
+  /* Explicit from-state + webkit prefixes — required for reliable iOS Safari transitions. */
+  -webkit-transform:rotateY(0deg) translateZ(0);
+  transform:rotateY(0deg) translateZ(0);
+  -webkit-transition:-webkit-transform var(--vrl-flip-ms) cubic-bezier(.2,.7,.2,1),transform var(--vrl-flip-ms) cubic-bezier(.2,.7,.2,1);
+  transition:transform var(--vrl-flip-ms) cubic-bezier(.2,.7,.2,1);
+  will-change:transform;
   cursor:pointer;
   border-radius:3.4cqw;
   outline:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
 }
-.vrl-gift.is-flipped .vrl-gift__card{transform:rotateY(180deg)}
+.vrl-gift.is-flipped .vrl-gift__card,
+.vrl-gift.is-flipping.is-flipped .vrl-gift__card{
+  -webkit-transform:rotateY(180deg) translateZ(0);
+  transform:rotateY(180deg) translateZ(0);
+}
+.vrl-gift.is-flipping .vrl-gift__card{
+  /* Keep GPU layer warm for the whole turn (touch + mouse). */
+  -webkit-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+}
 .vrl-gift__face{
   position:absolute;inset:0;border-radius:3.4cqw;
   /* Do NOT use overflow:hidden on the 3D face — iOS Safari then ignores backface-visibility
@@ -46,8 +73,8 @@
   -webkit-clip-path:inset(0 round 3.4cqw);
   backface-visibility:hidden;-webkit-backface-visibility:hidden;
   /* Promote a compositing layer; slight Z separates faces for WebKit */
-  transform:translateZ(0);
   -webkit-transform:translateZ(0);
+  transform:translateZ(0);
   background:
     radial-gradient(ellipse at 15% 85%,var(--vrl-c1),transparent 65%),
     radial-gradient(ellipse at 90% 5%,var(--vrl-c2),transparent 65%),
@@ -56,8 +83,8 @@
   box-shadow:0 18px 40px #0008,inset 0 1px 0 #ffffff60,inset 0 -2px 0 #000,inset 0 0 0 3px #ffffff06;
 }
 .vrl-gift__front{
-  transform:rotateY(0deg) translateZ(2px);
   -webkit-transform:rotateY(0deg) translateZ(2px);
+  transform:rotateY(0deg) translateZ(2px);
 }
 .vrl-gift--amethyst .vrl-gift__face{
   background:linear-gradient(125deg,#111018 4%,#38213f 46%,#784187 100%);
@@ -70,18 +97,19 @@
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.6' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
 }
 .vrl-gift__back{
-  transform:rotateY(180deg) translateZ(2px);
   -webkit-transform:rotateY(180deg) translateZ(2px);
+  transform:rotateY(180deg) translateZ(2px);
   padding:7%;box-sizing:border-box;
 }
 
 /*
-  After rotateY settles (transitionend / timeout): hide the inactive face so WebKit
-  cannot keep painting a mirrored bleed. Do NOT apply this mid-flip — both faces
-  must stay in the 3D tree for the smooth turn. display:none only after settle.
+  Anti-bleed for iOS WebKit: hide the inactive face ONLY after rotateY settles.
+  Never combine .is-face-settled with a mid-flip class change in the same paint —
+  that used to display:none the outgoing face before the transition could start,
+  which looked like an instant swap on iPhone.
 */
-.vrl-gift.is-face-settled.is-flipped .vrl-gift__front,
-.vrl-gift.is-face-settled:not(.is-flipped) .vrl-gift__back{
+.vrl-gift.is-face-settled:not(.is-flipping).is-flipped .vrl-gift__front,
+.vrl-gift.is-face-settled:not(.is-flipping):not(.is-flipped) .vrl-gift__back{
   visibility:hidden;
   opacity:0;
   pointer-events:none;
