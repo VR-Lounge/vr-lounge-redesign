@@ -815,7 +815,7 @@ body.gift-lb-open .callbar{display:none !important}
 .amount-btn{width:48px;min-height:48px;border-radius:12px;border:1px solid var(--line);background:#ffffff0a;color:var(--tx);font-size:22px;cursor:pointer}
 .amount-input{flex:1;text-align:center;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.chip{padding:7px 10px;border-radius:99px;border:1px solid var(--line);background:#ffffff08;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--tx)}
+.chip{padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:#ffffff08;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--tx)}
 .chip[aria-pressed="true"]{border-color:var(--acc);background:#ff3ea522;color:#ffd4ec}
 .gift-success{display:none;text-align:left;padding:8px 0 12px}
 .gift-success.is-visible,.gift-success:not([hidden]){display:block}
@@ -991,11 +991,9 @@ body.gift-lb-open .callbar{display:none !important}
 .vrl-gift__name .family{
   display:block;width:100%;text-align:right;font-size:4.15cqw;font-weight:750;margin-top:.9cqw;white-space:nowrap;
 }
-.vrl-gift__name.is-placeholder{opacity:.55;text-align:left}
-.vrl-gift__name.is-placeholder .given{
-  display:block;text-align:left;font-size:2.4cqw;font-weight:500;white-space:nowrap;
-}
-.vrl-gift__name.is-placeholder .family{display:none}
+.vrl-gift__name.is-placeholder{opacity:.72}
+.vrl-gift__name.is-placeholder .given,
+.vrl-gift__name.is-placeholder .family{text-align:right}
 .vrl-gift__bottom{
   position:absolute;left:auto;right:6.5%;bottom:7.5%;z-index:4;
   display:flex;justify-content:flex-end;align-items:center;
@@ -1270,7 +1268,7 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
                         <div class="vrl-gift__amount"><b data-vrl-amount id="card-amount">3 000</b> <span>₽</span></div>
                         <div class="vrl-gift__holder">
                           <div class="vrl-gift__label">ТОЛЬКО ДЛЯ ВАС</div>
-                          <div class="vrl-gift__name is-placeholder" data-vrl-name id="card-recipient"><span class="given">ИМЯ ПОЛУЧАТЕЛЯ</span></div>
+                          <div class="vrl-gift__name" data-vrl-name id="card-recipient"><span class="given">ДАВИД МИКЕЛАНДЖЕЛОВИЧ</span><span class="family">БУОНОРОТТИ</span></div>
                         </div>
                       </div>
                       <div class="vrl-gift__micro">ДРУГОЕ ИЗМЕРЕНИЕ</div>
@@ -1333,8 +1331,8 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
             <p class="field__err" id="phone-error" role="alert"></p>
           </div>
           <div class="field">
-            <label for="gift-recipient-input">Имя получателя <small>(необязательно)</small></label>
-            <input id="gift-recipient-input" type="text" maxlength="70" placeholder="Например, Александр Васильевич Лобанов" autocomplete="name" value="" aria-describedby="recipient-hint">
+            <label for="gift-recipient-input">Имя получателя</label>
+            <input id="gift-recipient-input" type="text" maxlength="70" placeholder="ДАВИД МИКЕЛАНДЖЕЛОВИЧ БУОНОРОТТИ" autocomplete="name" value="" aria-describedby="recipient-hint">
             <small id="recipient-hint">Порядок: имя, отчество, фамилия</small>
           </div>
         </form>
@@ -1417,7 +1415,8 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
   var AMOUNT_MAX = 20000;
   var AMOUNT_STEP = 1000;
   var DEMO_NUMBER = "VRL 007";
-  var NAME_PLACEHOLDER = "ИМЯ ПОЛУЧАТЕЛЯ";
+  /* Empty-card demo only — never treated as submitted recipient data. */
+  var DEMO_RECIPIENT = "ДАВИД МИКЕЛАНДЖЕЛОВИЧ БУОНОРОТТИ";
   var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
   var giftControllers = [];
 
@@ -1442,7 +1441,14 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
       .toUpperCase()
       .split(/\s+/)
       .filter(Boolean);
-    if (!words.length) return { given: NAME_PLACEHOLDER, family: "", placeholder: true };
+    if (!words.length) {
+      words = DEMO_RECIPIENT.split(/\s+/);
+      return {
+        given: words.slice(0, -1).join(" "),
+        family: words[words.length - 1],
+        placeholder: false,
+      };
+    }
     if (words.length === 1) return { given: "", family: words[0], placeholder: false };
     return { given: words.slice(0, -1).join(" "), family: words[words.length - 1], placeholder: false };
   }
@@ -1656,13 +1662,14 @@ html,body{margin:0;padding:0;width:var(--frame-w);height:var(--frame-h);overflow
     var theme = root.getAttribute("data-theme") || "obsidian";
     var amountText = amountEl ? amountEl.textContent.trim() : "3 000";
     var numberText = numberEl ? numberEl.textContent.trim() : DEMO_NUMBER;
-    var given = "";
-    var family = NAME_PLACEHOLDER;
+    var demoParts = nameParts("");
+    var given = demoParts.given;
+    var family = demoParts.family;
     if (nameEl) {
       var g = nameEl.querySelector(".given");
       var f = nameEl.querySelector(".family");
-      given = g ? g.textContent : "";
-      family = f ? f.textContent : NAME_PLACEHOLDER;
+      given = g ? g.textContent : demoParts.given;
+      family = f ? f.textContent : demoParts.family;
     }
 
     var image = new Image();

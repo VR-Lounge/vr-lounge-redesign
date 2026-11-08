@@ -148,7 +148,7 @@ h1,h2,h3{font-family:"Mont Cyr",var(--fd);font-weight:900;margin:0;line-height:1
 .amount-btn{width:48px;border-radius:12px;border:1px solid var(--line);background:#ffffff0a;color:var(--tx);font-size:22px;cursor:pointer}
 .amount-input{flex:1;text-align:center;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.chip{padding:8px 12px;border-radius:99px;border:1px solid var(--line);background:#ffffff08;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--tx)}
+.chip{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:#ffffff08;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--tx)}
 .chip[aria-pressed="true"]{border-color:var(--acc);background:#ff3ea522;color:#ffd4ec}
 
 .success-panel{display:none;text-align:center;padding:24px 8px}

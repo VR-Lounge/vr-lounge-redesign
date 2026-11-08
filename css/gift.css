@@ -38,7 +38,7 @@
 .amount-btn{width:48px;min-height:48px;border-radius:12px;border:1px solid var(--line);background:#ffffff0a;color:var(--tx);font-size:22px;cursor:pointer;font-family:inherit}
 .amount-input{flex:1;text-align:center;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.chip[data-amount-chip]{padding:7px 10px;border-radius:99px;border:1px solid var(--line);background:#ffffff08;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--tx)}
+.chip[data-amount-chip]{padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:#ffffff08;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--tx)}
 .chip[data-amount-chip][aria-pressed="true"]{border-color:var(--acc);background:#ff3ea522;color:#ffd4ec}
 .gift-success{display:none;text-align:left;padding:8px 0 12px}
 .gift-success.is-visible,.gift-success:not([hidden]){display:block}

@@ -6,7 +6,8 @@
   var AMOUNT_MAX = 20000;
   var AMOUNT_STEP = 1000;
   var DEMO_NUMBER = "VRL 007";
-  var NAME_PLACEHOLDER = "ИМЯ ПОЛУЧАТЕЛЯ";
+  /* Empty-card demo only — never treated as submitted recipient data. */
+  var DEMO_RECIPIENT = "ДАВИД МИКЕЛАНДЖЕЛОВИЧ БУОНОРОТТИ";
   var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   function fmtAmount(n) {
@@ -19,7 +20,14 @@
       .toUpperCase()
       .split(/\s+/)
       .filter(Boolean);
-    if (!words.length) return { given: NAME_PLACEHOLDER, family: "", placeholder: true };
+    if (!words.length) {
+      words = DEMO_RECIPIENT.split(/\s+/);
+      return {
+        given: words.slice(0, -1).join(" "),
+        family: words[words.length - 1],
+        placeholder: false,
+      };
+    }
     if (words.length === 1) return { given: "", family: words[0], placeholder: false };
     return { given: words.slice(0, -1).join(" "), family: words[words.length - 1], placeholder: false };
   }

@@ -201,11 +201,9 @@
 .vrl-gift__name .family{
   display:block;width:100%;text-align:right;font-size:4.15cqw;font-weight:750;margin-top:.9cqw;white-space:nowrap;
 }
-.vrl-gift__name.is-placeholder{opacity:.55;text-align:left}
-.vrl-gift__name.is-placeholder .given{
-  display:block;text-align:left;font-size:2.4cqw;font-weight:500;white-space:nowrap;
-}
-.vrl-gift__name.is-placeholder .family{display:none}
+.vrl-gift__name.is-placeholder{opacity:.72}
+.vrl-gift__name.is-placeholder .given,
+.vrl-gift__name.is-placeholder .family{text-align:right}
 .vrl-gift__bottom{
   position:absolute;left:auto;right:6.5%;bottom:7.5%;z-index:4;
   display:flex;justify-content:flex-end;align-items:center;
