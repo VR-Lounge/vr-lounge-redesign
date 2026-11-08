@@ -189,18 +189,25 @@
       root.classList.add("is-flipping");
       root.classList.remove("is-face-settled");
 
-      /* Force Safari to commit both faces at the pre-flip transform before we rotate. */
-      if (card) {
-        void card.offsetWidth;
-      }
-
+      /* Double RAF for iOS Safari: first RAF commits the remove of is-face-settled,
+         second RAF ensures both faces are painted before we apply the rotateY flip. */
       flipRaf = requestAnimationFrame(function () {
-        flipRaf = 0;
-        flipStartedAt = performance.now();
-        applyFlipClass();
-        settleTimer = setTimeout(function () {
-          markFaceSettled(false);
-        }, FLIP_SETTLE_MS);
+        if (card) {
+          void card.offsetWidth;
+        }
+        /* Second RAF: now safe to toggle the flip transform */
+        flipRaf = requestAnimationFrame(function () {
+          flipRaf = 0;
+          flipStartedAt = performance.now();
+          applyFlipClass();
+          /* Force layout after transform change */
+          if (card) {
+            void card.offsetHeight;
+          }
+          settleTimer = setTimeout(function () {
+            markFaceSettled(false);
+          }, FLIP_SETTLE_MS);
+        });
       });
     }
 
