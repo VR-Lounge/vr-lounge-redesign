@@ -196,16 +196,17 @@
 }
 .vrl-gift__backfoot{
   position:absolute;bottom:7.2%;left:7%;right:7%;
-  display:flex;justify-content:flex-end;align-items:center;
+  display:flex;justify-content:flex-end;align-items:center;gap:3.2cqw;
   font-size:2.2cqw;color:#bcb0c9;
   pointer-events:none;
 }
 .vrl-gift__backfoot a{
-  /* Bottom-center URL — clears left specimen badge */
-  position:absolute;left:50%;transform:translateX(-50%);
+  /* Bottom-right cluster with serial — clears left specimen badge */
+  position:static;transform:none;
   color:inherit;text-decoration:none;pointer-events:auto;white-space:nowrap;
+  order:1;
 }
-.vrl-gift__backfoot > span{pointer-events:none}
+.vrl-gift__backfoot > span{pointer-events:none;order:2}
 .vrl-gift__backfoot a:focus-visible{outline:2px solid var(--vrl-accent);outline-offset:3px}
 
 /* Sheet compact shell — fill sheet width; aspect-ratio 1.586 stays intact */
