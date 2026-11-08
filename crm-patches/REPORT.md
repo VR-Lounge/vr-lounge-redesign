@@ -66,3 +66,20 @@ Safe touch points only:
 - New section/nav DOM
 - Booking notes + optional `giftPayment` object
 - `finalPaymentMethod` coerced away from `gift_note` before persist
+
+## Branches
+
+| Repo | Branch | Push |
+|---|---|---|
+| `VR-Lounge/vr-lounge-redesign` | `cursor/gift-crm-integrate-e6c6` | ✅ pushed |
+| `VR-Lounge/-` (CRM) | `cursor/gift-crm-module-e6c6` + `cursor/gift-crm-backup-e6c6` + tag `backup/pre-gift-crm-2026-11-08` | ❌ 403 — local only; use `crm-patches/` |
+
+## Screenshots
+
+`/opt/cursor/artifacts/vr-lounge-gift-crm/`
+
+- `01-crm-gift-admin-desktop.png` — standalone gift admin
+- `02-public-gift-card.png` — public card page
+- `03-crm-index-gift-section.png` — gift section inside CRM index
+- `04-public-gift-card-mobile.png`
+- `05-crm-nav-with-gift.png` — nav includes «Подарочные карты», calendar intact
