@@ -1,4 +1,7 @@
-/* Gift card sheet + Premium v2 card (.vrl-gift). Demo only — no CRM/payment backend. */
+/* Gift card sheet + Premium v2 card (.vrl-gift).
+ * Issuance: Firebase giftCards when rules allow; otherwise honest error.
+ * Force demo UI with ?giftDemo=1 (no write). Empty-card preview name stays demo-only.
+ */
 (function () {
   "use strict";
 
@@ -8,6 +11,10 @@
   var DEMO_NUMBER = "VRL 007";
   /* Empty-card demo only — never treated as submitted recipient data. */
   var DEMO_RECIPIENT = "ДАВИД МИКЕЛАНДЖЕЛОВИЧ БУОНОРОТТИ";
+  var PUBLIC_CARD_BASE = "https://vr-lounge.github.io/vr-lounge-redesign/gift.html";
+  var FORCE_DEMO =
+    /(?:\?|&)giftDemo=1(?:&|$)/.test(location.search) ||
+    window.VRL_GIFT_DEMO === true;
   var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   function fmtAmount(n) {
@@ -346,28 +353,69 @@
     function setFormState(state, detail) {
       submitState = state;
       if (statusEl) {
-        if (state === "submitting") statusEl.textContent = "Демо: имитация отправки…";
-        else if (state === "error") statusEl.textContent = detail || "Не удалось показать демо-статус. Повторите.";
-        else statusEl.textContent = "";
+        if (state === "submitting") {
+          statusEl.textContent = FORCE_DEMO
+            ? "Демо: имитация отправки…"
+            : "Создаём карту…";
+        } else if (state === "error") {
+          statusEl.textContent = detail || "Не удалось оформить карту. Повторите.";
+        } else {
+          statusEl.textContent = "";
+        }
       }
       if (!success) return;
       if (state === "success") {
         success.hidden = false;
         success.classList.add("is-visible");
         success.setAttribute("data-gift-state", "success");
-        if (successTitle) successTitle.textContent = "Демо: заявка никуда не отправлена";
-        if (successBody) {
-          successBody.replaceChildren();
-          successBody.appendChild(
-            document.createTextNode(
-              "Онлайн-оформление сертификата ещё не подключено. Для покупки подарочной карты позвоните "
-            )
-          );
-          var a = document.createElement("a");
-          a.href = "tel:+79302244551";
-          a.textContent = "+7 930 224-45-51";
-          successBody.appendChild(a);
-          successBody.appendChild(document.createTextNode("."));
+        if (detail && detail.publicCode) {
+          if (successTitle) {
+            successTitle.textContent = detail.pending
+              ? "Заявка принята · " + detail.publicCode
+              : "Карта создана · " + detail.publicCode;
+          }
+          if (successBody) {
+            successBody.replaceChildren();
+            successBody.appendChild(
+              document.createTextNode(
+                detail.pending
+                  ? "Заявка в CRM. Мы свяжемся для оплаты. Код карты: "
+                  : "Публичная страница карты: "
+              )
+            );
+            if (detail.pending) {
+              var codeStrong = document.createElement("strong");
+              codeStrong.textContent = detail.publicCode;
+              successBody.appendChild(codeStrong);
+              successBody.appendChild(document.createTextNode(". "));
+              var tel = document.createElement("a");
+              tel.href = "tel:+79302244551";
+              tel.textContent = "+7 930 224-45-51";
+              successBody.appendChild(tel);
+            } else {
+              var link = document.createElement("a");
+              link.href = detail.url;
+              link.target = "_blank";
+              link.rel = "noopener";
+              link.textContent = detail.url;
+              successBody.appendChild(link);
+            }
+          }
+        } else if (FORCE_DEMO) {
+          if (successTitle) successTitle.textContent = "Демо: заявка никуда не отправлена";
+          if (successBody) {
+            successBody.replaceChildren();
+            successBody.appendChild(
+              document.createTextNode(
+                "Режим giftDemo. Для покупки подарочной карты позвоните "
+              )
+            );
+            var a = document.createElement("a");
+            a.href = "tel:+79302244551";
+            a.textContent = "+7 930 224-45-51";
+            successBody.appendChild(a);
+            successBody.appendChild(document.createTextNode("."));
+          }
         }
       } else {
         success.hidden = true;
@@ -500,19 +548,58 @@
         setFormState("error", "Проверьте номинал и телефон.");
         return;
       }
+      var recipient = (nameInput.value || "").trim();
       btn.disabled = true;
       setFormState("submitting");
-      window.setTimeout(function () {
-        try {
+
+      if (FORCE_DEMO) {
+        window.setTimeout(function () {
+          try {
+            form.hidden = true;
+            setFormState("success");
+            success.focus();
+          } catch (err) {
+            setFormState("error", "Демо-ошибка интерфейса. Заявка всё равно никуда не ушла.");
+            form.hidden = false;
+          }
+          btn.disabled = false;
+        }, 450);
+        return;
+      }
+
+      issueGiftCard({
+        faceValue: parseAmount(amountInput.value),
+        buyerPhone: phoneInput.value,
+        recipientName: recipient,
+      })
+        .then(function (card) {
+          if (card && card._local) {
+            throw new Error(
+              "Firestore rules ещё не задеплоены — заявка в CRM не сохранилась. Позвоните +7 930 224-45-51 или повторите после деплоя rules."
+            );
+          }
+          var url = PUBLIC_CARD_BASE + "?code=" + encodeURIComponent(card.publicCode);
           form.hidden = true;
-          setFormState("success");
-          success.focus();
-        } catch (err) {
-          setFormState("error", "Демо-ошибка интерфейса. Заявка всё равно никуда не ушла.");
+          setFormState("success", {
+            publicCode: card.publicCode,
+            url: url,
+            pending: card.status === "pending",
+            localOnly: false,
+          });
+          if (success) success.focus();
+        })
+        .catch(function (err) {
+          console.error(err);
+          setFormState(
+            "error",
+            (err && err.message) ||
+              "Не удалось записать карту. Проверьте соединение или позвоните +7 930 224-45-51."
+          );
           form.hidden = false;
-        }
-        btn.disabled = false;
-      }, 450);
+        })
+        .then(function () {
+          btn.disabled = false;
+        });
     });
 
     var y0 = null;
@@ -565,6 +652,40 @@
             el.scrollIntoView(true);
           }
         }, 280);
+      });
+    });
+  }
+
+  function issueGiftCard(payload) {
+    return import("./gift-cards.js").then(function (mod) {
+      return import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js").then(function (appMod) {
+        return import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js").then(function (fsMod) {
+          var firebaseConfig = {
+            apiKey: "AIzaSyBaq_faWwfE_TXn4Xh_2U3GYSAsUzGJ1bk",
+            authDomain: "vr-lounge33.firebaseapp.com",
+            projectId: "vr-lounge33",
+            storageBucket: "vr-lounge33.appspot.com",
+            messagingSenderId: "825655988090",
+            appId: "1:825655988090:web:76d8e0554b8601f8bd10c3",
+          };
+          var app;
+          try {
+            app = appMod.getApp();
+          } catch (e) {
+            app = appMod.initializeApp(firebaseConfig);
+          }
+          var db = fsMod.getFirestore(app);
+          return mod.createGiftCard(db, {
+            faceValue: payload.faceValue,
+            buyerPhone: payload.buyerPhone,
+            recipientName: payload.recipientName || "НЕ УКАЗАНО",
+            theme: "amethyst",
+            createdBy: "site",
+            source: "website-redesign",
+            status: "pending",
+            useLocal: false,
+          });
+        });
       });
     });
   }
