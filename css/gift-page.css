@@ -22,7 +22,8 @@ html {
   color-scheme: dark;
 }
 
-body.gp {
+/* body.gift-page — not .gp (site badge sets .gp img { width:36px }) */
+body.gift-page {
   margin: 0;
   min-height: 100vh;
   font-family: var(--gp-body);
@@ -90,6 +91,13 @@ body.gp {
 .gp-card-stage .vrl-gift__card {
   cursor: pointer;
   box-shadow: 0 28px 70px #00000088;
+}
+
+/* Page card uses vrl-gift.css portrait scale (38% × 91%); avoid global img rules */
+.gp-card-stage .vrl-gift__portrait {
+  width: 38%;
+  height: 91%;
+  max-width: none;
 }
 
 .gp-hint {
@@ -256,7 +264,7 @@ body.gp {
 }
 
 @media print {
-  body.gp {
+  body.gift-page {
     background: #fff;
     color: #111;
   }
