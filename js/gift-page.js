@@ -15,6 +15,52 @@
     void: "Аннулирована",
   };
 
+  var loadedCard = null;
+
+  function upsertMeta(attr, key, value) {
+    var sel = "meta[" + attr + '="' + key + '"]';
+    var el = document.querySelector(sel);
+    if (!el) {
+      el = document.createElement("meta");
+      el.setAttribute(attr, key);
+      document.head.appendChild(el);
+    }
+    el.setAttribute("content", value);
+  }
+
+  function printDocumentTitle(card) {
+    var code = card.publicCode || "VRL";
+    var name = String(card.recipientName || "").trim();
+    if (!name) name = "Подарочная карта";
+    return "VR LOUNGE · " + code + " · " + name;
+  }
+
+  function applyDocumentMeta(card) {
+    if (!card) return;
+    loadedCard = card;
+    var code = card.publicCode || "VRL";
+    var title = printDocumentTitle(card);
+    document.title = title;
+    upsertMeta("name", "author", "VR Lounge");
+    upsertMeta("name", "subject", "Подарочная карта VR Lounge · " + code);
+    upsertMeta(
+      "name",
+      "keywords",
+      code + ", VR Lounge, Кольчугино, " + PHONE_HUMAN + ", vr-lounge.ru"
+    );
+    upsertMeta("property", "og:title", title);
+    upsertMeta("property", "og:site_name", "VR Lounge");
+  }
+
+  function runPrint() {
+    if (loadedCard) applyDocumentMeta(loadedCard);
+    window.print();
+  }
+
+  window.addEventListener("beforeprint", function () {
+    if (loadedCard) applyDocumentMeta(loadedCard);
+  });
+
   function fmtRub(n) {
     return new Intl.NumberFormat("ru-RU").format(Number(n) || 0) + " ₽";
   }
@@ -239,7 +285,7 @@
       statusEl.textContent = sourceLabel;
       statusEl.removeAttribute("data-tone");
     }
-    document.title = (card.publicCode || "Карта") + " · VR Lounge";
+    applyDocumentMeta(card);
 
     var printMeta = document.getElementById("printMeta");
     if (printMeta) {
@@ -315,7 +361,7 @@
 
     document.getElementById("btnPrint").addEventListener("click", function () {
       root.classList.remove("is-flipped", "is-flipping");
-      window.print();
+      runPrint();
     });
 
     if (!code) {
@@ -354,7 +400,7 @@
         root.classList.remove("is-flipped", "is-flipping");
         window.setTimeout(function () {
           try {
-            window.print();
+            runPrint();
           } catch (e) {
             /* ignore */
           }
