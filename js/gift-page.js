@@ -5,7 +5,6 @@
   var PHONE_TEL = "+79302244551";
   var PHONE_HUMAN = "8 930 224-45-51";
   var SITE_URL = "https://vr-lounge.github.io/vr-lounge-redesign/";
-  var WA_URL = "https://wa.me/79302244551";
   var STATUS_LABELS = {
     draft: "Черновик",
     pending: "Ожидает оплату",
@@ -353,9 +352,6 @@
     var code = (params.get("code") || params.get("c") || "").trim().toUpperCase().replace(/\s+/g, "");
 
     document.getElementById("btnCall").href = "tel:" + PHONE_TEL;
-    document.getElementById("btnBook").href = WA_URL + "?text=" + encodeURIComponent(
-      "Здравствуйте! Хочу записаться. Подарочная карта " + (code || "")
-    );
     document.getElementById("btnSite").href = SITE_URL;
     document.getElementById("phoneHuman").textContent = PHONE_HUMAN;
 
