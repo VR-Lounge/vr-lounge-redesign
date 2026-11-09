@@ -241,6 +241,22 @@
     }
     document.title = (card.publicCode || "Карта") + " · VR Lounge";
 
+    var printMeta = document.getElementById("printMeta");
+    if (printMeta) {
+      printMeta.textContent =
+        (card.publicCode || "VRL") +
+        " · " +
+        fmtRub(card.balance != null ? card.balance : card.faceValue) +
+        " · " +
+        (STATUS_LABELS[card.status] || card.status || "карта");
+    }
+    var printFoot = document.getElementById("printFoot");
+    if (printFoot && card.recipientName) {
+      printFoot.textContent =
+        String(card.recipientName).trim() +
+        " · Кольчугино, ул. Зернова 11 · +7 930 224-45-51 · vr-lounge.ru";
+    }
+
     var list = document.getElementById("ledgerList");
     if (!list) return;
     if (!ledger.length) {
@@ -298,6 +314,7 @@
     document.getElementById("phoneHuman").textContent = PHONE_HUMAN;
 
     document.getElementById("btnPrint").addEventListener("click", function () {
+      root.classList.remove("is-flipped", "is-flipping");
       window.print();
     });
 
@@ -334,6 +351,7 @@
       fillCard(card);
       fillMeta(card, ledger, "Ваша карта · данные онлайн");
       if (params.get("print") === "1") {
+        root.classList.remove("is-flipped", "is-flipping");
         window.setTimeout(function () {
           try {
             window.print();

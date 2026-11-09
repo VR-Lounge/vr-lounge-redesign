@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/gift.css">
   <link rel="stylesheet" href="css/vrl-gift.css">
-  <link rel="stylesheet" href="css/gift-page.css">
+  <link rel="stylesheet" href="css/gift-page.css?v=20261109-print">
 </head>
 <body class="gift-page">
   <main class="gp-wrap">
@@ -23,6 +23,11 @@
       <p class="gp-brand__sub">Подарочная карта · Кольчугино</p>
       <p class="gp-status" id="loadStatus">Загрузка карты…</p>
     </header>
+
+    <div class="gp-print-sheet" aria-hidden="true">
+      <div class="gp-print-sheet__brand">VR LOUNGE</div>
+      <p class="gp-print-sheet__meta" id="printMeta">Подарочная карта · Кольчугино</p>
+    </div>
 
     <section class="gp-card-stage" aria-label="Цифровая подарочная карта">
       <div class="vrl-gift vrl-gift--amethyst vrl-gift--full" id="public-gift-card" data-vrl-gift data-vrl-mode="page">
@@ -120,7 +125,11 @@
       Списать баланс можно только в клубе.<br>
       Телефон: <a id="phoneHuman" href="tel:+79302244551">8 930 224-45-51</a>
     </p>
+
+    <p class="gp-print-foot" id="printFoot" aria-hidden="true">
+      Кольчугино, ул. Зернова 11, ТЦ «ТРИО» · +7 930 224-45-51 · vr-lounge.ru
+    </p>
   </main>
-  <script src="js/gift-page.js" defer></script>
+  <script src="js/gift-page.js?v=20261109-print" defer></script>
 </body>
 </html>

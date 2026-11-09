@@ -263,22 +263,120 @@ body.gift-page {
   color: #e9d5ff;
 }
 
+/* Print / PDF / «Сохранить как PDF» — одна карта крупно, без обрезок */
 @media print {
-  body.gift-page {
-    background: #fff;
-    color: #111;
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
   }
+
+  html,
+  body.gift-page {
+    background: #fff !important;
+    color: #1a1220 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   .gp-no-print {
     display: none !important;
   }
+
+  .gp-wrap {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .gp-print-sheet {
+    display: block !important;
+    text-align: center;
+    margin: 0 0 8mm;
+  }
+
+  .gp-print-sheet__brand {
+    font-family: var(--gp-display);
+    font-weight: 900;
+    font-size: 18pt;
+    letter-spacing: -0.02em;
+    margin: 0 0 2mm;
+    color: #2a1538;
+  }
+
+  .gp-print-sheet__meta {
+    margin: 0;
+    font-size: 10pt;
+    color: #4a3a58;
+    line-height: 1.45;
+  }
+
+  .gp-card-stage {
+    width: min(178mm, 100%);
+    max-width: 178mm;
+    margin: 0 auto 6mm;
+    perspective: none;
+  }
+
+  .gp-card-stage .vrl-gift,
+  .gp-card-stage .vrl-gift__scene,
+  .gp-card-stage .vrl-gift__tilt,
   .gp-card-stage .vrl-gift__card {
-    box-shadow: none;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
+
+  /* Всегда лицевая сторона на печати */
+  .vrl-gift.is-flipped .vrl-gift__card {
+    transform: none !important;
+  }
+
+  .vrl-gift__back {
+    display: none !important;
+  }
+
+  .vrl-gift__front {
+    position: relative !important;
+    transform: none !important;
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
+  }
+
+  .gp-card-stage .vrl-gift__portrait {
+    width: 38% !important;
+    height: 91% !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+    filter: none;
+  }
+
+  .gp-card-stage .vrl-gift__card {
+    border: 0.4pt solid #d7c8e4;
+  }
+
   .gp-panel {
-    border-color: #ddd;
-    background: #fafafa;
-    backdrop-filter: none;
+    display: none !important;
   }
+
+  .gp-print-foot {
+    display: block !important;
+    margin-top: 4mm;
+    text-align: center;
+    font-size: 9pt;
+    color: #5a4a68;
+    line-height: 1.4;
+  }
+}
+
+.gp-print-sheet,
+.gp-print-foot {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
