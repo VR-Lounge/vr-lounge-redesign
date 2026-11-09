@@ -657,7 +657,7 @@
   }
 
   function issueGiftCard(payload) {
-    return import("./gift-cards.js").then(function (mod) {
+    return import("./gift-cards.js?v=20261109-live").then(function (mod) {
       return import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js").then(function (appMod) {
         return import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js").then(function (fsMod) {
           var firebaseConfig = {

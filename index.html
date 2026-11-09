@@ -547,7 +547,7 @@
       <button type="button" class="bs__x" data-gift-close aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
       <p class="kicker bs__k">Подарок · VR Lounge</p>
       <h2 class="bs__h" id="gift-bs-h">Подарочная карта</h2>
-      <p class="bs__lead">Укажите номинал и телефон — администратор перезвонит, уточнит детали и поможет оформить сертификат. Онлайн-оплата пока не подключена: заявка с сайта никуда не уходит.</p>
+      <p class="bs__lead">Укажите номинал и телефон — заявка уйдёт в CRM. Администратор перезвонит, примет оплату и активирует карту. Онлайн-оплаты пока нет.</p>
       <div class="gift-form">
         <div class="gift-sheet-card">
           <div class="vrl-gift" id="gift-sheet-card" data-vrl-gift data-vrl-mode="sheet">
@@ -633,16 +633,16 @@
             <small id="recipient-hint">Порядок: имя, отчество, фамилия</small>
           </div>
         </form>
-        <div class="gift-success" id="gift-success" tabindex="-1" data-gift-state="demo" hidden>
-          <h3 id="gift-success-title">Демо: заявка никуда не отправлена</h3>
-          <p id="gift-success-body">Онлайн-оформление сертификата ещё не подключено. Для покупки подарочной карты позвоните <a href="tel:+79302244551">+7 930 224-45-51</a>.</p>
+        <div class="gift-success" id="gift-success" tabindex="-1" data-gift-state="idle" hidden>
+          <h3 id="gift-success-title">Заявка принята</h3>
+          <p id="gift-success-body">Заявка ушла в CRM. Мы перезвоним для оплаты. Тел. <a href="tel:+79302244551">+7 930 224-45-51</a>.</p>
         </div>
         <p class="gift-form-status" id="gift-form-status" role="status" aria-live="polite"></p>
       </div>
     </div>
     <div class="bs__gift-foot" id="gift-sheet-foot">
       <button type="submit" class="btn btn--xl" id="gift-submit" form="gift-form">Оставить заявку на сертификат</button>
-      <p class="bs__demo">Демонстрация — заявка не отправляется</p>
+      <p class="bs__demo">Заявка сохраняется в CRM · оплата — по звонку</p>
     </div>
   </div>
 </div>
@@ -654,6 +654,6 @@
 <script src="js/reviews.js" defer></script>
 <script src="js/extra.js" defer></script>
 <script src="js/book.js" defer></script>
-<script src="js/gift.js" defer></script>
+<script src="js/gift.js?v=20261109-live" defer></script>
 </body>
 </html>
