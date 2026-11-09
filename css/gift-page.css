@@ -330,23 +330,27 @@ body.gift-page {
     page-break-inside: avoid;
   }
 
-  /* Всегда лицевая сторона на печати */
+  /* Всегда лицевая сторона на печати (absolute inset сохраняет высоту Давида) */
   .vrl-gift.is-flipped .vrl-gift__card {
     transform: none !important;
   }
 
   .vrl-gift__back {
-    display: none !important;
+    visibility: hidden !important;
   }
 
   .vrl-gift__front {
-    position: relative !important;
+    position: absolute !important;
+    inset: 0 !important;
     transform: none !important;
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
 
   .gp-card-stage .vrl-gift__portrait {
+    position: absolute !important;
+    left: 6.5% !important;
+    top: 4% !important;
     width: 38% !important;
     height: 91% !important;
     max-width: none !important;
