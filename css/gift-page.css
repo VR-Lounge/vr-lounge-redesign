@@ -1,0 +1,280 @@
+/* Public gift card delivery page — VR Lounge language, not admin chrome */
+:root {
+  --gp-bg0: #07040e;
+  --gp-bg1: #140a1c;
+  --gp-ink: #f4eef8;
+  --gp-muted: #b9a8c8;
+  --gp-line: #ffffff14;
+  --gp-accent: #d48cff;
+  --gp-mint: #7decc0;
+  --gp-danger: #ff8aa8;
+  --gp-display: "Montserrat", "Segoe UI Black", system-ui, sans-serif;
+  --gp-body: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body.gp {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--gp-body);
+  color: var(--gp-ink);
+  background:
+    radial-gradient(70% 45% at 88% -10%, #a855f733, transparent 55%),
+    radial-gradient(55% 40% at 8% 100%, #7c3aed22, transparent 50%),
+    linear-gradient(168deg, var(--gp-bg0), var(--gp-bg1) 48%, #0c0714);
+}
+
+.gp-wrap {
+  width: min(720px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2.25rem 0 3.5rem;
+}
+
+.gp-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.gp-brand__mark {
+  font-family: var(--gp-display);
+  font-weight: 900;
+  font-size: clamp(1.65rem, 5vw, 2.35rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  background: linear-gradient(92deg, #c4a1ff, #f0abfc 42%, #fb7185);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gp-brand__sub {
+  margin: 0;
+  color: var(--gp-muted);
+  font-size: 0.92rem;
+}
+
+.gp-status {
+  margin: 0.15rem 0 0;
+  min-height: 1.25rem;
+  font-size: 0.85rem;
+  color: #d8c4ea;
+}
+
+.gp-status[data-tone="err"] {
+  color: var(--gp-danger);
+}
+
+.gp-card-stage {
+  width: min(560px, 100%);
+  margin: 0 auto 1.75rem;
+  perspective: 1600px;
+}
+
+.gp-card-stage .vrl-gift {
+  --vrl-flip-ms: 900ms;
+}
+
+.gp-card-stage .vrl-gift__card {
+  cursor: pointer;
+  box-shadow: 0 28px 70px #00000088;
+}
+
+.gp-hint {
+  margin: 0.85rem 0 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--gp-muted);
+}
+
+.gp-panel {
+  border: 1px solid var(--gp-line);
+  background: linear-gradient(180deg, #ffffff0d, #ffffff05);
+  border-radius: 22px;
+  padding: 1.15rem 1.2rem 1.25rem;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.gp-panel h2 {
+  margin: 0 0 0.85rem;
+  font-family: var(--gp-display);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.gp-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .gp-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.gp-stat {
+  padding: 0.7rem 0.75rem;
+  border-radius: 14px;
+  background: #00000033;
+}
+
+.gp-stat__label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--gp-muted);
+  margin-bottom: 0.2rem;
+}
+
+.gp-stat__value {
+  font-family: var(--gp-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.gp-stat__value.is-balance {
+  color: var(--gp-mint);
+}
+
+.gp-ledger {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.gp-ledger__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+  background: #0000002e;
+  font-size: 0.88rem;
+}
+
+.gp-ledger__amt.is-debit {
+  color: var(--gp-danger);
+}
+
+.gp-ledger__amt.is-credit {
+  color: var(--gp-mint);
+}
+
+.gp-ledger__meta {
+  color: var(--gp-muted);
+}
+
+.gp-ledger__date {
+  color: #8f7ea5;
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+
+.gp-empty {
+  margin: 0;
+  color: var(--gp-muted);
+  font-size: 0.9rem;
+}
+
+.gp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.gp-btn {
+  appearance: none;
+  border: 0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.gp-btn:focus-visible {
+  outline: 2px solid var(--gp-accent);
+  outline-offset: 3px;
+}
+
+.gp-btn:hover {
+  transform: translateY(-1px);
+}
+
+.gp-btn--primary {
+  background: linear-gradient(120deg, #a855f7, #e879f9 55%, #fb7185);
+  color: #1a0a22;
+}
+
+.gp-btn--ghost {
+  background: #ffffff0c;
+  border: 1px solid var(--gp-line);
+  color: var(--gp-ink);
+}
+
+.gp-btn--ghost:hover {
+  background: #ffffff14;
+}
+
+.gp-foot {
+  margin: 1.75rem 0 0;
+  text-align: center;
+  color: var(--gp-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.gp-foot a {
+  color: #e9d5ff;
+}
+
+@media print {
+  body.gp {
+    background: #fff;
+    color: #111;
+  }
+  .gp-no-print {
+    display: none !important;
+  }
+  .gp-card-stage .vrl-gift__card {
+    box-shadow: none;
+  }
+  .gp-panel {
+    border-color: #ddd;
+    background: #fafafa;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gp-btn {
+    transition: none;
+  }
+}

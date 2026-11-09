@@ -589,21 +589,7 @@ export function initGiftCardsCrm(opts) {
 }
 
 function publicPageUrl(code) {
-  // Prefer redesign public page (deployable from this agent); CRM gift.html as fallback path
-  const redesign = REDESIGN_GIFT_PUBLIC_BASE + "?code=" + encodeURIComponent(code);
-  try {
-    if (/vr-lounge\.github\.io\/-\//.test(location.href) || /\/-\//.test(location.pathname)) {
-      return (
-        location.origin +
-        location.pathname.replace(/index\.html$/, "").replace(/\/?$/, "/") +
-        "gift.html?code=" +
-        encodeURIComponent(code)
-      );
-    }
-  } catch {
-    /* ignore */
-  }
-  return redesign;
+  return REDESIGN_GIFT_PUBLIC_BASE + "?code=" + encodeURIComponent(code || "");
 }
 
 function wireBookingGiftHook(db, getUseLocal) {
