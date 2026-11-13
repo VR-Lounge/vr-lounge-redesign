@@ -30,33 +30,33 @@ if(lb){const img=lb.querySelector('img'),cap=lb.querySelector('figcaption'),cnt=
 }
 /* player */
 const pl=d.querySelector('.pl');if(pl){const au=pl.querySelector('audio'),btns=[...pl.querySelectorAll('.tl button')],root=d.getElementById('songs'),
- scrub=pl.querySelector('.pl__scrub'),vizBars=[...pl.querySelectorAll('.pl__viz i')],
+ scrub=pl.querySelector('.pl__scrub'),vizBars=[...pl.querySelectorAll('.pl__viz i')],cov=pl.querySelector('.pl__cover'),
  tt=pl.querySelector('.pl__title'),ar=pl.querySelector('.pl__artist'),cur=pl.querySelector('[data-t=cur]'),dur=pl.querySelector('[data-t=dur]'),pb=pl.querySelector('[data-act=play]');
- let n=0,loaded=false,dragging=false,vizId=0,actx,analyser,srcNode,liveEq=false,silentFrames=0,freqBuf;
+ let n=0,loaded=false,dragging=false,vizId=0,actx,analyser,srcNode,liveEq=false,freqBuf;
+ const DEF_C='img/covers/default.webp',slug=s=>s.replace(/^audio\//,'').replace(/\.mp3$/i,''),coverFor=b=>b.dataset.cover||('img/covers/'+slug(b.dataset.src)+'.webp');
  au.crossOrigin='anonymous';
- if(rm)pl.classList.add('pl--eq-fallback');
+ btns.forEach(b=>{b.dataset.cover=coverFor(b)});
  const fmt=s=>isFinite(s)?Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'):'0:00';
  const setSeekUI=v=>{const p=Math.max(0,Math.min(1000,v|0));scrub.style.setProperty('--pct',p/10);scrub.setAttribute('aria-valuenow',String(p))};
  const seekFromX=x=>{const r=scrub.querySelector('.pl__scrub-rail').getBoundingClientRect();return Math.max(0,Math.min(1000,(x-r.left)/Math.max(r.width,1)*1000))};
  const applySeek=v=>{if(!au.duration)return;setSeekUI(v);au.currentTime=v/1000*au.duration};
- const enableFallback=()=>{liveEq=false;pl.classList.add('pl--eq-fallback');cancelAnimationFrame(vizId);vizId=0};
- const load=k=>{n=(k+btns.length)%btns.length;const b=btns[n],src=b.dataset.src;loaded=true;if(au.getAttribute('src')!==src)au.src=src;btns.forEach(x=>x.setAttribute('aria-current',x===b));tt.textContent=b.querySelector('b').textContent;ar.textContent=b.querySelector('.tl__t span').textContent};
- btns[0].setAttribute('aria-current','true');
- const wireEq=()=>{if(rm||liveEq||srcNode)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();srcNode=actx.createMediaElementSource(au);analyser=actx.createAnalyser();analyser.fftSize=256;analyser.minDecibels=-85;analyser.maxDecibels=-12;analyser.smoothingTimeConstant=.62;srcNode.connect(analyser);analyser.connect(actx.destination);freqBuf=new Uint8Array(analyser.frequencyBinCount);liveEq=true;pl.classList.remove('pl--eq-fallback')}catch(e){enableFallback()}};
- const resetViz=()=>{vizBars.forEach(el=>{el.style.transform='scaleY(.18)'});pl.querySelectorAll('.tl__eq i').forEach(el=>{el.style.transform=''})};
+ const setCover=b=>{const u=coverFor(b);if(cov.getAttribute('src')!==u)cov.setAttribute('src',u);cov.onerror=()=>{cov.onerror=null;cov.setAttribute('src',DEF_C)}};
+ const load=k=>{n=(k+btns.length)%btns.length;const b=btns[n],src=b.dataset.src;loaded=true;if(au.getAttribute('src')!==src)au.src=src;btns.forEach(x=>x.setAttribute('aria-current',x===b));tt.textContent=b.querySelector('b').textContent;ar.textContent=b.querySelector('.tl__t span').textContent;setCover(b)};
+ btns[0].setAttribute('aria-current','true');setCover(btns[0]);
+ const wireEq=()=>{if(rm||liveEq||srcNode)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();srcNode=actx.createMediaElementSource(au);analyser=actx.createAnalyser();analyser.fftSize=256;analyser.minDecibels=-85;analyser.maxDecibels=-12;analyser.smoothingTimeConstant=.62;srcNode.connect(analyser);analyser.connect(actx.destination);freqBuf=new Uint8Array(analyser.frequencyBinCount);liveEq=true}catch(e){liveEq=false}};
+ const clearEqLive=()=>{pl.classList.remove('pl--eq-live');vizBars.forEach(el=>{el.style.transform=''});pl.querySelectorAll('.tl__eq i').forEach(el=>{el.style.transform=''})};
  const barScale=(v,min)=>{const t=Math.min(1,Math.pow(v/255,0.72)*1.35);return(min+t*(1-min)).toFixed(3)};
- const startViz=()=>{cancelAnimationFrame(vizId);if(rm||au.paused)return;if(liveEq&&analyser)vizId=requestAnimationFrame(vizTick)};
- const vizTick=()=>{if(!analyser||au.paused||rm){vizId=0;return}analyser.getByteFrequencyData(freqBuf);let sum=0;const step=Math.max(1,Math.floor(freqBuf.length*.6/vizBars.length));
-  vizBars.forEach((el,i)=>{const v=freqBuf[i*step+1];sum+=v;el.style.transform='scaleY('+barScale(v,0.15)+')';el.style.animation='none'});
-  const eq=pl.querySelector('[aria-current=true] .tl__eq');if(eq)[...eq.children].forEach((el,i)=>{const v=freqBuf[(i+1)*12+4];el.style.transform='scaleY('+barScale(v,0.22)+')';el.style.animation='none'});
-  if(sum<40)silentFrames++;else silentFrames=0;if(silentFrames>50&&au.currentTime>1&&!au.paused)enableFallback();
-  vizId=requestAnimationFrame(vizTick)};
+ const startViz=()=>{cancelAnimationFrame(vizId);if(au.paused)return;vizId=requestAnimationFrame(vizTick)};
+ const vizTick=()=>{if(au.paused){vizId=0;return}if(liveEq&&analyser&&freqBuf){analyser.getByteFrequencyData(freqBuf);let sum=0,max=0;const step=Math.max(1,Math.floor(freqBuf.length*.6/vizBars.length));
+  for(let i=0;i<freqBuf.length;i++){sum+=freqBuf[i];if(freqBuf[i]>max)max=freqBuf[i]}
+  if(max>52&&sum>48){pl.classList.add('pl--eq-live');vizBars.forEach((el,i)=>{el.style.transform='scaleY('+barScale(freqBuf[i*step+1],0.2)+')'});const eq=pl.querySelector('[aria-current=true] .tl__eq');if(eq)[...eq.children].forEach((el,i)=>{el.style.transform='scaleY('+barScale(freqBuf[(i+1)*12+4],0.25)+')'})}
+  else clearEqLive()}else clearEqLive();vizId=requestAnimationFrame(vizTick)};
  const play=async()=>{wireEq();if(actx&&actx.state==='suspended')await actx.resume();if(!loaded)load(n);try{await au.play()}catch(e){}startViz()};
  pb.onclick=()=>au.paused?play():au.pause();
  pl.querySelector('[data-act=next]').onclick=()=>{load(n+1);play()};pl.querySelector('[data-act=prev]').onclick=()=>{if(au.currentTime>3){au.currentTime=0}else{load(n-1)}play()};
  btns.forEach((b,k)=>b.onclick=()=>{if(k===n&&loaded){au.paused?play():au.pause()}else{load(k);play()}});
- au.onplay=()=>{root.classList.add('playing');pb.setAttribute('aria-label','Пауза');silentFrames=0;startViz()};
- au.onpause=()=>{root.classList.remove('playing');pb.setAttribute('aria-label','Слушать');cancelAnimationFrame(vizId);vizId=0;silentFrames=0;resetViz()};
+ au.onplay=()=>{root.classList.add('playing');pb.setAttribute('aria-label','Пауза');startViz()};
+ au.onpause=()=>{root.classList.remove('playing');pb.setAttribute('aria-label','Слушать');cancelAnimationFrame(vizId);vizId=0;clearEqLive()};
  au.onended=()=>{load(n+1);play()};au.onloadedmetadata=()=>dur.textContent=fmt(au.duration);
  au.ontimeupdate=()=>{cur.textContent=fmt(au.currentTime);if(!dragging&&au.duration)setSeekUI(au.currentTime/au.duration*1000)};
  scrub.onpointerdown=e=>{dragging=true;pl.classList.add('pl--scrubbing');scrub.setPointerCapture(e.pointerId);applySeek(seekFromX(e.clientX))};
